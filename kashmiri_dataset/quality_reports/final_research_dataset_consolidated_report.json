@@ -1,0 +1,197 @@
+{
+  "metrics_comparison": {
+    "speech_samples": {
+      "previous": 9180,
+      "updated": 75679
+    },
+    "speech_hours": {
+      "previous": 13.12,
+      "updated": 141.61
+    },
+    "speakers": {
+      "previous": 268,
+      "updated": 639
+    },
+    "text_records": {
+      "previous": 4120142,
+      "updated": 4134203
+    },
+    "parallel_pairs": {
+      "previous": 344445,
+      "updated": 344445
+    },
+    "lexicon_entries": {
+      "previous": 131231,
+      "updated": 131231
+    },
+    "total_storage_gb": {
+      "previous": 91.62,
+      "updated": 105.8
+    }
+  },
+  "speech_category_breakdown": {
+    "organic_native_asr_speech_hours": 127.35,
+    "single_speaker_tts_studio_hours": 14.26,
+    "synthetic_or_ai_generated_speech_hours": 0.0
+  },
+  "text_taxonomy_breakdown": {
+    "instruction_sft_aya": 4120142,
+    "organic_wikipedia_articles": 14061,
+    "wikipedia_sentences": 193479,
+    "wikipedia_words": 1816621,
+    "parallel_translation_pairs": 344445,
+    "lexical_dictionary_entries": 131231
+  },
+  "tokenizer_benchmarks": {
+    "Kashmiri-BPE-8k": {
+      "vocab_size": 8000,
+      "total_tokens_on_eval": 155,
+      "token_fertility": 2.12,
+      "chars_per_token": 2.63,
+      "sample_tokenization": [
+        "\u2581\u06a9",
+        "\u0672",
+        "\u0634\u064f\u0631",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u2581\u0686\u06be\u0650",
+        "\u2581\u06c1\u0650\u0646\u062f\u0648\u0633\u062a",
+        "\u0672",
+        "\u0646",
+        "\u06cd",
+        "\u2581\u062c",
+        "\u06c6",
+        "\u0645",
+        "\u2581\u062a\u06c1\u0655",
+        "\u2581\u06a9\u0654\u0634\u06cc\u0656\u0631",
+        "\u2581\u06c1\u0655\u0646\u065b\u0632",
+        "\u2581\u0633\u0627\u0631\u0650\u0648\u0655\u06d2",
+        "\u2581\u06a9\u06be",
+        "\u06c4",
+        "\u062a\u06c1\u0655",
+        "\u2581\u0628\u0654\u0691",
+        "\u2581\u0645\u0642",
+        "\u0672",
+        "\u0645\u06cc",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u06d4"
+      ]
+    },
+    "Kashmiri-BPE-16k": {
+      "vocab_size": 16000,
+      "total_tokens_on_eval": 133,
+      "token_fertility": 1.82,
+      "chars_per_token": 3.06,
+      "sample_tokenization": [
+        "\u2581\u06a9",
+        "\u0672",
+        "\u0634\u064f\u0631",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u2581\u0686\u06be\u0650",
+        "\u2581\u06c1\u0650\u0646\u062f\u0648\u0633\u062a",
+        "\u0672",
+        "\u0646",
+        "\u06cd",
+        "\u2581\u062c",
+        "\u06c6",
+        "\u0645",
+        "\u2581\u062a\u06c1\u0655",
+        "\u2581\u06a9\u0654\u0634\u06cc\u0656\u0631",
+        "\u2581\u06c1\u0655\u0646\u065b\u0632",
+        "\u2581\u0633\u0627\u0631\u0650\u0648\u0655\u06d2",
+        "\u2581\u06a9\u06be",
+        "\u06c4",
+        "\u062a\u06c1\u0655",
+        "\u2581\u0628\u0654\u0691",
+        "\u2581\u0645\u0642",
+        "\u0672",
+        "\u0645\u06cc",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u06d4"
+      ]
+    },
+    "Kashmiri-BPE-24k": {
+      "vocab_size": 24000,
+      "total_tokens_on_eval": 121,
+      "token_fertility": 1.66,
+      "chars_per_token": 3.36,
+      "sample_tokenization": [
+        "\u2581\u06a9",
+        "\u0672",
+        "\u0634\u064f\u0631",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u2581\u0686\u06be\u0650",
+        "\u2581\u06c1\u0650\u0646\u062f\u0648\u0633\u062a",
+        "\u0672",
+        "\u0646",
+        "\u06cd",
+        "\u2581\u062c",
+        "\u06c6",
+        "\u0645",
+        "\u2581\u062a\u06c1\u0655",
+        "\u2581\u06a9\u0654\u0634\u06cc\u0656\u0631",
+        "\u2581\u06c1\u0655\u0646\u065b\u0632",
+        "\u2581\u0633\u0627\u0631\u0650\u0648\u0655\u06d2",
+        "\u2581\u06a9\u06be",
+        "\u06c4",
+        "\u062a\u06c1\u0655",
+        "\u2581\u0628\u0654\u0691",
+        "\u2581\u0645\u0642",
+        "\u0672",
+        "\u0645\u06cc",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u06d4"
+      ]
+    },
+    "Kashmiri-BPE-32k": {
+      "vocab_size": 32000,
+      "total_tokens_on_eval": 119,
+      "token_fertility": 1.63,
+      "chars_per_token": 3.42,
+      "sample_tokenization": [
+        "\u2581\u06a9",
+        "\u0672",
+        "\u0634\u064f\u0631",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u2581\u0686\u06be\u0650",
+        "\u2581\u06c1\u0650\u0646\u062f\u0648\u0633\u062a",
+        "\u0672",
+        "\u0646",
+        "\u06cd",
+        "\u2581\u062c",
+        "\u06c6",
+        "\u0645",
+        "\u2581\u062a\u06c1\u0655",
+        "\u2581\u06a9\u0654\u0634\u06cc\u0656\u0631",
+        "\u2581\u06c1\u0655\u0646\u065b\u0632",
+        "\u2581\u0633\u0627\u0631\u0650\u0648\u0655\u06d2",
+        "\u2581\u06a9\u06be",
+        "\u06c4",
+        "\u062a\u06c1\u0655",
+        "\u2581\u0628\u0654\u0691",
+        "\u2581\u0645\u0642",
+        "\u0672",
+        "\u0645\u06cc",
+        "\u2581\u0632\u064e\u0628\u0627\u0646",
+        "\u06d4"
+      ]
+    },
+    "mBERT-Multilingual": {
+      "vocab_size": 119547,
+      "total_tokens_on_eval": 168,
+      "token_fertility": 2.3,
+      "chars_per_token": 2.42,
+      "sample_tokenization": [
+        "[UNK]",
+        "\u0632",
+        "##\u064e",
+        "##\u0628\u0627\u0646",
+        "\u0686",
+        "##\u06be",
+        "##\u0650",
+        "[UNK]",
+        "\u062c",
+        "##\u06c6"
+      ]
+    }
+  }
+}

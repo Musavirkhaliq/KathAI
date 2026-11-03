@@ -1,0 +1,42 @@
+# Raw data & large dataset directories
+Data/
+kashmiri_dataset/raw/
+kashmiri_dataset/processed/
+kashmiri_dataset/external/
+kashmiri_dataset/merged/
+
+# Experiment outputs, checkpoints & model weights
+kashmiri_dataset/experiments/
+*.pt
+*.bin
+*.safetensors
+*.ckpt
+
+# Large media, archives and binary datasets
+*.parquet
+*.zip
+*.tar
+*.tar.gz
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.pdf
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+.env
+
+# Large consolidated manifests (>40MB)
+kashmiri_dataset/manifests/manifest_master_consolidated.jsonl
+
+# IDE & OS files
+.DS_Store
+.idea/
+.vscode/

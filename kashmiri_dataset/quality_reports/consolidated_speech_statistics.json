@@ -1,0 +1,32 @@
+{
+  "total_speech_samples": 75679,
+  "total_speech_hours": 141.61,
+  "unique_speakers": 639,
+  "sources": {
+    "programindz_tts": {
+      "samples": 2984,
+      "hours": 4.42,
+      "speakers": 1
+    },
+    "omarrran_tts": {
+      "samples": 2984,
+      "hours": 4.42,
+      "speakers": 1
+    },
+    "whisper_kashmiri": {
+      "samples": 520,
+      "hours": 2.57,
+      "speakers": 1
+    },
+    "gaash_bolbosh": {
+      "samples": 39996,
+      "hours": 79.9,
+      "speakers": 40
+    },
+    "indicvoices_kashmiri": {
+      "samples": 20015,
+      "hours": 37.18,
+      "speakers": 482
+    }
+  }
+}

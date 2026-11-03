@@ -1,0 +1,247 @@
+{
+  "audit_timestamp": "2026-11-02T11:30:00+05:30",
+  "speech_metrics": {
+    "total_speech_samples": 9180,
+    "total_speech_hours": 13.12,
+    "mean_duration_sec": 5.15,
+    "median_duration_sec": 4.32,
+    "std_duration_sec": 8.83,
+    "min_duration_sec": 0.19,
+    "max_duration_sec": 546.63,
+    "zero_duration_records": 0,
+    "empty_transcripts": 0,
+    "mean_snr_db": 39.05,
+    "dataset_distribution": {
+      "openslr_slr122": 1508,
+      "mendeley_ktts": 2984,
+      "programindz_audio_corpus": 1955,
+      "xkaab_asr_4hrs": 2733
+    },
+    "gender_distribution": {
+      "unknown": 3463,
+      "male": 4616,
+      "female": 1097,
+      "other": 4
+    },
+    "region_distribution": {
+      "Kashmir": 3463,
+      "Srinagar": 3378,
+      "Anantnag": 304,
+      "Ganderbal": 265,
+      "Budgam": 205,
+      "Kulgam": 384,
+      "Shopian": 270,
+      "Kupwara": 245,
+      "Baramulla": 275,
+      "Pulwama": 111,
+      "Bandipora": 280
+    },
+    "total_unique_speakers": 268,
+    "top_speakers": [
+      [
+        "ktts_male_01",
+        2984
+      ],
+      [
+        "kac_spk_unknown",
+        1955
+      ],
+      [
+        "Faizan_193223_24_01_2022",
+        109
+      ],
+      [
+        "Zahid_192122_07_02_2022",
+        107
+      ],
+      [
+        "owais_192122_26_01_2022",
+        100
+      ],
+      [
+        "Hamid_190006_23_01_2022",
+        95
+      ],
+      [
+        "Mushtaq_191111_01_29_2022",
+        92
+      ],
+      [
+        "yasir_192122_29_01_2022",
+        86
+      ],
+      [
+        "S4256052300305345",
+        82
+      ],
+      [
+        "Sameer_Ahmad_192124_17_02_2022",
+        78
+      ]
+    ]
+  },
+  "text_and_script_metrics": {
+    "total_characters_analyzed": 654771,
+    "unique_characters": 133,
+    "script_distribution": {
+      "Perso-Arabic": 536250,
+      "Whitespace": 115683,
+      "Punctuation": 121,
+      "Other": 372,
+      "Latin/Romanized": 2344,
+      "Digits": 1
+    },
+    "top_characters": [
+      {
+        "char": " ",
+        "hex": "U+0020",
+        "count": 115683,
+        "name": "SPACE"
+      },
+      {
+        "char": "ن",
+        "hex": "U+0646",
+        "count": 40040,
+        "name": "ARABIC LETTER NOON"
+      },
+      {
+        "char": "ا",
+        "hex": "U+0627",
+        "count": 38545,
+        "name": "ARABIC LETTER ALEF"
+      },
+      {
+        "char": "ہ",
+        "hex": "U+06C1",
+        "count": 35594,
+        "name": "ARABIC LETTER HEH GOAL"
+      },
+      {
+        "char": "ی",
+        "hex": "U+06CC",
+        "count": 33349,
+        "name": "ARABIC LETTER FARSI YEH"
+      },
+      {
+        "char": "ِ",
+        "hex": "U+0650",
+        "count": 32679,
+        "name": "ARABIC KASRA"
+      },
+      {
+        "char": "و",
+        "hex": "U+0648",
+        "count": 24477,
+        "name": "ARABIC LETTER WAW"
+      },
+      {
+        "char": "س",
+        "hex": "U+0633",
+        "count": 23810,
+        "name": "ARABIC LETTER SEEN"
+      },
+      {
+        "char": "ت",
+        "hex": "U+062A",
+        "count": 23178,
+        "name": "ARABIC LETTER TEH"
+      },
+      {
+        "char": "ھ",
+        "hex": "U+06BE",
+        "count": 22258,
+        "name": "ARABIC LETTER HEH DOACHASHMEE"
+      },
+      {
+        "char": "ر",
+        "hex": "U+0631",
+        "count": 22038,
+        "name": "ARABIC LETTER REH"
+      },
+      {
+        "char": "م",
+        "hex": "U+0645",
+        "count": 20566,
+        "name": "ARABIC LETTER MEEM"
+      },
+      {
+        "char": "ک",
+        "hex": "U+06A9",
+        "count": 20137,
+        "name": "ARABIC LETTER KEHEH"
+      },
+      {
+        "char": "َ",
+        "hex": "U+064E",
+        "count": 14806,
+        "name": "ARABIC FATHA"
+      },
+      {
+        "char": "ٕ",
+        "hex": "U+0655",
+        "count": 14734,
+        "name": "ARABIC HAMZA BELOW"
+      },
+      {
+        "char": "ُ",
+        "hex": "U+064F",
+        "count": 13562,
+        "name": "ARABIC DAMMA"
+      },
+      {
+        "char": "چ",
+        "hex": "U+0686",
+        "count": 13062,
+        "name": "ARABIC LETTER TCHEH"
+      },
+      {
+        "char": "ل",
+        "hex": "U+0644",
+        "count": 12139,
+        "name": "ARABIC LETTER LAM"
+      },
+      {
+        "char": "ب",
+        "hex": "U+0628",
+        "count": 9732,
+        "name": "ARABIC LETTER BEH"
+      },
+      {
+        "char": "ز",
+        "hex": "U+0632",
+        "count": 9235,
+        "name": "ARABIC LETTER ZAIN"
+      },
+      {
+        "char": "پ",
+        "hex": "U+067E",
+        "count": 8379,
+        "name": "ARABIC LETTER PEH"
+      },
+      {
+        "char": "ٛ",
+        "hex": "U+065B",
+        "count": 7970,
+        "name": "ARABIC VOWEL SIGN INVERTED SMALL V ABOVE"
+      },
+      {
+        "char": "د",
+        "hex": "U+062F",
+        "count": 7958,
+        "name": "ARABIC LETTER DAL"
+      },
+      {
+        "char": "ٹ",
+        "hex": "U+0679",
+        "count": 7634,
+        "name": "ARABIC LETTER TTEH"
+      },
+      {
+        "char": "گ",
+        "hex": "U+06AF",
+        "count": 6986,
+        "name": "ARABIC LETTER GAF"
+      }
+    ]
+  }
+}

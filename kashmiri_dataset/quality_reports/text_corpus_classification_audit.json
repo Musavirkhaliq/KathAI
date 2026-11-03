@@ -1,0 +1,27 @@
+{
+  "total_classified_documents": 4134203,
+  "categories": {
+    "Instruction-Response Tuning (Aya)": {
+      "documents": 4120142,
+      "estimated_words": 323590291,
+      "estimated_characters": 1731760946,
+      "primary_scripts": {
+        "Perso-Arabic": 41183,
+        "Latin": 19
+      },
+      "source_type": "Crowdsourced / Human Annotated"
+    },
+    "Native Kashmiri Wikipedia": {
+      "documents": 14061,
+      "estimated_words": 1816621,
+      "estimated_characters": 12008513,
+      "primary_scripts": {
+        "Perso-Arabic": 11391,
+        "Latin": 2576,
+        "Devanagari": 92,
+        "Unknown": 2
+      },
+      "source_type": "Organic Native Corpus"
+    }
+  }
+}

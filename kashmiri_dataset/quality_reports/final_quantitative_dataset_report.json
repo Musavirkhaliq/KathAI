@@ -1,0 +1,48 @@
+{
+  "timestamp": "2026-11-02T11:35:00+05:30",
+  "consolidated_pillars": {
+    "KASHMIRI-TEXT": {
+      "description": "Pretraining, Instruction-Tuning (Aya), and Clinical/Mathematical Reasoning Corpus",
+      "total_documents": 4120142,
+      "format": "JSONL",
+      "path": "kashmiri_dataset/merged/KASHMIRI-TEXT/kashmiri_text_corpus.jsonl"
+    },
+    "KASHMIRI-SPEECH": {
+      "description": "Standardized 16kHz Mono 16-bit PCM Audio Corpus with Aligned Perso-Arabic Transcripts",
+      "total_samples": 9180,
+      "duration_hours": 13.12,
+      "unique_speakers": 268,
+      "format": "JSONL + WAV",
+      "path": "kashmiri_dataset/merged/KASHMIRI-SPEECH/speech_master_manifest.jsonl"
+    },
+    "KASHMIRI-PARALLEL": {
+      "description": "English-Kashmiri, Hindi-Kashmiri, and Transliteration Parallel Translation Corpus",
+      "total_pairs": 344445,
+      "format": "JSONL",
+      "path": "kashmiri_dataset/merged/KASHMIRI-PARALLEL/kashmiri_parallel_corpus.jsonl"
+    },
+    "KASHMIRI-LEXICON": {
+      "description": "Classical & Contemporary Dictionaries (Grierson, Hassan, Omar) + Pronunciations",
+      "total_entries": 131231,
+      "format": "JSONL",
+      "path": "kashmiri_dataset/merged/KASHMIRI-LEXICON/kashmiri_master_lexicon.jsonl"
+    }
+  },
+  "speech_splits": {
+    "train": {
+      "samples": 7307,
+      "hours": 10.4,
+      "speaker_isolation": "Strict (zero overlap with val/test)"
+    },
+    "val": {
+      "samples": 945,
+      "hours": 1.45,
+      "speaker_isolation": "Strict"
+    },
+    "test": {
+      "samples": 928,
+      "hours": 1.27,
+      "speaker_isolation": "Strict"
+    }
+  }
+}

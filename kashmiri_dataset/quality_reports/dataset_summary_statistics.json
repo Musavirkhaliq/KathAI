@@ -1,0 +1,49 @@
+{
+  "speech_statistics": {
+    "total_audio_files": 9180,
+    "total_speech_hours": 13.12,
+    "total_speakers": 268,
+    "average_clip_duration_sec": 5.15,
+    "median_clip_duration_sec": 4.32,
+    "min_clip_duration_sec": 0.19,
+    "max_clip_duration_sec": 546.63,
+    "train_hours": 10.4,
+    "validation_hours": 1.45,
+    "test_hours": 1.27,
+    "average_snr_db": 39.05,
+    "estimated_code_switching_percentage": 2.12,
+    "sources_breakdown": {
+      "mendeley_ktts": 2984,
+      "xkaab_asr_4hrs": 2733,
+      "programindz_audio_corpus": 1955,
+      "openslr_slr122": 1508
+    }
+  },
+  "text_statistics": {
+    "total_text_documents": 130285,
+    "total_text_tokens": 2111154,
+    "total_unique_tokens": 159842,
+    "top_20_vocabulary": [
+      "تہٕ",
+      "منٛز",
+      "چھ",
+      "اوس",
+      "چھِ",
+      "چھُ",
+      "چُھ",
+      "اکھ",
+      "یہِ",
+      "زِ",
+      "پؠٹھ",
+      "،",
+      "نہٕ",
+      "تہِ",
+      "یہ",
+      "خٲطرٕ",
+      "مےٚ",
+      "تہ",
+      "منز",
+      "کران"
+    ]
+  }
+}
