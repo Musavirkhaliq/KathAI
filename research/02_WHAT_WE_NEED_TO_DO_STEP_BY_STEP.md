@@ -79,7 +79,9 @@ graph TD
 - **Target**: Compile a 5-gram language model from our 4.13M-line Kashmiri text corpus (`kashmiri_text_corpus.jsonl`).
 - **Tool**: `kenlm` (`lmplz` with Kneser-Ney smoothing + `build_binary`).
 - **Integration**: Pair with `pyctcdecode` during Wav2Vec2 / XLS-R inference to resolve acoustic ambiguities via language model shallow fusion:
-  $$\hat{Y} = \arg\max_Y \left( \log P_{\text{CTC}}(Y|X) + \alpha \log P_{\text{LM}}(Y) + \beta |Y| \right)$$
+
+$$\hat{Y} = \arg\max_Y \left( \log P_{\text{CTC}}(Y \mid X) + \alpha \log P_{\text{LM}}(Y) + \beta |Y| \right)$$
+
 - **Verification Gate**: Absolute WER reduction of **3.0% to 5.5%** over greedy CTC decoding.
 
 #### Step 1.4: Tokenizer Vocabulary Grafting for Foundation SLM
@@ -187,7 +189,7 @@ graph TD
 
 #### Step 4.2: Tri-Directional Script Transliteration Engine
 - **Target**: Build an exact phonetic transliteration tool between:
-  $$\text{Perso-Arabic (کٲشُر)} \longleftrightarrow \text{Devanagari (कॉशुर)} \longleftrightarrow \text{Romanized Kashmiri (Koshur)}$$
+  > **Perso-Arabic (کٲشُر)** ⟷ **Devanagari (कॉशुर)** ⟷ **Romanized Kashmiri (Koshur)**
 - **Implementation**: Hybrid rule-based mapping (covering special Kashmiri diacritics: ٲ ↔ ॲ, ۄ ↔ ऑ) + fine-tuned `IndicXlit` seq2seq model for ambiguous ligatures.
 - **Verification Gate**: Character transliteration accuracy > **99.2%**.
 

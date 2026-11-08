@@ -163,15 +163,22 @@ Let the base model have vocabulary $V_{\text{base}}$ with embedding matrix $\mat
 Let our trained SentencePiece tokenizer have vocabulary $V_{\text{kashmiri}}$ ($|V_{\text{kashmiri}}| = 16,000$).
 
 1. **Vocabulary Set Difference**: Identify all tokens present in $V_{\text{kashmiri}}$ that are missing from $V_{\text{base}}$:
-   $$V_{\text{new}} = V_{\text{kashmiri}} \setminus V_{\text{base}} \quad (|V_{\text{new}}| \approx 13,500)$$
+
+$$V_{\text{new}} = V_{\text{kashmiri}} \setminus V_{\text{base}} \quad (|V_{\text{new}}| \approx 13,500)$$
+
 2. **Matrix Resizing**: Expand the embedding tensor $\mathbf{W}_{\text{embed}}$ and the unembedding language model head $\mathbf{W}_{\text{head}}$:
-   $$\mathbf{W}'_{\text{embed}} \in \mathbb{R}^{(|V_{\text{base}}| + |V_{\text{new}}|) \times d}$$
-   $$\mathbf{W}'_{\text{head}} \in \mathbb{R}^{(|V_{\text{base}}| + |V_{\text{new}}|) \times d}$$
+
+$$\mathbf{W}'_{\text{embed}} \in \mathbb{R}^{(|V_{\text{base}}| + |V_{\text{new}}|) \times d}$$
+
+$$\mathbf{W}'_{\text{head}} \in \mathbb{R}^{(|V_{\text{base}}| + |V_{\text{new}}|) \times d}$$
+
 3. **Weight Initialization via Mean Byte Interpolation**:
    If new embedding rows are initialized randomly (e.g., $\mathcal{N}(0, 0.02)$), the newly added tokens will emit massive, erratic gradient vectors during the first few training steps, destroying the base model's pretrained reasoning abilities (catastrophic forgetting).
    
    Instead, we initialize each new Kashmiri token $\mathbf{w}_{\text{new}}$ using the **mean of the embeddings of its constituent bytes/subwords** under the base model:
-   $$\mathbf{w}_{\text{new}} = \frac{1}{|C|} \sum_{c \in \text{Decompose}(w_{\text{new}}, T_{\text{base}})} \mathbf{e}_{c}$$
+
+$$\mathbf{w}_{\text{new}} = \frac{1}{|C|} \sum_{c \in \text{Decompose}(w_{\text{new}}, T_{\text{base}})} \mathbf{e}_{c}$$
+
    This ensures that the new token starts in the exact semantic neighborhood that the base model already associates with those characters.
 
 4. **Two-Stage Continued Pretraining (CPT)**:
@@ -231,5 +238,5 @@ During the Continued Pretraining phase, we apply **BPE-Dropout** with rate $p = 
 | **P1** | Retain **159-token Character CTC** for ASR | `kashmiri_ctc_vocab.json` | Maintain stable acoustic frame alignment |
 | **P2** | Deploy Kashmiri Regex Pre-tokenizer | Tiktoken / Tokenizers config | Prevent diacritic severance from base letters |
 | **P2** | Graft 16k vocabulary into Qwen-2.5-1.5B | Mean Byte Interpolation script | Enable efficient native Kashmiri SLM pretraining |
-| **P3** | Apply BPE-Dropout ($p=0.10$) during CPT | Training data loader | Guarantee robustness across Maraz/Kamraz dialects |
+| **P3** | Apply BPE-Dropout (p = 0.10) during CPT | Training data loader | Guarantee robustness across Maraz/Kamraz dialects |
 | **P3** | Implement bidirectional Arabic-Devanagari mapping | Transliteration engine | Bridge Kashmiri literature across communities |

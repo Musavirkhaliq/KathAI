@@ -69,7 +69,9 @@ To achieve instant latency and widespread community adoption, all models undergo
 
 ### 2.2 Speech & OCR Models: ONNX Runtime & Sherpa-ONNX
 - **ONNX Export**: All ASR (Conformer, Wav2Vec2) and TTS (Matcha-TTS) models exported with dynamic axis dimensions:
-  $$\text{Audio Tensor: } [B, T_{\text{samples}}] \longleftrightarrow \text{Spectrogram: } [B, 80, T_{\text{frames}}]$$
+
+$$\text{Audio Tensor: } [B, T_{\text{samples}}] \longleftrightarrow \text{Spectrogram: } [B, 80, T_{\text{frames}}]$$
+
 - **Sherpa-ONNX (Next-Gen Kaldi)**:
   - Packages the Conformer ASR and Matcha-TTS models into a completely standalone C++ / Android / iOS runtime.
   - **Zero cloud dependencies**: Users can record Kashmiri speech and hear natural Kashmiri voice synthesis completely offline in remote Himalayan valleys with zero internet access.

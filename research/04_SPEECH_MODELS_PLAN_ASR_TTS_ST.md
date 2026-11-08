@@ -87,10 +87,10 @@ Standard multilingual TTS models sound robotic, flat, or severely mispronounce K
 To achieve natural prosody and correct vowel length:
 1. **Diacritization Step**: The raw input text passes through `Koshur-Diacritizer`, restoring missing Zer, Zabar, Pesh, Alef-wavy-hamza (ٲ), and palatalization marks.
 2. **Kashmiri IPA G2P Converter**: Maps diacritized graphemes to International Phonetic Alphabet (IPA) phonemes based on phonological rules extracted from the Grierson Lexicon:
-   - `ٲ` $\to$ `/ɨː/` (long central vowel)
-   - `ۄ` $\to$ `/ɔ/` (open-mid back rounded vowel)
-   - `ؠ` / palatalization $\to$ `[ʲ]` offglide
-   - `تھ`, `کھ`, `پھ` $\to$ aspirated stops `/tʰ/, /kʰ/, /pʰ/`
+   - `ٲ` → `/ɨː/` (long central vowel)
+   - `ۄ` → `/ɔ/` (open-mid back rounded vowel)
+   - `ؠ` / palatalization → `[ʲ]` offglide
+   - `تھ`, `کھ`, `پھ` → aspirated stops `/tʰ/, /kʰ/, /pʰ/`
 
 ### 3.2 Model 1: Matcha-TTS Kashmiri (Optimal Transport CFM)
 - **Framework**: Non-autoregressive Conditional Flow Matching (CFM) with Optimal Transport paths.
@@ -108,9 +108,10 @@ To achieve natural prosody and correct vowel length:
 ## 4. Speech-to-Text Translation (ST) & Direct Voice Agents
 
 ### 4.1 End-to-End Speech Translation
-Cascaded systems (ASR $\to$ Machine Translation) suffer from compounding errors: if the ASR misrecognizes a single named entity, the translation fails completely.
+Cascaded systems (ASR → Machine Translation) suffer from compounding errors: if the ASR misrecognizes a single named entity, the translation fails completely.
 - **Direct Model**: Fine-tune Whisper-Medium directly on parallel speech alignments:
-  $$\text{Audio}_{\text{Kashmiri}} \xrightarrow{\text{Direct Encoder-Decoder}} \text{Text}_{\text{English}}$$
+
+$$\text{Audio}_{\text{Kashmiri}} \xrightarrow{\text{Direct Encoder-Decoder}} \text{Text}_{\text{English}}$$
 - **Data**: Speech master manifest aligned with English parallel translations (`smuqamar_kashmiri-english-parallel-corpus`).
 - **Target**: SacreBLEU > **24.0** on conversational test sets.
 

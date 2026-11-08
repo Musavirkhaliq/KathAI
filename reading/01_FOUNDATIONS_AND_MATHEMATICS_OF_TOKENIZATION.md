@@ -14,16 +14,24 @@ $$\mathbf{E} \in \mathbb{R}^{|V| \times d_{\text{model}}}$$
 where $|V|$ is the size of the discrete vocabulary and $d_{\text{model}}$ is the hidden dimension of the model.
 
 Furthermore, during autoregressive sequence generation, the model must output a probability distribution over the discrete vocabulary at each step $t$:
-$$P(y_t \mid y_{<t}) = \text{softmax}\left(\frac{\mathbf{h}_t \mathbf{E}^\top}{\tau}\right)$$
+
+$$P(y_t \mid y_{\lt t}) = \text{softmax}\left(\frac{\mathbf{h}_t \mathbf{E}^\top}{\tau}\right)$$
 
 This architectural requirement immediately exposes two conflicting constraints:
+
 1. **Vocabulary Dimension ($|V|$)**: As $|V|$ grows, the parameter footprint of the embedding table $\mathbf{E}$ and final unembedding/projection layer scales linearly:
-   $$\text{Parameters}_{\text{vocab}} = 2 \times |V| \times d_{\text{model}}$$
-   In a modern model where $d_{\text{model}} = 4096$, a vocabulary of 250,000 tokens allocates over **2 billion parameters** exclusively to the embedding and unembedding matrices.
+
+$$\text{Parameters}_{\text{vocab}} = 2 \times |V| \times d_{\text{model}}$$
+
+In a modern model where $d_{\text{model}} = 4096$, a vocabulary of 250,000 tokens allocates over **2 billion parameters** exclusively to the embedding and unembedding matrices.
+
 2. **Sequence Length ($N$)**: If we keep $|V|$ very small (e.g., character or raw byte level), the sequence length $N$ explodes. In standard Transformer architectures, self-attention scales quadratically with sequence length in both computation and memory:
-   $$\text{Attention FLOPs} = 4 B L N^2 d_{\text{model}}$$
-   $$\text{KV-Cache Memory} = 2 B L N d_{\text{model}}$$
-   where $B$ is batch size and $L$ is the number of transformer layers.
+
+$$\text{Attention FLOPs} = 4 B L N^2 d_{\text{model}}$$
+
+$$\text{KV-Cache Memory} = 2 B L N d_{\text{model}}$$
+
+where $B$ is batch size and $L$ is the number of transformer layers.
 
 Tokenization is the discrete optimization problem of finding the Pareto-optimal trade-off between **sequence length $N$** and **vocabulary size $|V|$**.
 
@@ -48,8 +56,10 @@ $$\text{"The quick brown fox"} \longrightarrow [\text{"The"}, \text{"quick"}, \t
 
 **Fatal Pathologies of Word-Level Tokenization**:
 - **Zipfian Tail & Out-of-Vocabulary (OOV) Collapse**: By Zipf's Law, word frequency is inversely proportional to its rank:
-  $$f(r) \propto \frac{1}{r^s} \quad (s \approx 1)$$
-  A massive fraction of unique words in any corpus occur only once (*hapax legomena*). Any word not explicitly seen during training maps to an unknown token `[UNK]`.
+
+$$f(r) \propto \frac{1}{r^s} \quad (s \approx 1)$$
+
+A massive fraction of unique words in any corpus occur only once (*hapax legomena*). Any word not explicitly seen during training maps to an unknown token `[UNK]`.
 - **Morphological Explosion**: In morphologically rich, agglutinative, or inflected languages (e.g., Kashmiri, Turkish, Finnish, Arabic), a single lexical root can generate hundreds of surface forms through affixation, case marking, and clitic attachment:
   - English: *walk, walks, walking, walked* (4 forms)
   - Turkish: *ev* (house) $\to$ *evlerinizden* (from your houses)
@@ -58,7 +68,8 @@ $$\text{"The quick brown fox"} \longrightarrow [\text{"The"}, \text{"quick"}, \t
 
 ### 2.2 Character-Level Tokenization
 To eliminate the OOV problem completely, early models proposed operating strictly on individual characters:
-$$\text{"کتھ"} \longrightarrow [\text{"ک"}, \text{"ت"}, \text{"ھ"}]$$
+
+> `"کتھ"` $\longrightarrow$ `["ک", "ت", "ھ"]`
 
 **Pathologies of Character-Level Tokenization**:
 - **Sequence Length Explosion**: Sentences become 4x to 8x longer. Because vanilla self-attention is $O(N^2)$, processing an 8,000-character document requires 64 million attention operations per head per layer, whereas a 1,500-token subword document requires only 2.25 million operations (**a 28x computational reduction**).
@@ -135,8 +146,10 @@ BPE constructs an ordered sequence of merges $\mathcal{M} = (\mu_1, \mu_2, \dots
 At inference time, segmenting a new string $S$ is strictly deterministic:
 1. Decompose $S$ into base characters: $(c_1, c_2, \dots, c_n)$.
 2. Iterate through the learned merge rules in the **exact sequential order** they were learned:
-   $$\text{For each } (s_a, s_b) \to s_{new} \text{ in } \mathcal{M}:$$
-   $$\text{Replace adjacent } s_a, s_b \text{ with } s_{new}$$
+   ```text
+   For each (s_a, s_b) -> s_new in M:
+       Replace adjacent (s_a, s_b) with s_new
+   ```
 3. Return the final token sequence.
 
 ---
@@ -236,14 +249,17 @@ This causes three catastrophic failures:
 
 #### The SentencePiece Solution: Lossless Tokenization
 SentencePiece treats the entire input text as a continuous stream of raw Unicode characters. Whitespace is explicitly mapped to a visible Unicode meta-symbol:
-$$\text{Whitespace (' ')} \longrightarrow \text{Lower One Eighth Block (' ' / U+2581)}$$
+
+> `Whitespace (' ')` $\longrightarrow$ `Lower One Eighth Block (' ' / U+2581)`
 
 Example:
-$$\text{"KathAI is great"} \longrightarrow \text{"_KathAI_is_great"}$$
+> `"KathAI is great"` $\longrightarrow$ `" KathAI is great"`
 
 Because whitespace is just another regular character in the alphabet:
 - Detokenization is trivial and 100% lossless:
-  $$\text{Original} = \text{Replace}("\_", \text{" "}, \text{Concatenate}(\text{tokens}))$$
+  ```text
+  Original = Concatenate(tokens).replace(" ", " ")
+  ```
 - SentencePiece implements both **BPE** and **Unigram** as underlying engines directly on this space-unified string.
 
 ---
@@ -318,6 +334,6 @@ Recognizing the inherent pathologies of subword tokenizers, recent research has 
 | :--- | :--- | :--- | :--- |
 | **ByT5** (Xue et al., 2022) | T5 encoder-decoder operating directly on UTF-8 bytes with local downsampling. | Immune to OOV, handles noise/typos flawlessly, no tokenizer training. | 3x–4x slower inference than subword T5. |
 | **MegaByte** (Meta, 2023) | Hierarchical multi-scale transformer: Global patch transformer + Local byte model. | Sub-quadratic scaling over raw byte sequences of 100k+ length. | High architectural complexity, custom CUDA kernels required. |
-| **MambaByte** (Wang et al., 2024) | Pure State Space Model (Mamba) processing raw byte tokens autoregressively. | Linear $O(N)$ computational scaling with constant-memory KV state. | Slower training throughput on standard matrix-multiply accelerators (GPUs). |
+| **MambaByte** (Wang et al., 2024) | Pure State Space Model (Mamba) processing raw byte tokens autoregressively. | Linear O(N) computational scaling with constant-memory KV state. | Slower training throughput on standard matrix-multiply accelerators (GPUs). |
 
 Despite these advances, **subword tokenizers remain the dominant operational paradigm** for 99% of production LLMs (GPT-4o, LLaMA-3.3, Qwen-2.5, Claude 3.5, Gemini 1.5). Understanding and optimizing tokenization is therefore the single highest-leverage intervention in modern language model engineering.

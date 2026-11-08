@@ -79,7 +79,7 @@ reading/
 
 The fundamental finding of this project's tokenizer research is summarized in this comparative benchmark:
 
-| Tokenizer Model | Vocabulary Size | Fertility ($\frac{\text{Tokens}}{\text{Word}}$) | Chars / Token | Context Efficiency vs Llama-3 | Primary Intended Target |
+| Tokenizer Model | Vocabulary Size | Fertility (Tokens / Word) | Chars / Token | Context Efficiency vs Llama-3 | Primary Intended Target |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **OpenAI GPT-4 / Tiktoken** | 100,277 | ~4.15 | ~1.35 | Baseline (Severe penalty) | General English / Code |
 | **Meta LLaMA-3 / 3.2** | 128,256 | ~4.10 | ~1.38 | Baseline (Severe penalty) | General Multilingual |

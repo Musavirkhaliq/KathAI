@@ -37,7 +37,9 @@ $$\text{Fertility} = \frac{\text{Total Subword Tokens}}{\text{Total Whitespace W
 1. **Vocabulary Merging**: Extract all unique subwords from our trained SentencePiece model `kashmiri_bpe_16k.model` that are missing from the base model's tokenizer.
 2. **Matrix Resizing**: Expand the embedding tensor $\mathbf{W}_{\text{embed}} \in \mathbb{R}^{V_{\text{old}} \times d}$ to $\mathbf{W}_{\text{embed}}' \in \mathbb{R}^{(V_{\text{old}} + V_{\text{new}}) \times d}$, where $V_{\text{new}} \approx 12,000$ to $16,000$.
 3. **Weight Initialization**: Rather than random gaussian initialization (which destabilizes existing pretraining during early gradient steps), newly added tokens are initialized using the mean embedding of their constituent character bytes in the base model:
-   $$\mathbf{w}_{\text{new}} = \frac{1}{|C|} \sum_{c \in C} \mathbf{w}_c$$
+
+$$\mathbf{w}_{\text{new}} = \frac{1}{|C|} \sum_{c \in C} \mathbf{w}_c$$
+
 4. **Target Architectures**:
    - Primary: `Qwen/Qwen2.5-1.5B` (RoPE theta 1,000,000, 32k context, high multilingual baseline).
    - Secondary: `meta-llama/Llama-3.2-3B` and `google/gemma-2-2b`.
@@ -93,7 +95,8 @@ The SFT stage equips the model with instruction-following, multi-turn conversati
   کٔشیٖرِ ہُنٛد ساروِی کھۄتہٕ مَشہوٗر تہٕ تھۆد آبشار چھُ اَہَربَل آبشار، یُس کۄلگام ضِلَس مَنٛز واقَع چھُ...<|im_end|>
   ```
 - **Masked Cross-Entropy Loss**: Gradients are backpropagated **solely on the assistant response tokens**, ignoring prompt and system instructions:
-  $$\mathcal{L}_{\text{SFT}}(\theta) = -\sum_{t \in \text{assistant}} \log P_\theta(y_t \mid y_{<t}, x_{\text{prompt}})$$
+
+$$\mathcal{L}_{\text{SFT}}(\theta) = -\sum_{t \in \text{assistant}} \log P_\theta(y_t \mid y_{\lt t}, x_{\text{prompt}})$$
 
 ### 4.3 Direct Preference Optimization (DPO)
 To eliminate catastrophic drift into Urdu or Persian grammar:
@@ -101,7 +104,8 @@ To eliminate catastrophic drift into Urdu or Persian grammar:
   - Winner ($y_w$): Grammatically pure Kashmiri, correct ergative case markings (*-an*, *-as*), authentic central vowels (ٲ, ۄ).
   - Loser ($y_l$): Urdu loan-syntax, missing central vowels, or generic unhelpful hallucinations.
 - Objective:
-  $$\mathcal{L}_{\text{DPO}}(\theta; \pi_{\text{ref}}) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w|x)}{\pi_{\text{ref}}(y_w|x)} - \beta \log \frac{\pi_\theta(y_l|x)}{\pi_{\text{ref}}(y_l|x)} \right) \right]$$
+
+$$\mathcal{L}_{\text{DPO}}(\theta; \pi_{\text{ref}}) = -\mathbb{E}_{(x, y_w, y_l)} \left[ \log \sigma \left( \beta \log \frac{\pi_\theta(y_w \mid x)}{\pi_{\text{ref}}(y_w \mid x)} - \beta \log \frac{\pi_\theta(y_l \mid x)}{\pi_{\text{ref}}(y_l \mid x)} \right) \right]$$
 
 ---
 

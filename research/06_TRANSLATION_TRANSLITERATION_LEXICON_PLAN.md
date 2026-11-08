@@ -64,20 +64,20 @@ Kashmiri is actively written in three distinct writing systems:
 
 ### 3.1 Mapping Challenges & Resolution
 - **Central Vowels**:
-  - Perso-Arabic `U+0672` (ٲ) $\longleftrightarrow$ Devanagari `U+0972` (ॲ) / `U+095F` $\longleftrightarrow$ Roman `ö` or `eu`.
-  - Perso-Arabic `U+06C4` (ۄ) $\longleftrightarrow$ Devanagari `U+0911` (ऑ) $\longleftrightarrow$ Roman `ô` or `o`.
+  - Perso-Arabic `U+0672` (ٲ) ⟷ Devanagari `U+0972` (ॲ) / `U+095F` ⟷ Roman `ö` or `eu`.
+  - Perso-Arabic `U+06C4` (ۄ) ⟷ Devanagari `U+0911` (ऑ) ⟷ Roman `ô` or `o`.
 - **Palatalization**:
-  - Perso-Arabic `U+065A` / Yeh ligature $\longleftrightarrow$ Devanagari halant + `य` $\longleftrightarrow$ Roman `y` offglide (e.g. *kityāb*).
+  - Perso-Arabic `U+065A` / Yeh ligature ⟷ Devanagari halant + `य` ⟷ Roman `y` offglide (e.g. *kityāb*).
 - **Aspirated Consonants**:
-  - `کھ` $\longleftrightarrow$ `ख` $\longleftrightarrow$ `kh`.
-  - `تھ` $\longleftrightarrow$ `थ` $\longleftrightarrow$ `th`.
-  - `چھ` $\longleftrightarrow$ `छ` $\longleftrightarrow$ `tsh` / `chh`.
+  - `کھ` ⟷ `ख` ⟷ `kh`.
+  - `تھ` ⟷ `थ` ⟷ `th`.
+  - `چھ` ⟷ `छ` ⟷ `tsh` / `chh`.
 
 ### 3.2 Dual-Tier Implementation
 1. **Deterministic Rule-Based Phonetic Engine**:
    - Zero-latency character/ligature mapping using Unicode lookup tables for 100% predictable formal transliteration.
 2. **Neural Sequence-to-Sequence Model (IndicXlit Adapter)**:
-   - Handles informal, ambiguous Latin chat spelling (e.g. mapping "kya karakh chu" $\to$ "کیاہ کَرکھ چُھ").
+   - Handles informal, ambiguous Latin chat spelling (e.g. mapping "kya karakh chu" → "کیاہ کَرکھ چُھ").
    - Trained on `krish187653_rasa-kashmiri-codemixing-transliterations`.
 
 ---
@@ -95,8 +95,10 @@ The master lexicon (`kashmiri_dataset/merged/KASHMIRI-LEXICON/kashmiri_master_le
 ### 4.2 Morphological Analyzer & Lemmatizer
 Kashmiri has an intricate ergative case-marking system and extensive verbal inflections (e.g. absolute past vs proximate past vs habitual past).
 - Develop a rule-based and neural stemmer that maps complex verb forms back to the infinitive (ending in *-un* /-ُن, e.g. *khasun* خَسُن "to climb"):
-  $$khasyoov \text{ (خَسِیوو)} \xrightarrow{\text{Lemmatize}} khasun \text{ (خَسُن)}$$
-  $$khats \text{ (خَژ)} \xrightarrow{\text{Lemmatize}} khasun \text{ (خَسُن)}$$
+  ```text
+  khasyoov (خَسِیوو)  ──(Lemmatize)──>  khasun (خَسُن)
+  khats (خَژ)         ──(Lemmatize)──>  khasun (خَسُن)
+  ```
 
 ### 4.3 Structured Search API & Knowledge Graph
 Expose the dictionary via a high-performance REST / GraphQL API supporting:

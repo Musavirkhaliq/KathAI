@@ -42,7 +42,8 @@ Neural networks are differentiable computational graphs that compute vector mapp
 To bridge this divide, a language model requires:
 1. **An Embedding Matrix** $\mathbf{E} \in \mathbb{R}^{|V| \times d_{\text{model}}}$, which maps each discrete token ID $i \in \{0, 1, \dots, |V|-1\}$ to a dense vector $\mathbf{e}_i \in \mathbb{R}^{d_{\text{model}}}$.
 2. **A Softmax Projection Head** $\mathbf{W}_{\text{head}} \in \mathbb{R}^{|V| \times d_{\text{model}}}$, which computes a probability distribution over the discrete vocabulary at each generation step $t$:
-   $$P(y_t = i \mid y_{<t}) = \frac{\exp\left(\frac{\mathbf{h}_t \cdot \mathbf{w}_i^\top}{\tau}\right)}{\sum_{j=1}^{|V|} \exp\left(\frac{\mathbf{h}_t \cdot \mathbf{w}_j^\top}{\tau}\right)}$$
+
+$$P(y_t = i \mid y_{\lt t}) = \frac{\exp\left(\frac{\mathbf{h}_t \cdot \mathbf{w}_i^\top}{\tau}\right)}{\sum_{j=1}^{|V|} \exp\left(\frac{\mathbf{h}_t \cdot \mathbf{w}_j^\top}{\tau}\right)}$$
 
 ### 2.2 The Sequence-Vocabulary Trade-off
 Language modeling operates under a strict trade-off between sequence length $N$ and vocabulary size $|V|$:
@@ -51,8 +52,10 @@ $$\text{Total Compute Cost} = \mathcal{O}(L \cdot N^2 \cdot d_{\text{model}} + N
 
 - **If $|V|$ is small** (e.g., character or raw byte level, $|V| = 256$): The vocabulary projection is virtually free, but sequence length $N$ explodes by a factor of 4x to 8x. Because self-attention complexity scales quadratically with sequence length ($N^2$), processing long documents becomes computationally intractable.
 - **If $|V|$ is large** (e.g., full words, $|V| = 500,000$): Sequence length $N$ is minimized, but the embedding and unembedding matrices consume billions of parameters ($2 \times |V| \times d_{\text{model}}$), and rare words suffer from severe parameter under-training due to Zipf's Law:
-  $$f(r) \propto \frac{1}{r^s} \quad (s \approx 1)$$
-  A word appearing only once or twice in the training corpus receives almost zero gradient updates, rendering its embedding vector noisy and ungeneralizable.
+
+$$f(r) \propto \frac{1}{r^s} \quad (s \approx 1)$$
+
+A word appearing only once or twice in the training corpus receives almost zero gradient updates, rendering its embedding vector noisy and ungeneralizable.
 
 Subword tokenization is the discrete optimization method that identifies the Pareto-optimal frontier between sequence length and vocabulary size.
 
@@ -86,25 +89,35 @@ An optimal subword vocabulary minimizes the expected code length of a corpus by 
 Invented by Philip Gage (1994) for data compression and adapted for NLP by Sennrich et al. (2016):
 - **Initialization**: Vocabulary $V$ contains all unique single characters in corpus $C$.
 - **Pair Counting**: At each iteration, count the co-occurrence frequency of all adjacent symbol pairs $(s_i, s_j)$ across all words:
-  $$\text{freq}(s_i, s_j) = \sum_{w \in C} \text{count}((s_i, s_j) \text{ in } w) \times \text{freq}(w)$$
+
+$$\text{freq}(s_i, s_j) = \sum_{w \in C} \text{count}((s_i, s_j) \text{ in } w) \times \text{freq}(w)$$
+
 - **Greedy Merge**: Select the pair that maximizes frequency:
-  $$(s_a, s_b) = \arg\max_{(s_i, s_j)} \text{freq}(s_i, s_j)$$
+
+$$(s_a, s_b) = \arg\max_{(s_i, s_j)} \text{freq}(s_i, s_j)$$
+
 - **Rule Construction**: Add $s_{\text{new}} = s_a \circ s_b$ to $V$ and record the merge rule $\mu: (s_a, s_b) \to s_{\text{new}}$. Repeat until $|V| = K$.
 - **Inference**: Apply the learned list of merge rules strictly in the chronological order of their creation.
 
 ### 3.2 WordPiece
 Developed by Schuster and Nakajima (2012) and adopted in Google BERT:
 - Instead of raw pair frequency, WordPiece chooses merges that maximize the log-likelihood of a unigram language model over the training corpus:
-  $$\log P(C) = \sum_{w \in C} \sum_{t \in w} \log P(t)$$
+
+$$\log P(C) = \sum_{w \in C} \sum_{t \in w} \log P(t)$$
+
 - The selection criterion between adjacent tokens $x$ and $y$ evaluates their Pointwise Mutual Information (PMI):
-  $$\text{Score}(x, y) = \frac{\text{count}(x \circ y)}{\text{count}(x) \times \text{count}(y)} \propto \frac{P(x \circ y)}{P(x) P(y)}$$
+
+$$\text{Score}(x, y) = \frac{\text{count}(x \circ y)}{\text{count}(x) \times \text{count}(y)} \propto \frac{P(x \circ y)}{P(x) P(y)}$$
+
 - Merges are prioritized if $x$ and $y$ occur together significantly more often than would be predicted by independent chance.
 
 ### 3.3 Unigram Language Model Tokenizer
 Introduced by Taku Kudo (2018):
 - **Top-Down Pruning**: Starts with an overcomplete vocabulary $V_{\text{seed}}$ (e.g., 500,000 subwords comprising all characters and frequent substrings).
 - **Expectation-Maximization (EM)**: Given the current vocabulary, optimize token probabilities $p(v)$ to maximize total marginal corpus likelihood:
-  $$\mathcal{L} = \sum_{k=1}^N \log \left( \sum_{\mathbf{x} \in \mathcal{S}(X_k)} \prod_{x \in \mathbf{x}} p(x) \right)$$
+
+$$\mathcal{L} = \sum_{k=1}^N \log \left( \sum_{\mathbf{x} \in \mathcal{S}(X_k)} \prod_{x \in \mathbf{x}} p(x) \right)$$
+
 - **Pruning Step**: Compute the drop in corpus log-likelihood if token $v$ were removed: $\Delta \mathcal{L}(v) = \mathcal{L}(V) - \mathcal{L}(V \setminus \{v\})$. Permanently discard the bottom 10%–20% of tokens with the lowest impact.
 - **Inference**: Uses dynamic programming via the **Viterbi Algorithm** to find the globally optimal segmentation in linear time $\mathcal{O}(|X| \cdot \max_{v}|v|)$.
 
@@ -120,7 +133,9 @@ The term **Tokenization Tax** defines the systemic computational, financial, and
 
 ### 4.1 The Three Metric Dimensions
 1. **Token Fertility**: The ratio of subword tokens produced per natural word:
-   $$\text{Fertility} = \frac{\text{Total Tokens}}{\text{Total Words}}$$
+
+$$\text{Fertility} = \frac{\text{Total Tokens}}{\text{Total Words}}$$
+
 2. **Compression Ratio**: Unicode characters processed per token ($\text{Chars} / \text{Token}$).
 3. **Byte Fragmentation Rate**: The percentage of characters decomposed into raw multi-byte UTF-8 fallback tokens.
 
@@ -237,7 +252,9 @@ In Kashmiri, palatalization is contrastive across almost all consonants:
 
 ### 6.3 The Failure of Arabic Diacritic Stripping
 In standard Arabic NLP, short vowels are stripped because consonantal roots convey semantic meaning. In Kashmiri, stripping diacritics destroys the phonemic identity of the word, collapsing contrastive minimal pairs into identical homographs:
-$$\text{"کَت" (/kat/ - to spin) vs "کٔت" (/kət/ - small ram) vs "کِت" (/kit/ - how many)}$$
+
+> `"کَت"` (/kat/ - to spin) vs `"کٔت"` (/kət/ - small ram) vs `"کِت"` (/kit/ - how many)
+
 If diacritics are stripped, all three collapse to **کت**, inducing irrecoverable ambiguity.
 
 ---

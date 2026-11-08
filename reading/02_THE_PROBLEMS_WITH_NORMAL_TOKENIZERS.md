@@ -68,8 +68,8 @@ Commercial frontier LLM APIs (OpenAI, Anthropic, Google, Cohere) bill developers
 $$\text{Cost} = N_{\text{tokens}} \times \text{PricePerToken}$$
 
 Because a Kashmiri or Urdu prompt consumes 3.5x to 5x more tokens than an English prompt expressing the identical semantic meaning:
-- An enterprise processing customer support tickets in English pays \$1,000 / month.
-- The exact same enterprise processing the identical tickets in Kashmiri pays **\$3,500 – \$5,000 / month**.
+- An enterprise processing customer support tickets in English pays `$1,000` / month.
+- The exact same enterprise processing the identical tickets in Kashmiri pays **`$3,500` – `$5,000` / month**.
 
 This creates a systemic economic barrier against technology adoption in the Global South and non-Western linguistic communities.
 

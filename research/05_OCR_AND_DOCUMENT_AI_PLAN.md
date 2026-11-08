@@ -40,7 +40,7 @@ The repository contains an unprecedented collection of over **1,000,000 labeled 
 | **Koshur-SynthOCR** | `faizaniqbal_koshur-synthocr` | **119,114** | Multi-font mixed shards (Parquet) | Afan Koshur Naksh, Gulmarg Nastaleeq | Open / CC |
 | **31k Text Recognition** | `omarrran_31k_kashmiri_text_and_image...` | **31,200** | Line and word crops with bounding coordinates | Nastaliq and standard prints | Open |
 | **One-Word Text Recognition**| `omarrran_kashmiri_one_word_text_...` | **15,000** | Word-level calligraphic crops | Diverse calligraphy | Open |
-| **Total Labelled OCR Set** | Consolidated | **> 1,064,000** | **Full multi-scale hierarchy (word $\to$ page)** | **Complete typestyle coverage** | High Diversity |
+| **Total Labelled OCR Set** | Consolidated | **> 1,064,000** | **Full multi-scale hierarchy (word → page)** | **Complete typestyle coverage** | High Diversity |
 
 ---
 

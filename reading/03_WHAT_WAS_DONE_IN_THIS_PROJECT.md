@@ -146,7 +146,7 @@ Fertility (Tokens / Word) vs Vocabulary Size
 1. **The Foundation Model Deficit**: Standard models like LLaMA-3 and GPT-4 produce over 4.10 tokens per Kashmiri word. A 1,000-word Kashmiri text requires over 4,100 tokens, choking context windows and inflating inference costs by over 300%.
 2. **The 8k to 16k Leap**: Moving from 8k to 16k vocabulary yields a massive **14.2% drop in fertility** (from 2.12 down to 1.82 tokens per word). The tokenizer successfully merges full syllables, roots, and common nouns.
 3. **The 16k to 24k Gain**: Expanding from 16k to 24k further drops fertility from 1.82 to 1.66 (+8.8% gain), capturing frequent verbal conjugations and compound forms.
-4. **The 32k Plateau (Diminishing Returns)**: Expanding from 24k to 32k vocabulary yields a minuscule 1.8% drop in fertility (1.66 $\to$ 1.63), while adding 8,000 embedding rows that consume millions of unnecessary parameters.
+4. **The 32k Plateau (Diminishing Returns)**: Expanding from 24k to 32k vocabulary yields a minuscule 1.8% drop in fertility (1.66 → 1.63), while adding 8,000 embedding rows that consume millions of unnecessary parameters.
 5. **Project Recommendation**: **The 16K or 24K BPE model is the empirical Sweet Spot** for Kashmiri Small Language Models (SLMs). It delivers ~95% of maximum possible text compression while preserving compact embedding memory.
 
 ---
@@ -198,7 +198,8 @@ KathAI established two distinct normalization pipelines:
 Conversational Kashmiri contains frequent code-switching with English (technical terms) and Urdu/Hindi.
 The KathAI module `detect_code_switching(text)` calculates the ratio of Perso-Arabic, Latin, and Devanagari characters:
 $$\text{Arabic Ratio} = \frac{N_{\text{Arabic}}}{N_{\text{Total}}}, \quad \text{Latin Ratio} = \frac{N_{\text{Latin}}}{N_{\text{Total}}}, \quad \text{Devanagari Ratio} = \frac{N_{\text{Deva}}}{N_{\text{Total}}}$$
-Utterances with $>5\%$ Latin or Devanagari characters are automatically tagged as `code_switched` and routed to dedicated evaluation splits.
+
+Utterances with > 5% Latin or Devanagari characters are automatically tagged as `code_switched` and routed to dedicated evaluation splits.
 
 ---
 
