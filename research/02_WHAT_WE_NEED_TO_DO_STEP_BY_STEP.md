@@ -68,7 +68,7 @@ graph TD
 
 #### Step 1.2: Conversational ASR Fine-Tuning (OpenAI Whisper-Small LoRA)
 - **Target**: Fine-tune `openai/whisper-small` (244M) using Parameter-Efficient Fine-Tuning (PEFT / LoRA).
-- **Rationale**: Whisper's sequence-to-sequence decoder naturally produces punctuated transcripts and handles English/Urdu code-switching better than pure CTC.
+- **Rationale**: Out-of-the-box Whisper models experience severe cross-lingual hallucination on Kashmiri (empirically measured at **107.06% Norm WER / 97.55% Norm CER** on `master_benchmark_eval` across 297 samples) because Whisper lacks a native `<|ks|>` token. Prompt conditioning and LoRA adaptation specialize the decoder, leveraging Whisper's natural punctuation and robust English/Urdu code-switching handling.
 - **Configuration**:
   - Target modules: `q_proj`, `v_proj`, `out_proj`.
   - LoRA rank: $r=16$, $\alpha=32$, dropout $0.05$.

@@ -64,5 +64,23 @@ python3 kashmiri_dataset/scripts/run_full_pipeline.py
 
 ---
 
+## 📊 Evaluation Suite & Empirical Benchmarks
+
+The repository includes a standardized 6-split evaluation benchmark (`kashmiri_dataset/experiments/asr_baselines/eval_splits/`) designed to evaluate Kashmiri ASR across distinct acoustic regimes:
+
+| Evaluation Split | Focus Condition | Samples | Master Status |
+| :--- | :--- | :---: | :--- |
+| **`eval_clean_read`** | Studio-grade near-field read speech | 100 | OpenSLR SLR122 & KTTS |
+| **`eval_conversational_field`** | Rural/urban spontaneous native dialogue | 100 | IndicVoices Kashmiri |
+| **`eval_multispeaker_bolbosh`** | Multi-speaker gender-balanced speech | 100 | GAASH-Lab Bolbosh |
+| **`eval_unseen_speakers`** | Strictly disjoint held-out speakers | 100 | Held-out speaker isolation |
+| **`eval_code_switched`** | English/Urdu technical and loan words | 50 | Code-switching benchmark |
+| **`eval_noisy_low_snr`** | Environmental noise (SNR < 18 dB) | 50 | Acoustic stress test |
+| **`master_benchmark_eval`** | Representative global cross-section | 297 | Combined comparative ranking |
+
+For full empirical metrics across IndicConformer, Whisper, and native XLS-R models, see [MODEL_BENCHMARKS.md](file:///home/musa/Kashmiri%20Project/kashmiri_dataset/documentation/MODEL_BENCHMARKS.md).
+
+---
+
 ## 📄 License & Attribution
 Developed by [Musavir Khaliq](https://github.com/Musavirkhaliq).

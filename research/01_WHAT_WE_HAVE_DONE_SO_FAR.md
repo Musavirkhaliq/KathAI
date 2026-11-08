@@ -84,16 +84,24 @@ Through rigorous engineering across data collection, cleaning, linguistic normal
   - Built a 161-token character vocabulary covering all Perso-Arabic Kashmiri consonants, central vowels (`U+0672`, `U+065F`), palatalization signs (`U+065A`), English code-switched Latin characters, blank token `[PAD]`, and unknown token `[UNK]`.
 
 ### Workstream 6: Acoustic Baseline Benchmarking & Controlled Experiment B-01
-- **ASR SOTA Landscape Audit (`MODEL_BENCHMARKS.md`, `09_sota_asr_landscape_and_benchmarks.md`)**:
-  - Benchmarked existing external models: `ai4bharat/indicconformer_stt_ks_hybrid_ctc_rnnt_large` (21.4% clean WER), `facebook/mms-1b-all` (28.6% WER), `openai/whisper-small` community fine-tunes (26.8% WER).
-- **Controlled Experiment B-01 Execution (`train_b01_xlsr.py`, `12_b01_experiment_execution_complete.md`)**:
+- **ASR SOTA Landscape & Empirical Evaluation Audit (`MODEL_BENCHMARKS.md`, `baseline_comparison.csv`)**:
+  - Established the standardized 6-split evaluation benchmark (`eval_clean_read`, `eval_conversational_field`, `eval_multispeaker_bolbosh`, `eval_unseen_speakers`, `eval_code_switched`, `eval_noisy_low_snr`, and `master_benchmark_eval` across 297 samples).
+  - Benchmarked existing external models against ground truth:
+    - **`Sarvam AI Saaras v4`**: 18.90% Normalized WER, 7.50% Normalized CER (commercial foundation API).
+    - **`ai4bharat/indicconformer_stt_ks_hybrid_ctc_rnnt_large`**: 21.4% clean WER, **8.70% clean CER**, 32.8% noisy WER.
+    - **Bhashini Kashmiri ASR**: Serves containerized AI4Bharat IndicConformer weights (21.4% WER, 8.70% CER).
+    - **`Meta MMS-1B` (`facebook/mms-1b-all`)**: Direct checkpoint inspection confirmed **zero standard Kashmiri (`kas`) support** (only `ksb`, `ksr`, `kss` dialects).
+    - **`openai/whisper-small` (Zero-shot)**: Direct CUDA evaluation on `master_benchmark_eval` demonstrated **107.06% Norm WER / 97.55% Norm CER**, proving that lack of a native `<|ks|>` token causes severe cross-lingual hallucination without fine-tuning.
+    - **Community Models**: `Muzaffar786/wav2vec2-kashmiri-jhon-data-one` (68.4% WER / 34.2% CER), `KhushiDS` (74.1% WER / 39.8% CER).
+- **Controlled Experiment B-01 Execution & Decoding Audit (`train_b01_xlsr.py`, `pilot_decoding_audit.md`)**:
   - Model: `facebook/wav2vec2-xls-r-300m` with linear CTC classification head (161 Kashmiri classes).
   - Hardware: NVIDIA DGX Spark GB10.
-  - Dynamic CTC Blank-Posterior Optimization: Confirmed smooth training dynamics without NaN or gradient divergence.
+  - Pre-Training Validation Gates: Passed 100% (63,775 samples checked across train/val, 0 missing files, 0 UNK tokens).
   - Empirical Loss Monotonicity:
     - Training loss dropped smoothly from **14.21** down to **3.42**.
     - Validation loss dropped monotonically from **4.34** down to **3.64**.
     - Gradient norms stabilized between **0.87 and 1.97**.
+  - Decoding Audit & Mandatory Stop Decision: A detailed audit of the 2-epoch pilot checkpoint revealed 100% blank tokens during greedy decoding (expected mathematical CTC blank-first convergence stage), confirming why decreasing loss alone is not sufficient and establishing the requirement for the full 50-epoch schedule.
   - Hardware Efficiency: Peak VRAM **14.53 GB**, Real-Time Factor (RTF) **0.024** (~41x faster than real-time playback).
 - **Production Full-Schedule Trainer (`train_b01_full_schedule.py`)**:
   - Built production script supporting PyTorch DDP/AMP fp16, bucketing DataLoader (by audio length), zero-infinity CTC loss handling, cosine annealing scheduler with warmup, and dynamic evaluation checkpointing.

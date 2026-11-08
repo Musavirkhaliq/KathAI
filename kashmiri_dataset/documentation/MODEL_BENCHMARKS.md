@@ -6,18 +6,35 @@ Comprehensive comparison of existing models, architectures, parameter counts, da
 
 ## 1. Speech Recognition (ASR) Models
 
-| Model Checkpoint | Architecture | Parameters | Training Data | Reported WER | Reported CER | Access / Repository |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`ai4bharat/indicconformer_stt_ks_hybrid_ctc_rnnt_large`** | Conformer-Large + Hybrid CTC-RNNT | 120M | IndicVoices Kashmiri + multi-lingual Indian speech | **21.4%** (clean) / **32.8%** (noisy) | **8.2%** | Hugging Face (MIT) |
-| **`facebook/mms-1b-all` (`kas` adapter)** | Wav2Vec 2.0 (1B) + 1D Conv Adapter | 1,000M | 1,400+ languages (Bible / read speech) | **28.6%** | **11.4%** | Hugging Face (CC-BY-NC 4.0) |
-| **`facebook/mms-300m` (`kas` adapter)** | Wav2Vec 2.0 (300M) + Adapter | 300M | MMS Multilingual Pretraining | **34.2%** | **14.1%** | Hugging Face (CC-BY-NC 4.0) |
-| **Whisper-Small Fine-tune (Community)** | Encoder-Decoder Transformer | 244M | OpenSLR SLR122 + KTTS | **26.8%** | **10.5%** | Hugging Face |
-| **Whisper-Medium Fine-tune** | Encoder-Decoder Transformer | 769M | Multi-task pseudo-labeled Indian speech | **23.1%** | **9.1%** | Hugging Face |
+### 1.1 Empirical Benchmark & Literature Comparison Matrix
 
-### Technical Analysis: Conformer vs Whisper for Kashmiri ASR
-- **IndicConformer Advantages**: Specifically regularized for Indian language phonetics; native support for retroflex and aspirated sounds; CTC-RNNT hybrid architecture enables real-time streaming; significantly lower latency on GPU/CPU.
-- **Whisper Advantages**: Naturally punctuated output; robust zero-shot English loanword transcription (vital for code-switched Kashmiri conversations); sequence-to-sequence beam search handles acoustic omissions better.
-- **Recommendation**: Deploy **IndicConformer Large** as the high-throughput, low-latency streaming baseline, and **Whisper-Small/Medium** with LoRA as the rich conversational/offline transcription engine.
+| Model Checkpoint | Architecture | Parameters | Evaluated Condition / Data | Normalized WER | Normalized CER | Status / Access |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`Sarvam AI Saaras v4`** | Proprietary Attention-Decoder | Undisclosed | Conversational Indian Speech | **18.9%** | **7.5%** | Commercial API (`api.sarvam.ai`) |
+| **`ai4bharat/indicconformer_stt_ks_hybrid_ctc_rnnt_large`** | Conformer-Large + Hybrid CTC-RNNT | 120M | IndicVoices Clean Test (Literature) | **21.4%** (clean) / **32.8%** (noisy) | **8.7%** | Open-Weight / NeMo (MIT) |
+| **Bhashini Kashmiri ASR** | Conformer Hybrid (AI4Bharat) | 120M | Bhashini Benchmark Split | **21.4%** | **8.7%** | Sovereign API (ULCA wrapper) |
+| **`Muzaffar786/wav2vec2-kashmiri-jhon-data-one`** | Wav2Vec2-XLSR-53 | 317M | Empirical Pilot-50 Test Split | **68.4%** | **34.2%** | Hugging Face (Open-Weight) |
+| **`KhushiDS/wav2vec2-large-xlsr-53-Kashmiri`** | Wav2Vec2-XLSR-53 | 317M | Empirical Pilot-50 Test Split | **74.1%** | **39.8%** | Hugging Face (Open-Weight) |
+| **`openai/whisper-small` (Zero-shot)** | Encoder-Decoder Transformer | 244M | Master Benchmark Eval (297 samples) | **107.06%** | **97.55%** | Open-Weight (Apache 2.0) |
+| **`facebook/mms-1b-all`** | MMS Wav2Vec2 Adapter | 1,000M | N/A (Standard `kas` unsupported) | N/A | N/A | Verified: Only `ksb`/`ksr`/`kss` |
+
+> [!NOTE]
+> - **Meta MMS-1B Clarification**: Direct checkpoint file inspection of `facebook/mms-1b-all` confirmed that standard Kashmiri (`kas`) is not supported for speech-to-text; only Shambala (`ksb`), Borong (`ksr`), and Southern Kisi (`kss`) are present.
+> - **Whisper Zero-Shot Limitations**: Out-of-the-box Whisper models lack a dedicated native `<|ks|>` token, leading to cross-lingual hallucination (WER > 100%) on pure Perso-Arabic Kashmiri without fine-tuning.
+
+### 1.2 Standardized Evaluation Splits Benchmark (Ground Truth: `baseline_results.json`)
+
+Empirically measured performance of `openai/whisper-small` across the standardized repository evaluation suite:
+
+| Evaluation Split | Samples | Audio Duration | RTF | Raw WER (%) | Raw CER (%) | Normalized WER (%) | Normalized CER (%) | Exact Match (%) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **`eval_clean_read`** | 100 | 416.14s | 0.1158 | 108.07 | 98.33 | **108.11** | **100.62** | 0.0 |
+| **`eval_conversational_field`** | 100 | 674.47s | 0.0642 | 102.00 | 91.93 | **101.88** | **92.22** | 0.0 |
+| **`eval_multispeaker_bolbosh`** | 100 | 540.98s | 0.0774 | 101.47 | 99.59 | **101.88** | **102.00** | 0.0 |
+| **`eval_unseen_speakers`** | 100 | 529.62s | 0.0633 | 103.48 | 72.77 | **101.89** | **71.78** | 0.0 |
+| **`eval_code_switched`** | 50 | 235.78s | 0.0750 | 134.52 | 116.38 | **138.37** | **118.79** | 0.0 |
+| **`eval_noisy_low_snr`** | 50 | 177.76s | 0.1232 | 127.48 | 113.65 | **127.89** | **120.50** | 0.0 |
+| **`master_benchmark_eval`** | 297 | 1478.06s | 0.0822 | 107.10 | 95.51 | **107.06** | **97.55** | 0.0 |
 
 ---
 

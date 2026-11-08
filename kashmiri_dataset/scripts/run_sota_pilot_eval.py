@@ -4,7 +4,13 @@ import os
 import torch
 import soundfile as sf
 import numpy as np
+import sys
 from pathlib import Path
+
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
 from transformers import AutoProcessor, AutoModelForCTC, WhisperProcessor, WhisperForConditionalGeneration
 from metrics_evaluator import calculate_wer_and_cer, normalize_perso_arabic_kashmiri
 
@@ -114,21 +120,25 @@ def evaluate_model(model_id, is_whisper=False):
         "predictions_file": str(out_file.relative_to(BASE_DIR))
     }
 
-candidates = [
-    ("openai/whisper-small", True),
-    ("Muzaffar786/wav2vec2-kashmiri-jhon-data-one", False),
-    ("KhushiDS/wav2vec2-large-xlsr-53-Kashmiri", False),
-    ("helpsulaiman/kashmiri-wav2vec2", False)
-]
+def main():
+    candidates = [
+        ("openai/whisper-small", True),
+        ("Muzaffar786/wav2vec2-kashmiri-jhon-data-one", False),
+        ("KhushiDS/wav2vec2-large-xlsr-53-Kashmiri", False),
+        ("helpsulaiman/kashmiri-wav2vec2", False)
+    ]
 
-pilot_results = {}
-for mid, is_w in candidates:
-    res = evaluate_model(mid, is_w)
-    pilot_results[mid] = res
+    pilot_results = {}
+    for mid, is_w in candidates:
+        res = evaluate_model(mid, is_w)
+        pilot_results[mid] = res
 
-rep_file = BASE_DIR / "kashmiri_dataset" / "experiments" / "asr_sota_benchmark" / "pilot_results.json"
-with open(rep_file, "w", encoding="utf-8") as f:
-    json.dump(pilot_results, f, indent=2)
+    rep_file = BASE_DIR / "kashmiri_dataset" / "experiments" / "asr_sota_benchmark" / "pilot_results.json"
+    with open(rep_file, "w", encoding="utf-8") as f:
+        json.dump(pilot_results, f, indent=2)
 
-print("\n=== PILOT BENCHMARK COMPLETE ===")
-print(f"Summary written to {rep_file}")
+    print("\n=== PILOT BENCHMARK COMPLETE ===")
+    print(f"Summary written to {rep_file}")
+
+if __name__ == "__main__":
+    main()

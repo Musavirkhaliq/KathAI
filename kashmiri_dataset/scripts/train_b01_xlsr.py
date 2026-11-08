@@ -11,6 +11,11 @@ import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from pathlib import Path
+
+_SCRIPT_DIR = Path(__file__).resolve().parent
+if str(_SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(_SCRIPT_DIR))
+
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
 from metrics_evaluator import calculate_wer_and_cer, normalize_perso_arabic_kashmiri
 

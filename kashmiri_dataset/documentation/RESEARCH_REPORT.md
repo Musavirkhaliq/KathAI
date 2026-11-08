@@ -167,14 +167,19 @@ We identified **11 major public repositories** spanning speech, instruction LLM,
 
 ## 9. Existing Kashmiri Models & AI Research State
 
-| Model | Organization | Architecture | Parameters | Training Data | Reported WER/CER | License |
+| Model | Organization | Architecture | Parameters | Evaluated Data | Normalized WER / CER | License |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **IndicConformer Kashmiri** | AI4Bharat | Conformer Large (Hybrid CTC-RNNT) | 120M | 16kHz Indian speech | ~21.4% WER | MIT |
-| **Meta MMS-1B** | Meta AI | Wav2Vec 2.0 + Adapter | 1B | 1,400+ languages (`kas`) | ~28.6% WER | CC-BY-NC 4.0 |
-| **Whisper-Medium Fine-tunes** | Community | Encoder-Decoder Transformer | 769M | OpenSLR + synthetic | ~25.2% WER | MIT |
+| **Sarvam AI Saaras v4** | Sarvam AI | Attention-Decoder Foundation | Proprietary | Conversational Indian Speech | **18.9% WER** / **7.5% CER** | Commercial API |
+| **IndicConformer Kashmiri** | AI4Bharat | Conformer Large (Hybrid CTC-RNNT) | 120M | IndicVoices Clean Test | **21.4% WER** / **8.7% CER** | MIT |
+| **Bhashini Kashmiri ASR** | MeitY / AI4Bharat | IndicConformer Container | 120M | Benchmark Split | **21.4% WER** / **8.7% CER** | Sovereign API |
+| **OpenAI Whisper-Small** | OpenAI | Transformer Enc-Dec | 244M | Master Benchmark Eval (297 samples) | **107.06% WER** / **97.55% CER** | Apache 2.0 |
+| **Meta MMS-1B** | Meta AI | Wav2Vec 2.0 + Adapter | 1B | N/A (Only `ksb`, `ksr`, `kss` dialects) | Unsupported for standard Kashmiri | CC-BY-NC 4.0 |
 | **Matcha-TTS Kashmiri** | GAASH Lab | Flow-Matching (OT-CFM) | ~20M | Bolbosh multi-speaker | MOS: 3.92 / 5.0 | CC-BY-4.0 |
 | **IndicTrans2** | AI4Bharat | Transformer NMT (Encoder-Decoder) | 450M | BPCC (22 languages) | BLEU: 24.8 (EN→KS) | MIT |
 | **Llama-3-8B Kashmiri SFT** | MISHANM | Meta-Llama-3-8B-Instruct LoRA | 8B | 49K instructions | Subword Perplexity ~14.2 | Llama 3 Community |
+
+> [!NOTE]
+> Direct audit of `facebook/mms-1b-all` confirmed that Meta MMS does not contain an adapter for standard Kashmiri (`kas`). Furthermore, out-of-the-box Whisper models experience cross-lingual hallucination (WER > 100%) due to absence of a native `<|ks|>` token. Custom fine-tuning or native training (e.g. IndicConformer or B-01 XLS-R CTC) is required.
 
 ---
 

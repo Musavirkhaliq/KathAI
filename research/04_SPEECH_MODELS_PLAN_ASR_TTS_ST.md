@@ -50,7 +50,7 @@ graph TD
 | **KathAI-Acoustic** | `facebook/wav2vec2-xls-r-300m` (Exp B-01) | Wav2Vec 2.0 Transformer + Linear CTC | 317M | High-precision phonetic alignment, academic benchmarking | **< 19.0%** | **< 28.0%** |
 
 ### 2.2 Controlled Training Schedule: Experiment B-01-Full
-Building on the successful 2-epoch pilot (Loss 14.21 $\to$ 3.42), the full schedule script `kashmiri_dataset/scripts/train_b01_full_schedule.py` executes:
+Building on the 2-epoch pilot (Loss 14.21 $\to$ 3.42) and the rigorous pilot decoding audit (`pilot_decoding_audit.md`, which identified the mathematical CTC blank-first convergence stage requiring extended schedule optimization), the full schedule script `kashmiri_dataset/scripts/train_b01_full_schedule.py` executes:
 - **Audio Inputs**: 141.6 hours from `kashmiri_dataset/splits/train.jsonl` (60,543 clips, 511 speakers).
 - **Target Vocabulary**: 161-token Kashmiri character CTC vocabulary with zero unseen graphemes.
 - **Data Augmentation**:
@@ -69,7 +69,7 @@ $$\hat{Y} = \arg\max_Y \left( \log P_{\text{CTC}}(Y \mid X) + \alpha \log P_{\te
 - KenLM trained on our 3.4 GB text corpus via `kenlm` with modified Kneser-Ney discounting.
 
 ### 2.4 OpenAI Whisper-LoRA Fine-Tuning
-Whisper provides native punctuation, sentence segmentation, and handles code-switched English tokens.
+Out-of-the-box Whisper models lack native Kashmiri token support and experience catastrophic cross-lingual hallucination (empirically measured at **107.06% Norm WER / 97.55% Norm CER** on `master_benchmark_eval` across 297 samples). Fine-tuning with LoRA unlocks Whisper's natural punctuation, sentence segmentation, and robust handling of code-switched English tokens.
 - **LoRA Configuration**:
   - Target layers: `encoder.layers.*.self_attn.q_proj`, `k_proj`, `v_proj`, `decoder.layers.*.encoder_attn.q_proj`, `v_proj`.
   - LoRA rank $r=16$, scaling factor $\alpha=32$, dropout $0.05$.
