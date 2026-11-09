@@ -37,6 +37,15 @@ KathAI is an end-to-end framework and research repository for **Kashmiri (Koshur
 │   │   ├── train_b01_xlsr.py
 │   │   └── validate_audio.py
 │   └── tokenizers/          # Trained SentencePiece tokenizers and configs
+├── papers/                  # Curated library of 25 seminal research papers (Text, Speech, ASR, TTS, Kashmiri)
+│   ├── kashmiri_and_low_resource/
+│   ├── speech_and_audio/
+│   ├── speech_llms_and_multimodal/
+│   ├── text_and_tokenization/
+│   ├── download_papers.py
+│   └── README.md
+├── reading/                 # Exhaustive guides on tokenization theory, multilingual tax, and Kashmiri NLP
+├── research/                # Master multimodal AI model suite roadmap and execution plans
 ├── .gitignore
 └── README.md
 ```
