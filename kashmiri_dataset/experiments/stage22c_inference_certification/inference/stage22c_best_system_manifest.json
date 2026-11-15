@@ -1,0 +1,72 @@
+{
+  "stage": "22C",
+  "certification_level": "OFFICIAL_RESEARCH_BENCHMARK_AND_PRODUCTION_CANDIDATE",
+  "name": "Stage 22C Certified Production ASR System",
+  "champion_system_id": "T3",
+  "acoustic_model": {
+    "name": "Stage 22 E22-01",
+    "checkpoint_dir": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model",
+    "weights_file": "model.safetensors",
+    "sha256": "0c18d60b985966da6f97db20f79211ce669deb6db19861bdedded1569f5560a2",
+    "architecture": "facebook/wav2vec2-xls-r-300m",
+    "total_parameters": 315603745,
+    "vocabulary_size": 161,
+    "base_vocab_size": 159,
+    "added_tokens": {"<s>": 159, "</s>": 160},
+    "feature_extractor": {
+      "conv_kernel": [10, 3, 3, 3, 3, 2, 2],
+      "conv_stride": [5, 2, 2, 2, 2, 2, 2],
+      "receptive_field_samples": 400,
+      "exact_slicing_function": "stage22c_exact_output_lengths.compute_exact_ctc_length"
+    }
+  },
+  "language_model": {
+    "type": "KenLM 4-gram word-level",
+    "path": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa",
+    "sha256": "a70c5f79831f668e14fb9aa3ababd5b756c87d09c8cc09e671d5da69e1da61e0",
+    "unigrams_path": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22b_decoder_and_independent_test/language_model/unigrams.txt",
+    "unigram_count": 51044
+  },
+  "decoder_configuration": {
+    "engine": "pyctcdecode",
+    "alpha": 0.30,
+    "beta": -1.00,
+    "beam_width": 64,
+    "beam_pruning_threshold": -10.0,
+    "blank_index": 0,
+    "workers": 4
+  },
+  "long_audio_inference_policy": {
+    "standard_audio_threshold_s": 25.0,
+    "standard_strategy": "Uninterrupted full-waveform inference with exact Conv1d output frame slicing",
+    "long_audio_strategy": "Method C2 Context-Preserving Central-Frame Extraction (18s core, 2s left/right context)",
+    "max_batch_samples_total": 480000,
+    "peak_vram_guarantee_mb": "< 2000 MB"
+  },
+  "certified_test_benchmarks": {
+    "full_independent_test_5923_utts": {
+      "wer_pct": 28.99,
+      "cer_pct": 10.30,
+      "ref_words": 120816,
+      "substitutions": 29683,
+      "deletions": 3547,
+      "insertions": 1796,
+      "hits": 87586,
+      "historical_stage22b_wer_pct": 29.06,
+      "exact_slicing_gain_pp": -0.07,
+      "gain_vs_e03_baseline_greedy_pp": -4.36,
+      "gain_vs_e03_calibrated_kenlm_pp": -0.43,
+      "wilcoxon_p_value_vs_e03_kenlm": 1.003535455291659e-27,
+      "bootstrap_p_value": 0.0000
+    },
+    "legacy_core_test_5251_utts": {
+      "wer_pct": 29.89,
+      "cer_pct": 10.48,
+      "ref_words": 109202,
+      "historical_stage22b_wer_pct": 29.94,
+      "gain_vs_e03_baseline_greedy_pp": -4.19,
+      "gain_vs_e03_calibrated_kenlm_pp": -0.38
+    }
+  },
+  "certification_verdict": "APPROVED_AND_CERTIFIED"
+}

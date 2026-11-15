@@ -1,0 +1,55 @@
+{
+  "system_certification": "Stage 23 Best Reproducible Kashmiri ASR System",
+  "certification_date": "2026-11-15T22:39:00+05:30",
+  "hardware_platform": "NVIDIA DGX Spark GB10 (NVIDIA Grace-Blackwell ARM64, 128GB Unified Memory)",
+  "acoustic_model": {
+    "identifier": "Stage 22 E22-01 Champion",
+    "checkpoint_path": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model",
+    "weights_file": "model.safetensors",
+    "weights_sha256": "0c18d60b985966da6f97db20f79211ce669deb6db19861bdedded1569f5560a2",
+    "weights_size_bytes": 1262467532,
+    "architecture": "facebook/wav2vec2-xls-r-300m",
+    "neural_parameters": 315603745,
+    "vocabulary_size": 161,
+    "sampling_rate_hz": 16000
+  },
+  "language_model_decoder": {
+    "engine": "pyctcdecode 0.5.0 + KenLM 4-gram",
+    "lm_binary_path": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa",
+    "lm_sha256": "a70c5f79831f668e14fb9aa3ababd5b756c87d09c8cc09e671d5da69e1da61e0",
+    "unigrams_path": "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22b_decoder_and_independent_test/language_model/unigrams.txt",
+    "unigrams_sha256": "e4f59d15463b79f9d339e8533c70b7b0847a0fd28ba2af3c0bf81d0e85dce691",
+    "unigram_count": 51044,
+    "hyperparameters": {
+      "alpha": 0.30,
+      "beta": -1.00,
+      "beam_width": 64,
+      "beam_prune_logp": -10.0,
+      "temperature": 1.00,
+      "experimental_noise_temperature": 1.08
+    }
+  },
+  "inference_invariants": {
+    "logit_slicing": "Exact Conv1d output length calculation: compute_exact_ctc_length(N)",
+    "long_audio_policy": {
+      "threshold_seconds": 25.0,
+      "policy_short": "Uninterrupted forward pass",
+      "policy_long": "Method C2 Context-Preserving Central Frame Extraction (18s core, 2s context)"
+    },
+    "batching_policy": "Length-aware dynamic batching bounded at 480,000 samples",
+    "decoder_worker_pool": 4,
+    "normalization": "normalize_perso_arabic_kashmiri"
+  },
+  "verified_empirical_performance": {
+    "dev_calibration_wer": 24.74,
+    "dev_calibration_cer": 9.73,
+    "dev_a_disjoint_wer": 24.94,
+    "dev_a_disjoint_cer": 9.50,
+    "dev_b_waaz_community_wer": 46.12,
+    "dev_b_waaz_community_cer": 16.26,
+    "dev_c_clean_challenging_wer": 76.05,
+    "dev_c_clean_challenging_cer": 53.40,
+    "held_out_independent_test_wer": 28.99,
+    "held_out_independent_test_cer": 10.30
+  }
+}

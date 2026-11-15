@@ -1,0 +1,30 @@
+rank,model_id,stage,greedy_wer,kenlm_wer,cer,total_errors,status,notes
+1,E-03,Stage 15,26.68,24.46,11.19,4121,VALID,Acoustic Co-Champion
+2,E-04,Stage 15,26.67,24.46,11.21,4121,VALID,Identical error count to E-03
+3,B-02C,Stage 9,26.76,24.47,11.23,4122,VALID,Foundation Champion (Delta = 1 word vs E-03; p=0.963)
+4,E-02,Stage 15,26.62,24.47,11.21,4122,VALID,MWER lambda=0.05
+5,S16-05,Stage 16,26.77,24.47,11.24,4122,VALID,Merged sequence model
+6,WA-02,Stage 14,26.63,24.51,11.22,4129,VALID,Weight averaging window 3
+7,E-01,Stage 15,26.63,24.52,11.18,4130,VALID,Matched continuation control
+8,S16-02,Stage 16,26.67,24.52,11.23,4131,VALID,Sequence continuation
+9,MWER-01,Stage 14,26.77,24.56,11.21,4137,VALID,MWER pilot
+10,S17B-EXP-C,Stage 17B,26.69,24.56,11.21,4137,VALID,Optimal Transport CTC
+11,S17B-EXP-A,Stage 17B,26.66,24.57,11.24,4138,VALID,Optimal Transport CTC
+12,S17B-EXP-B,Stage 17B,26.74,24.58,11.24,4140,VALID,Optimal Transport CTC
+13,S16-01,Stage 16,26.94,24.58,11.3,4141,VALID,Sequence continuation
+14,WA-03,Stage 14,26.64,24.59,11.25,4143,VALID,Weight averaging window 5
+15,S16-04,Stage 16,26.89,24.59,11.25,4142,VALID,Sequence continuation
+16,CTC-Control,Stage 14,26.75,24.6,11.24,4144,VALID,Stage 14 baseline
+17,WA-01,Stage 14,26.67,24.62,11.26,4148,VALID,Weight averaging window 2
+18,S16-03,Stage 16,26.82,24.62,11.28,4147,VALID,Sequence continuation
+19,U-02,Stage 13,27.15,24.91,11.44,4196,VALID,Top 8 layers unfrozen
+20,I-01,Stage 13,27.41,25.02,11.59,4215,VALID,Intermediate CTC (layer 12)
+21,U-03,Stage 13,27.35,25.09,11.67,4226,VALID,Top 12 layers unfrozen
+22,U-01,Stage 13,28.6,25.19,11.41,4244,VALID,Top 4 layers unfrozen
+23,CR-01,Stage 13,27.3,25.23,11.73,4250,VALID,Consistency regularized CTC
+24,P17-PL,Stage 17,27.75,25.25,11.68,4253,VALID,Pseudo-labeled noisy audio
+25,T17-OTC,Stage 17,27.98,25.55,11.94,4304,VALID,Optimal Transport CTC
+26,B-02A,Stage 9,28.11,25.71,11.93,4331,VALID,Stage 9 step 1 scaling (104.9h)
+27,T17-CTC,Stage 17,28.4,25.75,11.99,4337,VALID,Filtered noisy audio
+28,B-02B,Stage 9,28.52,25.78,11.96,4342,VALID,Stage 9 step 2 scaling (123.5h)
+29,R-02,Stage 12,30.47,28.94,12.58,4875,VALID,Multi-condition perturbation (regressed)

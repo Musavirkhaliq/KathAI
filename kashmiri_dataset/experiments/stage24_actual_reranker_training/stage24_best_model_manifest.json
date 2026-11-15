@@ -1,0 +1,129 @@
+{
+  "stage": "Stage 24",
+  "task": "Actual Neural Candidate Reranker Training and Controlled Acoustic Continuation",
+  "timestamp": "2026-11-16T00:58:00+05:30",
+  "hardware": {
+    "platform": "NVIDIA DGX Spark GB10",
+    "architecture": "Grace-Blackwell ARM64",
+    "unified_memory_gb": 128,
+    "device_name": "NVIDIA GB10"
+  },
+  "parent_acoustic_checkpoint": {
+    "model_id": "Stage 22 E22-01",
+    "path": "kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model",
+    "architecture": "XLS-R 300M + Character CTC",
+    "parameters": 315603745,
+    "weights_sha256": "0c18d60b985966da6f97db20f79211ce669deb6db19861bdedded1569f5560a2"
+  },
+  "baseline_decoder": {
+    "lm_binary": "kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa",
+    "lm_sha256": "a70c5f79831f668e14fb9aa3ababd5b756c87d09c8cc09e671d5da69e1da61e0",
+    "alpha": 0.30,
+    "beta": -1.00,
+    "beam_width": 64,
+    "unigrams_count": 51044
+  },
+  "trained_reranker_checkpoints": {
+    "ranker_epoch_0": {
+      "path": "checkpoints/ranker_epoch_0.pt",
+      "sha256": "8d25bcc5eaaebef67a8418f9b34c02fb547ccfe7264eb1147129ef3d7bdfc229",
+      "step": 0,
+      "calib_wer_pct": 24.74,
+      "calib_errors": 4114,
+      "top1_preservation_pct": 100.0,
+      "added_parameters": 329025,
+      "status": "Exact Baseline Parity (Certified Champion)"
+    },
+    "ranker_epoch_1": {
+      "path": "checkpoints/ranker_epoch_1.pt",
+      "sha256": "ed2de4adce91c2e2eb4b2d58095ec895de22b1d5f818b743b42514341a846601",
+      "step": 625,
+      "calib_wer_pct": 24.77,
+      "calib_errors": 4120,
+      "top1_preservation_pct": 99.4,
+      "added_parameters": 329025
+    },
+    "ranker_epoch_2": {
+      "path": "checkpoints/ranker_epoch_2.pt",
+      "sha256": "7a735cf6bcbd9955ec08ff681a28d69cfe0c3bf78c6174b343fa79d9e7a1759f",
+      "step": 1250,
+      "calib_wer_pct": 24.74,
+      "calib_errors": 4115,
+      "top1_preservation_pct": 99.9,
+      "added_parameters": 329025,
+      "status": "Best Trained Neural Checkpoint"
+    },
+    "ranker_epoch_3": {
+      "path": "checkpoints/ranker_epoch_3.pt",
+      "sha256": "2bc0be07244b21e1605f2961c9de51d00a835ed2e0c4f1834a7ce748470a727a",
+      "step": 1875,
+      "calib_wer_pct": 24.74,
+      "calib_errors": 4115,
+      "top1_preservation_pct": 99.9,
+      "added_parameters": 329025
+    },
+    "best_calib_ranker": {
+      "path": "checkpoints/best_calib_ranker.pt",
+      "sha256": "7a735cf6bcbd9955ec08ff681a28d69cfe0c3bf78c6174b343fa79d9e7a1759f",
+      "step": 1250,
+      "calib_wer_pct": 24.74,
+      "calib_errors": 4115
+    }
+  },
+  "controlled_acoustic_checkpoint": {
+    "experiment_id": "E24-CTC-01",
+    "path": "checkpoints/E24-CTC-01/best_model",
+    "weights_sha256": "38b0b0151e25e3f1685ee592c3f51971541bec400016c56aefa08037acbe2276",
+    "total_steps": 250,
+    "best_step": 50,
+    "dev_b_greedy_wer": 52.38,
+    "calib_sample_greedy_wer": 30.47,
+    "dev_b_kenlm_wer": 48.42
+  },
+  "multi_partition_validation": {
+    "dev_calibration": {
+      "utterances": 1001,
+      "reference_words": 16632,
+      "B0_KenLM_WER": 24.74,
+      "L1_Linear_WER": 24.74,
+      "R1_Neural_WER": 24.74,
+      "Oracle_32_WER": 18.99,
+      "R1_vs_B0_p_value": 0.738,
+      "statistically_significant": false
+    },
+    "dev_a_disjoint": {
+      "utterances": 6257,
+      "reference_words": 106530,
+      "B0_KenLM_WER": 24.94,
+      "L1_Linear_WER": 24.94,
+      "R1_Neural_WER": 24.94,
+      "Oracle_32_WER": 19.24,
+      "R1_vs_B0_p_value": 0.308,
+      "statistically_significant": false
+    },
+    "dev_b_waaz_val": {
+      "utterances": 127,
+      "reference_words": 1262,
+      "B0_KenLM_WER": 46.12,
+      "L1_Linear_WER": 46.12,
+      "R1_Neural_WER": 46.12,
+      "Oracle_32_WER": 36.29,
+      "R1_vs_B0_p_value": 1.0,
+      "statistically_significant": false
+    },
+    "dev_c_clean": {
+      "utterances": 90,
+      "reference_words": 952,
+      "B0_KenLM_WER": 76.05,
+      "L1_Linear_WER": 76.16,
+      "R1_Neural_WER": 76.05,
+      "Oracle_32_WER": 69.43,
+      "R1_vs_B0_p_value": 1.0,
+      "statistically_significant": false
+    }
+  },
+  "escalation_policy_decision": {
+    "outcome": "HALT_RERANKER_ARCHITECTURE_PURSUIT",
+    "justification": "Candidate-Relative Neural Sequence Ranker (329,025 params) trained across 20,000 utterances achieved consistent loss reduction (4.4502 -> 4.1483) and preserved baseline parity (99.9% top-1 retention), but failed to yield statistically significant WER reduction beyond canonical KenLM scoring on dev_calibration (p=0.738) and dev_a_disjoint (p=0.308). In compliance with Stage 24 Escalation Policy Section 10 ('If a properly trained and validated reranker still cannot outperform KenLM, stop this approach. Do not create another series of speculative architecture stages'), neural candidate reranking is formally retired as a primary optimization path."
+  }
+}

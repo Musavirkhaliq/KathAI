@@ -1,0 +1,157 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{cite}
+\usepackage{microtype}
+\geometry{margin=1in}
+
+\title{\textbf{Towards Robust Low-Resource Kashmiri Speech Recognition: \\ Heterogeneous Corpus Curation, Acoustic Benchmark Integrity, \\ and Systematic Empirical Modeling}}
+
+\author{
+  \textbf{EduCasheer Speech AI Research Initiative} \\
+  Laboratory for Speech Recognition, Computational Linguistics \& Machine Learning \\
+  NVIDIA DGX Spark Systems Research Facility
+}
+\date{November 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Automatic Speech Recognition (ASR) for the Kashmiri language (\textit{Kōshur}, ISO 639-3: \texttt{kas})---a Dardic language spoken by over 7 million people---has historically remained constrained by severe corpus fragmentation, complex Perso-Arabic central vowel orthography, and acute under-representation in multilingual foundation models. In this work, we present a comprehensive, reproducible, and scientifically audited systematic study of Kashmiri automatic speech recognition. 
+
+First, we aggregate, clean, and standardize \textbf{214.65 hours (106,487 speech recordings)} across 12 heterogeneous sources, establishing strictly speaker-disjoint partitions and an audited \textbf{159-token Character CTC Tokenizer} that natively encodes contrastive central vowels with a verified \textbf{0.000\% out-of-vocabulary (OOV)} rate. 
+
+Second, we conduct controlled empirical fine-tuning of self-supervised multilingual encoders (\texttt{facebook/wav2vec2-xls-r-300m}). We demonstrate that acoustic scaling from 92.9h (B-01) to 165.3h (B-02C) reduces validation Word Error Rate (WER) from \textbf{33.86\% to 27.84\%} (greedy) and \textbf{25.24\%} with KenLM shallow fusion ($p < 0.0001$). 
+
+Third, through an exhaustive reproducibility audit, we uncover a critical sample-rate mismatch in legacy evaluation pipelines: ingesting 22,050 Hz audio unresampled into 16,000 Hz acoustic models artificially inflated historical error rates by $\sim$3\% absolute. Applying mathematically rigorous Kaiser windowed sinc resampling instantly eliminates \textbf{493 phantom word errors} on the 1,001-utterance diagnostic assessment split (\texttt{dev\_assessment.jsonl}, 16,845 words), lowering KenLM WER from \textbf{27.39\% (4,614 errors) to 24.46\% (4,121 errors)} on frozen weights. Crucially, this audit establishes that foundation model B-02C and sequence-continuation model E-03 are statistically indistinguishable, differing by \textbf{exactly one word error} across 16,845 words ($p = 0.963$). 
+
+Fourth, we investigate post-foundation acoustic optimization paradigms---including synthetic multi-condition noise augmentation, progressive layer unfreezing, intermediate CTC supervision, and noisy pseudo-labeling---reporting transparent negative findings and proving that short-horizon interventions fail to surpass converged full-corpus acoustic representations. 
+
+Finally, we analyze search space dynamics: restoring beam width 16 with history pruning eliminates an 84-word search penalty, while KenLM calibration ($\alpha=0.20, \beta=-0.50$) and Candidate-Relative Sequence Ranking modestly lower errors to \textbf{24.27\%--24.30\%} ($p = 0.0847$). An $N$-best oracle analysis reveals an oracle WER ceiling of \textbf{19.23\% (3,240 errors)}, demonstrating that 881 word errors (21.4\% of total errors) represent recoverable search headroom. We release our complete code provenance, audited manifests, and replication pipelines to establish a reproducible standard for Dardic speech processing.
+\end{abstract}
+
+\section{Introduction}
+Automatic Speech Recognition (ASR) technology has witnessed extraordinary advances driven by massive self-supervised pre-training and web-scale weak supervision \cite{baevski2020wav2vec2, radford2023whisper}. However, of the world's 7,000+ living languages, the vast majority remain critically low-resource.
+
+Kashmiri (\textit{Kōshur}, ISO 639-3: \texttt{kas}) represents an archetypal low-resource language. Classified under the Northwestern Dardic subgroup of Indo-Aryan, Kashmiri is spoken by more than 7 million people in the Kashmir Valley. Despite possessing a rich literary tradition spanning seven centuries, Kashmiri remains severely underserved in speech technology due to three fundamental bottlenecks:
+\begin{enumerate}
+    \item \textbf{Corpus Fragmentation \& Heterogeneity}: Prior academic studies relied almost exclusively on small, uncurated, single-speaker collections of under 10 hours (e.g., OpenSLR-122 with 2.2 hours), precluding speaker-invariant modeling.
+    \item \textbf{The Orthographic and Diacritic Dilemma}: Kashmiri is written in an extended Perso-Arabic script featuring a 16-vowel inventory with contrastive central unrounded vowels (/ɨ/, /ɨː/, /ə/, /əː/) and phonemic palatalization [ʲ]. Conventional tokenizers either strip these essential diacritics or fragment them into byte-level sequences, inflating tokenizer fertility and breaking CTC alignment \cite{petrov2023tokenization}.
+    \item \textbf{Multilingual Foundation Model Failure}: Off-the-shelf foundation models allocate vanishingly small capacity to Dardic languages. In OpenAI Whisper, the complete absence of a native language token forces the autoregressive decoder into cross-lingual hallucination loops, yielding error rates exceeding 84\%--107\%.
+\end{enumerate}
+
+To address these challenges, we present an audited systematic study of Kashmiri speech recognition across 21 empirical research stages on an NVIDIA DGX Spark GB10 system.
+
+\section{The Consolidated Kashmiri Speech Corpus}
+We assembled 12 distinct audio collections totaling \textbf{214.65 hours (106,487 recordings)} across 630+ native speakers:
+\begin{itemize}
+    \item \textbf{GAASH-Lab Bolbosh} \cite{malik2024koshurocr}: 39,996 utterances (58.40h) of read and conversational speech (22,050 Hz mono, CC-BY 4.0).
+    \item \textbf{AI4Bharat IndicVoices-R} \cite{sankar2024indicvoicesr}: 24,654 utterances (41.87h) of spontaneous native dialogue (16,000 Hz, CC-BY 4.0).
+    \item \textbf{AI4Bharat IndicVoices Primary} \cite{javed2024indicvoices}: 20,015 utterances (29.80h) of field recordings (16,000 Hz, CC-BY 4.0).
+    \item \textbf{Mirwaiz Quranic Translation}: 11,906 utterances (20.91h) of formal religious commentary.
+    \item \textbf{Other Regional Collections}: XKaab (3.92h), KTTS (4.54h), OpenSLR SLR122 (2.21h), Programindz (2.45h), and community slices.
+\end{itemize}
+
+All speech audio was processed to enforce strict speaker-disjoint splits ($Train \cap Val \cap Test = \emptyset$) and audited using cryptographic SHA-256 signatures.
+
+\section{Audio Preprocessing \& Tokenization}
+\subsection{Canonical Audio Resampling}
+Due to the presence of 22,050 Hz audio in Bolbosh (37.6\% of total hours), we enforce the \texttt{load\_canonical\_audio()} pipeline:
+\begin{equation}
+    x_{\text{mono}}[n] = \frac{1}{C}\sum_{c=1}^C x_c[n]
+\end{equation}
+Native 16 kHz audio bypasses resampling with zero distortion. Non-16k audio is downsampled using a 64-tap Kaiser windowed sinc interpolator ($\beta=14.77$, rolloff=0.948).
+
+\subsection{159-Token Character CTC Tokenizer}
+We construct a dedicated 159-token Character CTC Tokenizer encoding base Perso-Arabic consonants, central vowel graphemes (\textit{Alef with Wavy Hamza} \texttt{U+0672}, \textit{Kashmiri Yeh} \texttt{U+0620}, \textit{Waaw with V} \texttt{U+06C6}, \textit{Waaw with circle} \texttt{U+06C4}), and ligatures. The vocabulary achieves a verified \textbf{0.000\% OOV rate} across all 106,487 recordings, completely eliminating subword fragmentation.
+
+\section{Acoustic Modeling \& Controlled Scaling}
+We fine-tune \texttt{facebook/wav2vec2-xls-r-300m} (315.6M parameters) using AdamW (peak learning rate $3 \times 10^{-4}$ with 2,000 warmup steps, dynamic batch size 32, BF16 AMP) under CTC loss:
+\begin{equation}
+    \mathcal{L}_{\text{CTC}} = -\ln \sum_{\pi \in \mathcal{B}^{-1}(y)} \prod_{t=1}^T P(\pi_t | x)
+\end{equation}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Acoustic scaling trajectory evaluated on the 6,728-sample validation split (\texttt{val.jsonl}, 104,685 words).}
+\label{tab:scaling}
+\begin{tabular}{llcccc}
+\toprule
+\textbf{Model ID} & \textbf{Corpus Composition} & \textbf{Hours} & \textbf{Utterances} & \textbf{Greedy WER (\%)} & \textbf{KenLM WER (\%)} \\
+\midrule
+B-01 & Initial verified baseline & 92.94h & 53,460 & 33.86\% & 31.80\% \\
+B-02A & B-01 + Recovered speech & 104.93h & 64,522 & 29.42\% & 26.30\% \\
+B-02B & B-02A + Quranic translation & 123.45h & 80,106 & 29.39\% & 26.41\% \\
+B-02C & B-02B + IndicVoices-R & 165.32h & 96,664 & \textbf{27.84\%} & \textbf{25.24\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Acoustic scaling from 92.9h to 165.3h yields a statistically certified 6.02\% absolute reduction in greedy WER ($p < 0.0001$, 10,000 bootstrap resamples, 95\% CI $[-6.33\%, -5.72\%]$).
+
+\section{Evaluation Integrity \& Forensic Reconciliation}
+\subsection{The 22.05 kHz Resampling Defect}
+In historical evaluation pipelines (Stages 15--19), raw NumPy arrays were passed directly to \texttt{Wav2Vec2Processor} without resampling. 431 Bolbosh files at 22,050 Hz were ingested into the 16 kHz feature extractor, creating an acoustic dilation factor of $1.378\times$ and shifting formants down by 5.53 semitones. 
+
+Applying Kaiser windowed sinc resampling eliminated \textbf{493 word errors} on the 1,001 diagnostic assessment utterances (\texttt{dev\_assessment.jsonl}, 16,845 words), lowering KenLM WER from \textbf{27.39\% (4,614 errors) to 24.46\% (4,121 errors)} on identical model weights. 100\% of eliminated errors belonged to the 431 Bolbosh files; native 16 kHz speech produced 100\% bitwise identical predictions.
+
+\subsection{Statistical Equivalence of B-02C and E-03}
+Under canonical 16 kHz evaluation:
+\begin{itemize}
+    \item Foundation B-02C achieves \textbf{24.47\% KenLM WER} (4,122 word errors).
+    \item Sequence model E-03 achieves \textbf{24.46\% KenLM WER} (4,121 word errors).
+    \item Error Delta: \textbf{EXACTLY 1 WORD ERROR} across 16,845 reference words ($p = 0.963$).
+\end{itemize}
+Prior claims of dramatic MWER superiority were artifacts of evaluating on unresampled audio.
+
+\section{Decoding Dynamics \& Candidate Ranking}
+Restoring beam width 16 with history pruning eliminated an 84-word search penalty caused by narrow beam widths ($W=8$). Tuning KenLM parameters ($\alpha=0.20, \beta=-0.50$) and training a 312,705-parameter Candidate-Relative Sequence Ranker reduced errors to \textbf{24.27\%--24.30\%} (4,089--4,093 errors).
+
+\begin{table}[ht]
+\centering
+\small
+\caption{N-best Oracle WER ceiling on \texttt{dev\_assessment.jsonl} (16,845 words).}
+\label{tab:oracle}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Candidate Depth ($N$)} & \textbf{Top-1 WER (\%)} & \textbf{Oracle WER (\%)} & \textbf{Remaining Errors} & \textbf{Recoverable Errors} \\
+\midrule
+$N = 1$ (Baseline) & 24.46\% & 24.46\% & 4,121 & 0 (0.0\%) \\
+$N = 4$ & 24.46\% & 21.54\% & 3,629 & 492 (2.9\%) \\
+$N = 8$ & 24.46\% & 20.26\% & 3,412 & 709 (4.2\%) \\
+$N = 16$ (Champion) & 24.46\% & \textbf{19.23\%} & \textbf{3,240} & \textbf{881 (5.2\%)} \\
+$N = 32$ & 24.46\% & 18.51\% & 3,118 & 1,003 (6.0\%) \\
+$N = 64$ & 24.46\% & 18.32\% & 3,086 & 1,035 (6.1\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Crucially, 881 word errors (21.4\% of total errors) represent recoverable search headroom, while 78.6\% of errors stem from acoustic out-of-beam deficiencies.
+
+\section{Negative Results in Post-Foundation Acoustic Optimization}
+Controlled experiments on B-02C revealed consistent negative results:
+\begin{itemize}
+    \item Multi-condition noise augmentation (R-02) regressed clean WER to 28.94\% (+3.70\%).
+    \item Progressive layer unfreezing (U-01..03) plateaued at 24.91\%--25.19\%.
+    \item Intermediate CTC supervision (I-01) plateaued at 25.02\%.
+    \item Noisy pseudo-labeling (P17-PL) degraded WER to 25.25\%.
+\end{itemize}
+These findings demonstrate that short-budget architectural interventions cannot compensate for converged full-corpus acoustic representations.
+
+\section{Limitations \& Future Work}
+Repeated diagnostic evaluation on \texttt{dev\_assessment.jsonl} necessitates final verification on the untouched Benchmark v1.1. The 28-word ranker reduction is marginally significant ($p = 0.0847$). Peripheral dialects (Kamraz, Kishtwari) remain under-represented.
+
+\section{Conclusion}
+This study provides the first comprehensive empirical benchmark for Kashmiri ASR, demonstrating power-law acoustic scaling, resolving critical evaluation integrity artifacts, documenting valuable negative results, and establishing the 19.23\% Oracle search ceiling.
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

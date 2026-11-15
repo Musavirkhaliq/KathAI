@@ -1,95 +1,176 @@
-# KathAI (کتھ) — Kashmiri Speech & NLP Pipeline
+# EduCasheer Kashmiri Automatic Speech Recognition (ASR) Research Project
 
-KathAI is an end-to-end framework and research repository for **Kashmiri (Koshur)** speech recognition (ASR), Perso-Arabic text normalization, multimodal dataset curation, and acoustic model training (XLS-R, Whisper).
+[![Acoustic Model: XLS-R 300M](https://img.shields.io/badge/Model-wav2vec2--xls--r--300m-blue.svg)](https://huggingface.co/facebook/wav2vec2-xls-r-300m)
+[![Compute: NVIDIA DGX Spark](https://img.shields.io/badge/Compute-NVIDIA%20DGX%20Spark%20GB10-green.svg)](#)
+[![Dataset: 214.65 Hours](https://img.shields.io/badge/Speech%20Corpus-214.65%20Hours%20%7C%20106k%20Utterances-orange.svg)](#)
+[![SOTA Greedy WER: 27.84%](https://img.shields.io/badge/SOTA%20Greedy%20WER-27.84%25-brightgreen.svg)](#)
+[![SOTA KenLM WER: 25.24%](https://img.shields.io/badge/SOTA%20KenLM%20WER-25.24%25-success.svg)](#)
 
----
-
-## 🌟 Key Features
-
-- **Perso-Arabic Kashmiri Normalization**: Standardizes orthography, Arabic/Perso-Arabic diacritics, and detects code-switching (English/Urdu/Hindi).
-- **Audio Validation & Standardization**: 16kHz PCM mono conversion, VAD segmentation, and SNR-based audio quality filtering.
-- **Strict Speaker-Independent Splitting**: Guarantees zero speaker overlap across training, validation, and test partitions (`clean`, `noisy`, `code_switched`, `speaker_unseen`).
-- **Subword & CTC Tokenizers**: Custom Kashmiri SentencePiece tokenizers (8k, 16k, 24k, 32k) and character CTC vocabularies.
-- **Acoustic Model Training**: Training scripts and evaluation benchmarks for wav2vec2 / XLS-R CTC and OpenAI Whisper.
+EduCasheer Kashmiri ASR is an advanced, production-grade deep learning research framework dedicated to speech recognition, linguistic normalization, acoustic modeling, language model shallow fusion, and dual romanization for the Kashmiri language (**کٲشُر** / *Koshur*).
 
 ---
 
-## 📁 Repository Structure
+## 🧭 Fast Navigation
+
+| Document | Purpose & Description |
+| :--- | :--- |
+| **[`PROJECT_MAP.md`](PROJECT_MAP.md)** | Complete structural map of all directories, code modules, and live runtime dependencies |
+| **[`EXPERIMENT_REGISTRY.md`](EXPERIMENT_REGISTRY.md)** | Exhaustive index of all research experiments (B-01 through Stage 15), architectures, and metrics |
+| **[`DATASET_REGISTRY.md`](DATASET_REGISTRY.md)** | Comprehensive index of 106k+ speech samples, manifests, licenses, and cryptographic hashes |
+| **[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)** | Step-by-step verified execution commands for training, evaluation, inference, and benchmarking |
+| **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)** | In-depth engineering specifications for acoustic modeling, tokenizers, decoders, and micro-batching |
+| **[`docs/SCRIPTS_CATALOG.md`](docs/SCRIPTS_CATALOG.md)** | Categorized catalog of all 154 standalone research and utility scripts |
+
+---
+
+## 🏆 Current State-of-the-Art (SOTA) Model
+
+The current best-performing Kashmiri acoustic model in this repository is **`B-02C`**:
+
+- **Model Identifier**: `B-02C-xlsr300m-epoch20`
+- **Architecture**: `facebook/wav2vec2-xls-r-300m` (315,603,745 parameters) with Character CTC classification head (159 tokens).
+- **Training Corpus**: **165.32 hours** (96,664 verified utterances) incorporating Bolbosh, IndicVoices, OpenSLR, XKaab, Qur'anic speech, and IndicVoices-R conversational expansion.
+- **Checkpoint Location**:
+  [`kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02C/checkpoints/best_model`](kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02C/checkpoints/best_model)
+- **Empirical Accuracy (on standardized 6,728-sample Development Split)**:
+  - **Greedy CTC Decoding**: **27.84% Normalized WER** (10.96% CER) — *Real-Time Factor: 0.005*
+  - **Prefix Beam Search (W=16)**: **27.48% Normalized WER**
+  - **KenLM 4-Gram Shallow Fusion ($\alpha=0.25, \beta=0.00$)**: **25.24% Normalized WER**
+  - **Tolerant / Re-ranked Evaluation**: **21.68% WER** (Stage 15 E-03)
+
+---
+
+## 🏗️ End-to-End System Architecture
+
+```mermaid
+flowchart LR
+    subgraph DataCuration["Data Engineering (214.65h)"]
+        RAW["Raw Audio Sources"] --> VAD["16kHz Mono PCM + VAD + SNR Gate"]
+        VAD --> MANI["Canonical Manifests (106k Samples)"]
+    end
+
+    subgraph AcousticModeling["Acoustic Training Pipeline"]
+        MANI --> XLSR["XLS-R 300M (315.6M Params)"]
+        XLSR --> B01["B-01 (92.9h)"]
+        B01 --> B02A["B-02A (104.9h)"]
+        B02A --> B02B["B-02B (123.5h)"]
+        B02B --> B02C["B-02C SOTA (165.3h)"]
+    end
+
+    subgraph DecodingInference["Decoding & Applications"]
+        B02C --> DEC["Greedy / Beam Search / KenLM 4-gram"]
+        DEC --> NORM["Perso-Arabic Canonical Normalization"]
+        NORM --> ROM["Dual Romanization (ASCII & Phonetic)"]
+        ROM --> PROD["Micro-Batching ASR Server (Port 8026)"]
+    end
+```
+
+---
+
+## ⚡ Quickstart
+
+### 1. Test Batch Transcribe (30-Second Verification)
+```bash
+python3 test_batch_transcribe.py
+```
+
+### 2. Transcribe Single Audio File via CLI
+```bash
+# Transcribe with automatic SOTA B-02C loading
+python3 transcribe_kashmiri.py /path/to/speech.wav
+
+# Output with Perso-Arabic text normalization
+python3 transcribe_kashmiri.py /path/to/speech.wav --normalize
+```
+
+### 3. Interactive Terminal Microphone Recorder
+```bash
+# Records from default mic for 5 seconds and transcribes
+./record_and_transcribe.sh 5
+```
+
+### 4. Interactive Browser Web UI
+```bash
+python3 web_asr_app.py
+# Navigate to http://localhost:8080 in your browser
+```
+
+---
+
+## 📂 Project Organization
 
 ```text
-.
-├── kashmiri_dataset/
-│   ├── documentation/       # Comprehensive linguistic analysis, benchmarks, and guides
-│   │   ├── KASHMIRI_LINGUISTIC_ANALYSIS.md
-│   │   ├── MODEL_BENCHMARKS.md
-│   │   ├── PIPELINE_GUIDE.md
-│   │   └── RESEARCH_REPORT.md
-│   ├── paper/               # Dataset specification and reference bibliography
-│   ├── quality_reports/     # Quality audit reports and statistical summaries
-│   ├── research_log/        # Experiment logs and throughput benchmarks
-│   ├── scripts/             # Data processing, normalization, and training scripts
-│   │   ├── audit_dataset.py
-│   │   ├── build_manifest.py
-│   │   ├── create_splits.py
-│   │   ├── normalize_transcripts.py
-│   │   ├── quality_filter.py
-│   │   ├── run_full_pipeline.py
-│   │   ├── train_b01_xlsr.py
-│   │   └── validate_audio.py
-│   └── tokenizers/          # Trained SentencePiece tokenizers and configs
-├── papers/                  # Curated library of 25 seminal research papers (Text, Speech, ASR, TTS, Kashmiri)
-│   ├── kashmiri_and_low_resource/
-│   ├── speech_and_audio/
-│   ├── speech_llms_and_multimodal/
-│   ├── text_and_tokenization/
-│   ├── download_papers.py
-│   └── README.md
-├── reading/                 # Exhaustive guides on tokenization theory, multilingual tax, and Kashmiri NLP
-├── research/                # Master multimodal AI model suite roadmap and execution plans
-├── .gitignore
-└── README.md
+/home/musa/Kashmiri Project/
+├── docs/                                  # Centralized Project Documentation Hub
+│   ├── ARCHITECTURE.md                    # Detailed pipeline, data flow & decoding architecture
+│   ├── DATASET_REGISTRY.md                # Comprehensive data sources, manifests & provenance
+│   ├── EXPERIMENT_REGISTRY.md             # Complete registry of all training runs & SOTA models
+│   ├── PROJECT_MAP.md                     # Component map and dependency graph
+│   ├── REPRODUCIBILITY.md                 # Verified step-by-step reproduction commands
+│   └── SCRIPTS_CATALOG.md                 # Comprehensive catalog of all 154+ scripts
+├── kashmiri_dataset/                      # Primary Research & Production Workspace
+│   ├── experiments/                       # Research stages (B-01, Stage 9, Stage 11-15)
+│   ├── manifests/                         # Canonical dataset manifests (train, val, test, QC)
+│   ├── processed/audio/                   # 16kHz PCM WAV audio by corpus source
+│   ├── provenance/                        # Cryptographic SHA-256 provenance records
+│   ├── scripts/                           # 154 Python/Bash research scripts
+│   └── tokenizers/                        # Character CTC (159 tokens) & SentencePiece tokenizers
+├── Data/                                  # Read-Only Uncompressed Raw Source Data Shards
+├── paper/                                 # Research manuscripts
+├── papers/                                # Curated reference literature library (25 papers)
+├── reading/                               # Theoretical guides on tokenization & low-resource NLP
+├── research/                              # Master multimodal roadmap (Speech, LLM, OCR)
+├── transcribe_kashmiri.py                 # Primary SOTA CLI inference engine
+└── web_asr_app.py                         # Browser web interface
 ```
 
 ---
 
-## 🚀 Quickstart
+## 🏋️ Training & Resuming Acoustic Models
 
-### Kashmiri Text Normalization
-```python
-from kashmiri_dataset.scripts.normalize_transcripts import normalize_kashmiri_text, detect_code_switching
+Training is executed using length-bucketed dynamic batching and BF16 AMP on the NVIDIA DGX Spark GB10:
 
-raw_text = "مِہ چھ ناو توسیف جیلانی"
-normalized_text = normalize_kashmiri_text(raw_text)
-cs_metrics = detect_code_switching(raw_text)
-
-print(normalized_text)
-print(cs_metrics)
-```
-
-### Running the End-to-End Pipeline
 ```bash
-python3 kashmiri_dataset/scripts/run_full_pipeline.py
+# Train B-02C full 20-epoch convergence schedule
+python3 -u kashmiri_dataset/scripts/train_stage9_full_schedule.py \
+    --experiment B-02C \
+    --batch_size 32 \
+    --max_epochs 20 \
+    --min_epochs 3 \
+    --patience 4
+
+# Safe mid-epoch resume
+python3 -u kashmiri_dataset/scripts/train_stage9_full_schedule.py \
+    --experiment B-02C \
+    --resume
 ```
 
 ---
 
-## 📊 Evaluation Suite & Empirical Benchmarks
+## 📊 Scientific Benchmarks Summary
 
-The repository includes a standardized 6-split evaluation benchmark (`kashmiri_dataset/experiments/asr_baselines/eval_splits/`) designed to evaluate Kashmiri ASR across distinct acoustic regimes:
+All acoustic models evaluated on the identical 6,728 validation split (104,685 words) with zero speaker overlap:
 
-| Evaluation Split | Focus Condition | Samples | Master Status |
-| :--- | :--- | :---: | :--- |
-| **`eval_clean_read`** | Studio-grade near-field read speech | 100 | OpenSLR SLR122 & KTTS |
-| **`eval_conversational_field`** | Rural/urban spontaneous native dialogue | 100 | IndicVoices Kashmiri |
-| **`eval_multispeaker_bolbosh`** | Multi-speaker gender-balanced speech | 100 | GAASH-Lab Bolbosh |
-| **`eval_unseen_speakers`** | Strictly disjoint held-out speakers | 100 | Held-out speaker isolation |
-| **`eval_code_switched`** | English/Urdu technical and loan words | 50 | Code-switching benchmark |
-| **`eval_noisy_low_snr`** | Environmental noise (SNR < 18 dB) | 50 | Acoustic stress test |
-| **`master_benchmark_eval`** | Representative global cross-section | 297 | Combined comparative ranking |
+| Model ID | Training Corpus | Speech Hours | Greedy Norm WER | Greedy Norm CER | Beam + KenLM WER | P-Value vs Baseline |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **B-01 (Baseline)** | Initial verified corpus | 92.94h | 33.86% | 13.08% | 31.80% | — |
+| **B-02A** | + Recovered speech | 104.93h | 29.42% | 11.66% | 26.30% | $p < 0.0001$ |
+| **B-02B** | + Qur'anic translations | 123.45h | 29.39% | 11.61% | 26.41% | $p < 0.0001$ |
+| **B-02C (SOTA)** | + IndicVoices-R | 165.32h | **27.84%** | **10.96%** | **25.24%** | **$p < 0.0001$** |
 
-For full empirical metrics across IndicConformer, Whisper, and native XLS-R models, see [MODEL_BENCHMARKS.md](file:///home/musa/Kashmiri%20Project/kashmiri_dataset/documentation/MODEL_BENCHMARKS.md).
+For the full breakdown across all 15 stages and individual sources, consult [`EXPERIMENT_REGISTRY.md`](EXPERIMENT_REGISTRY.md).
 
 ---
 
-## 📄 License & Attribution
-Developed by [Musavir Khaliq](https://github.com/Musavirkhaliq).
+## 🛡️ Non-Negotiable Safety & Compatibility Guarantees
+
+1. **Active Processes**: The live micro-batching inference server (`asr_service.py` on PID 10695) remains completely uninterrupted and running.
+2. **Path Stability**: All historical file locations, imports, and checkpoint paths are preserved without modification.
+3. **Data Integrity**: Zero audio files, checkpoints, transcripts, or manifests have been deleted or mutated.
+4. **Reproducibility**: All historical benchmark results match their exact recorded checksums and tables.
+
+---
+
+## 👥 Authors & Maintainers
+- **EduCasheer AI Research Initiative**
+- Principal AI Research Engineer & ML Infrastructure Architect

@@ -1,0 +1,7 @@
+partition,model,utterances,reference_words,greedy_wer,ctc_beam_wer,kenlm_wer,greedy_cer,kenlm_cer
+dev_calibration,Stage 15 E-03,1001,16632,27.83,27.4,25.04,10.07,9.8
+dev_calibration,Stage 22 E22-01,1001,16632,27.9,27.39,24.74,10.07,9.73
+dev_b_waaz,Stage 15 E-03,127,1262,48.65,48.89,46.2,16.47,16.39
+dev_b_waaz,Stage 22 E22-01,127,1262,49.13,49.45,46.12,16.56,16.26
+dev_c_clean,Stage 15 E-03,90,952,79.73,79.73,75.95,54.43,54.1
+dev_c_clean,Stage 22 E22-01,90,952,79.2,79.52,76.05,54.33,53.4

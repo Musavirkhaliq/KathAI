@@ -1,0 +1,126 @@
+# ==============================================================================
+# EDUCASHEER KASHMIRI ASR — STAGE 24 TRAINING & EVALUATION CONFIGURATION
+# Platform: NVIDIA DGX Spark GB10 (NVIDIA Grace-Blackwell ARM64, 128GB Unified Memory)
+# ==============================================================================
+
+stage: 24
+title: "Actual Neural Reranker Training and Acoustic Control"
+author: "Principal ASR Researcher & DGX Systems Engineer"
+date: "2026-11-16"
+
+hardware:
+  platform: "NVIDIA DGX Spark GB10"
+  accelerator: "NVIDIA GB10"
+  cuda_version: "13.0"
+  memory_limit_gb: 128
+  bf16_supported: true
+
+frozen_baseline:
+  model_id: "E22-01"
+  model_name: "Stage 22 E22-01 Conservative Tier A Champion"
+  checkpoint_dir: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model"
+  weights_file: "model.safetensors"
+  weights_sha256: "0c18d60b985966da6f97db20f79211ce669deb6db19861bdedded1569f5560a2"
+  architecture: "facebook/wav2vec2-xls-r-300m"
+  frozen_parameters: 315603745
+  parameter_budget_ceiling: 317000000
+  max_ranker_parameters: 1396255
+
+language_model:
+  type: "KenLM 4-gram word-level"
+  arpa_path: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa"
+  arpa_sha256: "a70c5f79831f668e14fb9aa3ababd5b756c87d09c8cc09e671d5da69e1da61e0"
+  unigrams_path: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22b_decoder_and_independent_test/language_model/unigrams.txt"
+  unigram_count: 51044
+
+canonical_decoder:
+  engine: "pyctcdecode"
+  alpha: 0.30
+  beta: -1.00
+  beam_width: 64
+  beam_pruning_logp: -10.0
+  blank_index: 0
+  num_workers: 16
+
+training_data:
+  full_pool_manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22_data_expanded_training/manifests/data_22a_conservative_tier_a.jsonl"
+  sampled_train_manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/data/stage24_train_sampled_20k.jsonl"
+  target_train_utterances: 20000
+  train_nbest_cache: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/nbest_cache/stage24_train_nbest_20k.jsonl"
+  max_candidates_per_utt: 32
+  seed: 42
+
+validation_partitions:
+  dev_calibration:
+    name: "dev_calibration"
+    manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage11_robustness_optimization/data_splits/dev_calibration.jsonl"
+    cached_nbest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/nbest_cache/stage24_dev_calibration_nbest.jsonl"
+    sample_count: 1001
+    word_count: 16632
+  dev_a_disjoint:
+    name: "dev_a_disjoint"
+    manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage23_acoustic_lm_interaction/evaluation/dev_a_disjoint.jsonl"
+    cached_nbest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/nbest_cache/stage24_dev_a_disjoint_nbest.jsonl"
+    sample_count: 6257
+    word_count: 106530
+  dev_b_waaz_val:
+    name: "dev_b_waaz_val"
+    manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/releases/asr_training_v2_waaz/validation_manifests/dev_b_waaz_val.jsonl"
+    cached_nbest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/nbest_cache/stage24_dev_b_waaz_nbest.jsonl"
+    sample_count: 127
+    word_count: 1290
+  dev_c_clean:
+    name: "dev_c_clean"
+    manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage23_acoustic_lm_interaction/evaluation/dev_c_clean.jsonl"
+    cached_nbest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/nbest_cache/stage24_dev_c_clean_nbest.jsonl"
+    sample_count: 90
+    word_count: 1010
+
+reranker_model:
+  architecture: "CandidateRelativeRanker"
+  vocab_size: 161
+  embed_dim: 64
+  hidden_dim: 96
+  num_layers: 2
+  dropout: 0.10
+  num_scalar_features: 6
+  zero_init_head: true
+  fusion_gamma: 5.0
+  initial_lambda: 0.01
+
+reranker_training:
+  optimizer: "AdamW"
+  learning_rate: 1.0e-4
+  weight_decay: 0.01
+  batch_size: 32
+  max_epochs: 10
+  warmup_steps: 100
+  gradient_clip: 1.0
+  precision: "bfloat16"
+  loss:
+    listwise_weight: 1.0
+    tau_true: 2.0
+    tau_pred: 1.0
+    pairwise_weight: 0.5
+    margin_weight: 0.1
+    reg_weight: 0.01
+  early_stopping_patience: 3
+  save_every_epochs: 1
+
+linear_ranker:
+  model: "RidgeRanking"
+  regularization_alpha: 1.0
+
+acoustic_continuation_control:
+  experiment_id: "E24-CTC-01"
+  initial_checkpoint: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model"
+  manifest: "/home/musa/Kashmiri Project/kashmiri_dataset/experiments/stage24_actual_reranker_training/data/stage24_train_sampled_20k.jsonl"
+  learning_rate: 2.0e-6
+  total_steps: 250
+  warmup_steps: 25
+  batch_size: 16
+  grad_accum_steps: 2
+  effective_batch_size: 32
+  precision: "bfloat16"
+  eval_every_steps: 50
+  save_every_steps: 125

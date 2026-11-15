@@ -1,0 +1,50 @@
+{
+  "project": "EduCasheer Kashmiri ASR Systematic Study",
+  "audit_version": "1.0-canonical",
+  "audit_date": "2026-11-15",
+  "hardware_platform": "NVIDIA DGX Spark GB10",
+  "manifests": {
+    "dev_assessment": {
+      "path": "kashmiri_dataset/experiments/stage11_robustness_optimization/data_splits/dev_assessment.jsonl",
+      "sha256": "35197918c679b4e795120109539623307ea6270e1075c0dc53e3b591e3f8869c",
+      "utterances": 1001,
+      "words": 16845
+    },
+    "dev_calibration": {
+      "path": "kashmiri_dataset/experiments/stage11_robustness_optimization/data_splits/dev_calibration.jsonl",
+      "utterances": 1000
+    },
+    "canonical_validation": {
+      "path": "kashmiri_dataset/experiments/native_asr_training/data_splits/val.jsonl",
+      "utterances": 6728,
+      "words": 104685
+    }
+  },
+  "champion_checkpoints": {
+    "acoustic_foundation": {
+      "name": "B-02C",
+      "path": "kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02C/checkpoints/best_model/model.safetensors",
+      "format": "safetensors",
+      "size_bytes": 1262467532,
+      "parameters": 315603745
+    },
+    "sequence_continuation": {
+      "name": "E-03",
+      "path": "kashmiri_dataset/experiments/stage15_mwer_verification_and_scaling/checkpoints/E-03/best_calib/model.safetensors",
+      "format": "safetensors",
+      "size_bytes": 1262467532,
+      "parameters": 315603745
+    },
+    "sequence_ranker": {
+      "name": "Candidate_Relative_Ranker",
+      "path": "kashmiri_dataset/experiments/stage21b_candidate_relative_ranking/checkpoints/ranker_step_1000.pt",
+      "format": "pt",
+      "size_bytes": 3812705,
+      "parameters": 312705
+    }
+  },
+  "decoding_assets": {
+    "language_model": "kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa",
+    "tokenizer": "kashmiri_dataset/experiments/native_asr_training/experiments/B-01-xlsr300m-character-ctc/tokenizer"
+  }
+}

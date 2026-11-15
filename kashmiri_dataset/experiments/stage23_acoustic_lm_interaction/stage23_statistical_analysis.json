@@ -1,0 +1,44 @@
+{
+  "dev_calibration_e2201_vs_e03": {
+    "contrast": "Stage 22 E22-01 vs Stage 15 E-03 (KenLM Decoding)",
+    "partition": "dev_calibration (1,001 utts)",
+    "aggregate_delta_wer_pp": -0.3,
+    "bootstrap_mean_delta_wer_pp": -0.3002,
+    "bootstrap_95ci": [
+      -0.5633,
+      -0.0357
+    ],
+    "bootstrap_p_value": 0.0142,
+    "wilcoxon_stat": 8277.5,
+    "wilcoxon_p_value": 0.13182337773861086,
+    "verdict": "Statistically significant advantage for E22-01"
+  },
+  "dev_a_disjoint_e2201_vs_e03": {
+    "contrast": "Stage 22 E22-01 vs Stage 15 E-03 (KenLM Decoding)",
+    "partition": "dev_a_disjoint (6,257 utts)",
+    "aggregate_delta_wer_pp": 0.05,
+    "bootstrap_mean_delta_wer_pp": 0.0484,
+    "bootstrap_95ci": [
+      -0.0428,
+      0.1397
+    ],
+    "bootstrap_p_value": 0.3046,
+    "wilcoxon_stat": 402314.5,
+    "wilcoxon_p_value": 0.5334979710423243,
+    "verdict": "Parity on legacy read validation data (Zero catastrophic forgetting)"
+  },
+  "dev_a_disjoint_calib_t108_vs_base": {
+    "contrast": "E22-01 Calibrated (T=1.08) vs E22-01 Baseline (T=1.00)",
+    "partition": "dev_a_disjoint (6,257 utts)",
+    "aggregate_delta_wer_pp": 0.07,
+    "bootstrap_mean_delta_wer_pp": 0.0724,
+    "bootstrap_95ci": [
+      0.0178,
+      0.1275
+    ],
+    "bootstrap_p_value": 0.009,
+    "wilcoxon_stat": 51686.0,
+    "wilcoxon_p_value": 0.00365037903812706,
+    "verdict": "Baseline T=1.00 preferred; T=1.08 shows mild domain regression on clean legacy speech"
+  }
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "checkpoint": "ranker_epoch_0.pt",
+    "epoch": 0,
+    "step": 0,
+    "sha256": "8d25bcc5eaaebef67a8418f9b34c02fb547ccfe7264eb1147129ef3d7bdfc229",
+    "calib_wer_pct": 24.74,
+    "calib_errors": 4114,
+    "is_best": true
+  },
+  {
+    "checkpoint": "ranker_epoch_1.pt",
+    "epoch": 1,
+    "step": 625,
+    "sha256": "ed2de4adce91c2e2eb4b2d58095ec895de22b1d5f818b743b42514341a846601",
+    "calib_wer_pct": 24.77,
+    "calib_errors": 4120,
+    "is_best": false
+  },
+  {
+    "checkpoint": "ranker_epoch_2.pt",
+    "epoch": 2,
+    "step": 1250,
+    "sha256": "7a735cf6bcbd9955ec08ff681a28d69cfe0c3bf78c6174b343fa79d9e7a1759f",
+    "calib_wer_pct": 24.74,
+    "calib_errors": 4115,
+    "is_best": false
+  },
+  {
+    "checkpoint": "ranker_epoch_3.pt",
+    "epoch": 3,
+    "step": 1875,
+    "sha256": "2bc0be07244b21e1605f2961c9de51d00a835ed2e0c4f1834a7ce748470a727a",
+    "calib_wer_pct": 24.74,
+    "calib_errors": 4115,
+    "is_best": false
+  }
+]

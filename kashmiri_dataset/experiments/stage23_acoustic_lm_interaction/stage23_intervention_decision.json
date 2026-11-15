@@ -1,0 +1,51 @@
+{
+  "gate": "Gate 6 & 7 - Intervention Decision",
+  "decision_timestamp": "2026-11-15T22:13:00+05:30",
+  "verified_failure_mode": {
+    "primary_failure": "Acoustic CTC overconfidence and linear beam-search score mismatch",
+    "description": "Standard Wav2Vec2 CTC decodes with peaked frame logits (top-1 prob > 96.5%), which causes pyctcdecode's beam-pruning threshold (-10.0) to discard valid linguistic candidates. Furthermore, the standard linear scoring function (Logit + 0.30*LM - 1.00*Words) under-rewards multi-character Kashmiri morphemes.",
+    "quantitative_evidence": {
+      "frame_entropy_shift": "+2.06% in E22-01 vs E-03 (0.0996 vs 0.0976, p=1.00e-4)",
+      "top1_prob_shift": "-0.06% in E22-01 vs E-03 (0.9659 vs 0.9665, p=1.00e-4)",
+      "blank_posterior_mean": "+0.26% (0.7176 vs 0.7157, p=1.45e-21)",
+      "oracle_64_wer": "17.88% (a 9.32 pp oracle gap below Top-1 WER of 27.20%)",
+      "better_candidate_in_beam_pct": "63.14% of calibration utterances possess a candidate with lower WER than Top-1"
+    }
+  },
+  "selected_intervention": {
+    "name": "Intervention E1+E2: Acoustic Temperature Calibration & Discriminative Length-Aware Rescoring",
+    "type": "Probabilistic decoding calibration and candidate rescoring",
+    "components": {
+      "acoustic_temperature": 1.08,
+      "beam_search_params": {
+        "alpha": 0.30,
+        "beta": -1.00,
+        "beam_width": 64,
+        "prune_threshold": -10.0
+      },
+      "candidate_rescoring_weights": {
+        "w_acoustic_logit": 1.00,
+        "w_lm_score": 0.325,
+        "w_word_count": -0.35,
+        "w_char_length": 0.05
+      }
+    },
+    "added_neural_parameters": 0,
+    "parameter_budget_status": "Passed (0 added parameters vs 317M budget)"
+  },
+  "baselines_on_calibration": {
+    "e03_greedy_wer": 27.83,
+    "e2201_greedy_wer": 27.90,
+    "e03_kenlm_wer": 25.04,
+    "e2201_kenlm_baseline_wer": 24.74
+  },
+  "expected_measurable_outcome": {
+    "calibration_wer_target": "24.62% (-0.12 pp absolute gain on dev_calibration)",
+    "generalization_target": "Consistent WER reduction across disjoint validation partitions (dev_a_disjoint, dev_b_waaz, dev_c_clean) with zero regressions"
+  },
+  "experimental_cost": {
+    "gpu_memory": "< 1.8 GB VRAM",
+    "inference_latency_increase": "< 1% (negligible linear vector dot-product on top-32 candidate strings)"
+  },
+  "stopping_condition": "Halt if the calibrated decoder regresses on dev_b_waaz or dev_c_clean by more than +0.1 pp, or if held-out gain does not generalize."
+}

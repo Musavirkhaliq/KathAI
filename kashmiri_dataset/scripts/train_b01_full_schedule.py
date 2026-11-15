@@ -187,8 +187,9 @@ def main():
     if state_file.exists():
         print(f"Found existing training state at {state_file}! Resuming...")
         model = Wav2Vec2ForCTC.from_pretrained(str(state_file.parent))
+        model.freeze_feature_encoder()
         model.to(device)
-        state = torch.load(state_file, map_location=device)
+        state = torch.load(state_file, map_location=device, weights_only=False)
         start_epoch = state["epoch"]
         start_step = state["global_step"]
         best_val_norm_wer = state.get("best_val_norm_wer", float("inf"))
@@ -273,6 +274,14 @@ def main():
 
         train_batches = train_dataset.get_shuffled_batches()
 
+        # If resuming within this epoch, skip already processed batches
+        batches_to_skip = 0
+        if resumed and epoch == start_epoch and start_step > 0:
+            batches_to_skip = (start_step % (len(train_dataset.batches) // GRAD_ACCUM_STEPS)) * GRAD_ACCUM_STEPS
+            if batches_to_skip > 0:
+                print(f"Resuming Epoch {epoch}: skipping first {batches_to_skip} batches ({start_step} optimization steps)...")
+                train_batches = train_batches[batches_to_skip:]
+
         for step, batch_items in enumerate(train_batches):
             batch = load_batch_tensors(batch_items, processor)
             inputs = batch["input_values"].to(device)
@@ -322,7 +331,7 @@ def main():
                         f.flush()
 
                 # Step checkpoint every 100 steps for safety
-                if global_step % 20 == 0:
+                if global_step % 400 == 0:
                     model.save_pretrained(str(STEP_CKPT_DIR))
                     processor.save_pretrained(str(STEP_CKPT_DIR))
                     torch.save({

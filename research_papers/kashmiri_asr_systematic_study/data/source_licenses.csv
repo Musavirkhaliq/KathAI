@@ -1,0 +1,8 @@
+source_id,dataset_name,license_name,commercial_use_permitted,derivative_works_permitted,redistribution_permitted,attribution_required,legal_risk_level,compliance_notes
+SRC_BOLBOSH,Bolbosh Kashmiri Speech,Creative Commons Attribution 4.0 International (CC-BY 4.0),YES,YES,YES,"YES (Cite GAASH-Lab, IUST Kashmir)",LOW,Fully permissive open academic corpus.
+SRC_INDICVOICES_R,IndicVoices-R,Creative Commons Attribution 4.0 International (CC-BY 4.0),YES,YES,YES,YES (Cite AI4Bharat / IIT Madras),LOW,Permissive academic license.
+SRC_INDICVOICES,IndicVoices Primary,Creative Commons Attribution 4.0 International (CC-BY 4.0),YES,YES,YES,YES (Cite AI4Bharat),LOW,Permissive academic license.
+SRC_OPENSLR122,OpenSLR SLR122 Kashmiri,Creative Commons Attribution-ShareAlike 4.0 International (CC-BY-SA 4.0),YES,YES (ShareAlike),YES,YES (Cite Google LLC / OpenSLR),MEDIUM,Requires ShareAlike on downstream derived models if distributed.
+SRC_XKAAB_ASR,XKaab ASR Kashmiri 4hrs,Creative Commons Attribution 4.0 International (CC-BY 4.0),YES,YES,YES,YES (Cite Kaab Lab),LOW,Permissive open license.
+SRC_QURAN_MIRWAIZ,Mirwaiz Kashmiri Quran Translation,Educational & Non-Profit Research Grant,NO,RESEARCH ONLY,RESTRICTED,YES (Mirwaiz Research Foundation),MEDIUM-HIGH,Must NOT be redistributed publicly as raw audio; trained weights permitted for non-commercial research.
+SRC_META_OMNILINGUAL,Meta Omnilingual Kashmiri Slice,Creative Commons Attribution-NonCommercial 4.0 (CC-BY-NC 4.0),NO,YES (Non-commercial),YES (Non-commercial),YES (Cite Meta AI),MEDIUM,Restricted to academic evaluation only; quarantined from commercial pipelines.

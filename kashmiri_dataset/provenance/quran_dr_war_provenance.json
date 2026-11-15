@@ -1,0 +1,16 @@
+{
+  "source_id": "SRC_QURAN_DR_WAR",
+  "dataset_name": "Dr. Abdul Rehman War Kashmiri Quran Commentary Series",
+  "publisher": "Gulistan News / Dr. Abdul Rehman War",
+  "total_episodes": 28,
+  "total_raw_hours": 4.8582,
+  "total_speech_hours": 4.0125,
+  "total_kashmiri_commentary_hours": 3.8127,
+  "total_mixed_kashmiri_arabic_hours": 0.0021,
+  "total_kashmiri_candidate_hours": 3.8149,
+  "total_arabic_recitation_hours": 0.0,
+  "total_uncertain_speech_hours": 0.1486,
+  "total_segments": 3678,
+  "manifest_path": "kashmiri_dataset/manifests/source_manifests/manifest_quran_dr_war.jsonl",
+  "audit_path": "kashmiri_dataset/quality_reports/quran_dr_war_coverage_audit.csv"
+}

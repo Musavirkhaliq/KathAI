@@ -1,0 +1,48 @@
+\section{Appendix: Detailed Experimental Configurations and Audits}
+
+\subsection{Hyperparameter Specifications}
+\begin{table}[ht]
+\centering
+\small
+\caption{Full hyperparameter configuration for foundation acoustic models B-01 and B-02C.}
+\label{tab:hyperparams}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Hyperparameter} & \textbf{Model B-01} & \textbf{Model B-02C} \\
+\midrule
+Pretrained Backbone & \texttt{wav2vec2-xls-r-300m} & \texttt{wav2vec2-xls-r-300m} \\
+Feature Extractor Frame Rate & 50 Hz (stride 320) & 50 Hz (stride 320) \\
+Transformer Layers & 24 & 24 \\
+Hidden Dimension ($d_{\text{model}}$) & 1024 & 1024 \\
+Attention Heads & 16 & 16 \\
+Feed-Forward Dimension & 4096 & 4096 \\
+Vocabulary Size & 159 characters & 159 characters \\
+Optimizer & AdamW & AdamW \\
+Peak Learning Rate & $3 \times 10^{-4}$ & $3 \times 10^{-4}$ \\
+Warmup Steps & 2,000 steps & 1,500 steps \\
+Learning Rate Schedule & Linear Decay & Linear Decay \\
+Effective Batch Size & 32 & 32 \\
+Mixed Precision & BF16 AMP & BF16 AMP \\
+Training Hours & 92.94 hrs & 165.32 hrs \\
+Total Optimization Steps & 45,000 & 45,310 \\
+On-The-Fly Audio Resampling & torchaudio (16k) & torchaudio (16k) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Kashmiri Character CTC Inventory}
+The 159-token inventory comprises:
+\begin{itemize}
+    \item 39 Standard Perso-Arabic consonants and ligatures.
+    \item 7 Contrastive central vowel diacritics: \texttt{U+0672} (\textit{Alef with Wavy Hamza Above}), \texttt{U+0620} (\textit{Kashmiri Yeh}), \texttt{U+06C6} (\textit{Waaw with V}), \texttt{U+06C4} (\textit{Waaw with circle}), \texttt{U+06CE} (\textit{Yeh with tail}), \texttt{U+06CD} (\textit{Yeh with ring}), \texttt{U+06FD} (\textit{Yeh with inverted V}).
+    \item CTC Blank token (\texttt{[pad]}, index 0) and Word Boundary (\texttt{|}, index 1).
+\end{itemize}
+
+\subsection{Canonical KenLM 4-Gram Specification}
+The language model was trained on 1.2M cleaned Kashmiri sentences compiled from Wikipedia, Aya Kashmiri, BPCC, and translated religious corpora:
+\begin{itemize}
+    \item Order: 4-gram with modified Kneser-Ney smoothing.
+    \item Vocabulary: 64,800 unique word types.
+    \item Memory Size: 184 MB in ARPA format.
+    \item Pruning: Singletons pruned at orders 3 and 4.
+\end{itemize}

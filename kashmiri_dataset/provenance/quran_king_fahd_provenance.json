@@ -1,0 +1,16 @@
+{
+  "source_id": "SRC_QURAN_KING_FAHD",
+  "dataset_name": "King Fahd Glorious Quran Complex Kashmiri Translation Audio (Al-Fatihah + Juz 30)",
+  "publisher": "King Fahd Complex for Printing the Holy Quran / IslamHouse / qurantranslations.net",
+  "total_tracks": 38,
+  "total_raw_hours": 2.7837,
+  "total_speech_hours": 2.3948,
+  "total_kashmiri_translation_hours": 0.6203,
+  "total_kashmiri_commentary_hours": 1.0827,
+  "total_kashmiri_speech_hours": 1.703,
+  "total_arabic_recitation_hours": 0.4726,
+  "total_uncertain_speech_hours": 0.2192,
+  "total_segments": 1920,
+  "manifest_path": "kashmiri_dataset/manifests/source_manifests/manifest_quran_king_fahd.jsonl",
+  "audit_path": "kashmiri_dataset/quality_reports/quran_king_fahd_coverage_audit.csv"
+}

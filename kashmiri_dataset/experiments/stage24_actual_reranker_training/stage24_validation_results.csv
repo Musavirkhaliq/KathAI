@@ -1,0 +1,17 @@
+partition,system_id,description,wer_pct,total_errors,subs,dels,ins,ref_words,delta_words,delta_wer_pp,improved_utts,degraded_utts,preserved_utts,bootstrap_ci_95,p_value,stat_sig,added_params,latency_ms_per_utt
+dev_calibration,B0_KenLM,"E22-01 + KenLM Baseline (alpha=0.30, beta=-1.00, beam=64)",24.74,4114,3271,616,227,16632,0,0.0,0,0,1001,"[0.0, 0.0]",1.0,False,0,0.0
+dev_calibration,L1_Linear,Ridge Linear Candidate Ranker,24.74,4114,3270,616,228,16632,0,0.0,1,1,999,"[-3.0, 3.0]",1.0,False,6,0.05
+dev_calibration,R1_Neural,Candidate-Relative BiGRU Neural Sequence Ranker,24.74,4115,3272,616,227,16632,1,0.006,0,1,1000,"[0.0, 3.0]",0.738,False,329025,3.98
+dev_calibration,Oracle_32,Theoretical Top-32 Beam Search Oracle Ceiling,18.99,3158,2442,538,178,16632,-956,-5.748,1001,0,0,N/A,0.0,True,0,0.0
+dev_a_disjoint,B0_KenLM,"E22-01 + KenLM Baseline (alpha=0.30, beta=-1.00, beam=64)",24.94,26566,21420,3545,1601,106530,0,0.0,0,0,6257,"[0.0, 0.0]",1.0,False,0,0.0
+dev_a_disjoint,L1_Linear,Ridge Linear Candidate Ranker,24.94,26566,21422,3539,1605,106530,0,0.0,8,7,6242,"[-9.0, 9.0]",1.0,False,6,0.05
+dev_a_disjoint,R1_Neural,Candidate-Relative BiGRU Neural Sequence Ranker,24.94,26569,21421,3547,1601,106530,3,0.003,0,2,6255,"[0.0, 8.0]",0.308,False,329025,3.77
+dev_a_disjoint,Oracle_32,Theoretical Top-32 Beam Search Oracle Ceiling,19.24,20501,16130,3100,1271,106530,-6065,-5.693,6257,0,0,N/A,0.0,True,0,0.0
+dev_b_waaz_val,B0_KenLM,"E22-01 + KenLM Baseline (alpha=0.30, beta=-1.00, beam=64)",46.12,582,506,36,40,1262,0,0.0,0,0,127,"[0.0, 0.0]",1.0,False,0,0.0
+dev_b_waaz_val,L1_Linear,Ridge Linear Candidate Ranker,46.12,582,506,36,40,1262,0,0.0,0,0,127,"[0.0, 0.0]",1.0,False,6,0.05
+dev_b_waaz_val,R1_Neural,Candidate-Relative BiGRU Neural Sequence Ranker,46.12,582,506,36,40,1262,0,0.0,0,0,127,"[0.0, 0.0]",1.0,False,329025,3.27
+dev_b_waaz_val,Oracle_32,Theoretical Top-32 Beam Search Oracle Ceiling,36.29,458,395,29,34,1262,-124,-9.826,127,0,0,N/A,0.0,True,0,0.0
+dev_c_clean,B0_KenLM,"E22-01 + KenLM Baseline (alpha=0.30, beta=-1.00, beam=64)",76.05,724,394,125,205,952,0,0.0,0,0,90,"[0.0, 0.0]",1.0,False,0,0.0
+dev_c_clean,L1_Linear,Ridge Linear Candidate Ranker,76.16,725,394,125,206,952,1,0.105,0,1,89,"[0.0, 3.0]",0.698,False,6,0.05
+dev_c_clean,R1_Neural,Candidate-Relative BiGRU Neural Sequence Ranker,76.05,724,394,125,205,952,0,0.0,0,0,90,"[0.0, 0.0]",1.0,False,329025,3.25
+dev_c_clean,Oracle_32,Theoretical Top-32 Beam Search Oracle Ceiling,69.43,661,351,124,186,952,-63,-6.618,90,0,0,N/A,0.0,True,0,0.0

@@ -40,3 +40,15 @@ kashmiri_dataset/manifests/manifest_master_consolidated.jsonl
 .DS_Store
 .idea/
 .vscode/
+
+# Large generated logs & manifests
+*.log
+*.jsonl
+kashmiri_dataset/audio/
+kashmiri_dataset/models/
+kashmiri_dataset/releases/
+kashmiri_dataset/manifests/acquisition/
+kashmiri_dataset/manifests/deduplication/
+kashmiri_dataset/manifests/quality_control/
+kashmiri_dataset/manifests/training/
+QURAN_HUMAN_REVIEW_PACKAGE/
