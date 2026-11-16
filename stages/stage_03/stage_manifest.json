@@ -1,0 +1,26 @@
+{
+  "id": "stage_03",
+  "num": 3,
+  "name": "Zero-Speaker Overlap Train/Val/Test Partitioning",
+  "dates": "2026-11-02 to 2026-11-02",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Partition speech corpus into disjoint train, validation, and test splits with strict speaker isolation.",
+  "code_refs": [
+    "kashmiri_dataset/splits/",
+    "kashmiri_dataset/manifests/"
+  ],
+  "datasets": [
+    "kashmiri_dataset/manifests/train.jsonl",
+    "kashmiri_dataset/manifests/val.jsonl",
+    "kashmiri_dataset/manifests/test.jsonl"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "train_utts": 7307,
+    "val_utts": 945,
+    "test_utts": 928
+  },
+  "conclusions": "Zero-speaker overlap enforced across all splits to guarantee unbiased evaluation.",
+  "failures": "Initial splits covered only 9,180 samples before full 106k expansion."
+}

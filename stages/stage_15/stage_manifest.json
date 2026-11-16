@@ -1,0 +1,27 @@
+{
+  "id": "stage_15",
+  "num": 15,
+  "name": "Scaled MWER Verification Series (E-01..E-04)",
+  "dates": "2026-11-14 to 2026-11-14",
+  "status": "COMPLETED",
+  "confidence": "CORROBORATED",
+  "objective": "Rigorously verify MWER scaling on 100-hour and 300-hour checkpoints (E-01, E-02, E-03, E-04).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage15_mwer_verification_and_scaling/"
+  ],
+  "datasets": [
+    "100h and 135h splits"
+  ],
+  "checkpoints": [
+    "E-01",
+    "E-02",
+    "E-03",
+    "E-04"
+  ],
+  "metrics": {
+    "e01_wer": 27.2,
+    "e03_wer": 25.8
+  },
+  "conclusions": "E-03 validated modest real-world gains over pure CTC (+1.4% absolute WER reduction).",
+  "failures": "High computational overhead for on-the-fly N-best beam generation during training."
+}

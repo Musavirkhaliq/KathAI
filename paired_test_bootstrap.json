@@ -1,0 +1,197 @@
+{
+  "greedy": {
+    "decoder": "greedy",
+    "num_samples": 5172,
+    "normalized_wer": {
+      "b01": 0.3461,
+      "b01_95_ci": [
+        0.3406,
+        0.3519
+      ],
+      "b02a": 0.2897,
+      "b02a_95_ci": [
+        0.2844,
+        0.2951
+      ],
+      "delta_wer": -0.0564,
+      "delta_wer_pp": -5.64,
+      "delta_wer_95_ci": [
+        -0.0596,
+        -0.0532
+      ],
+      "relative_reduction_pct": 16.31,
+      "p_value": 0.0
+    },
+    "normalized_cer": {
+      "b01": 0.1268,
+      "b01_95_ci": [
+        0.1241,
+        0.1295
+      ],
+      "b02a": 0.108,
+      "b02a_95_ci": [
+        0.1055,
+        0.1105
+      ],
+      "delta_cer": -0.0188,
+      "delta_cer_pp": -1.88,
+      "delta_cer_95_ci": [
+        -0.02,
+        -0.0176
+      ],
+      "p_value": 0.0
+    },
+    "raw_wer": {
+      "b01": 0.4739,
+      "b02a": 0.6562,
+      "delta_wer": 0.1823,
+      "delta_wer_pp": 18.23,
+      "delta_wer_95_ci": [
+        0.1754,
+        0.189
+      ],
+      "p_value": 0.0
+    },
+    "raw_cer": {
+      "b01": 0.1654,
+      "b02a": 0.2202,
+      "delta_cer": 0.0548,
+      "delta_cer_pp": 5.48,
+      "delta_cer_95_ci": [
+        0.0524,
+        0.0572
+      ],
+      "p_value": 0.0
+    }
+  },
+  "beam_no_lm": {
+    "decoder": "beam_no_lm",
+    "num_samples": 5172,
+    "normalized_wer": {
+      "b01": 0.3433,
+      "b01_95_ci": [
+        0.3377,
+        0.3491
+      ],
+      "b02a": 0.2862,
+      "b02a_95_ci": [
+        0.2809,
+        0.2916
+      ],
+      "delta_wer": -0.0571,
+      "delta_wer_pp": -5.71,
+      "delta_wer_95_ci": [
+        -0.0603,
+        -0.0539
+      ],
+      "relative_reduction_pct": 16.62,
+      "p_value": 0.0
+    },
+    "normalized_cer": {
+      "b01": 0.1261,
+      "b01_95_ci": [
+        0.1234,
+        0.1288
+      ],
+      "b02a": 0.1072,
+      "b02a_95_ci": [
+        0.1047,
+        0.1097
+      ],
+      "delta_cer": -0.0189,
+      "delta_cer_pp": -1.89,
+      "delta_cer_95_ci": [
+        -0.0201,
+        -0.0177
+      ],
+      "p_value": 0.0
+    },
+    "raw_wer": {
+      "b01": 0.4707,
+      "b02a": 0.6547,
+      "delta_wer": 0.184,
+      "delta_wer_pp": 18.4,
+      "delta_wer_95_ci": [
+        0.1771,
+        0.1907
+      ],
+      "p_value": 0.0
+    },
+    "raw_cer": {
+      "b01": 0.1645,
+      "b02a": 0.2191,
+      "delta_cer": 0.0546,
+      "delta_cer_pp": 5.46,
+      "delta_cer_95_ci": [
+        0.0522,
+        0.057
+      ],
+      "p_value": 0.0
+    }
+  },
+  "beam_kenlm": {
+    "decoder": "beam_kenlm",
+    "num_samples": 5172,
+    "normalized_wer": {
+      "b01": 0.3063,
+      "b01_95_ci": [
+        0.3004,
+        0.3122
+      ],
+      "b02a": 0.2414,
+      "b02a_95_ci": [
+        0.2358,
+        0.2471
+      ],
+      "delta_wer": -0.0649,
+      "delta_wer_pp": -6.49,
+      "delta_wer_95_ci": [
+        -0.068,
+        -0.0618
+      ],
+      "relative_reduction_pct": 21.19,
+      "p_value": 0.0
+    },
+    "normalized_cer": {
+      "b01": 0.1198,
+      "b01_95_ci": [
+        0.1169,
+        0.1227
+      ],
+      "b02a": 0.0981,
+      "b02a_95_ci": [
+        0.0954,
+        0.1007
+      ],
+      "delta_cer": -0.0217,
+      "delta_cer_pp": -2.17,
+      "delta_cer_95_ci": [
+        -0.023,
+        -0.0204
+      ],
+      "p_value": 0.0
+    },
+    "raw_wer": {
+      "b01": 0.6212,
+      "b02a": 0.6306,
+      "delta_wer": 0.0094,
+      "delta_wer_pp": 0.94,
+      "delta_wer_95_ci": [
+        0.0062,
+        0.0125
+      ],
+      "p_value": 0.0
+    },
+    "raw_cer": {
+      "b01": 0.2117,
+      "b02a": 0.2127,
+      "delta_cer": 0.001,
+      "delta_cer_pp": 0.1,
+      "delta_cer_95_ci": [
+        -0.0003,
+        0.0023
+      ],
+      "p_value": 0.1478
+    }
+  }
+}

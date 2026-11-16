@@ -1,0 +1,29 @@
+{
+  "id": "stage_22",
+  "num": 22,
+  "name": "Data Expansion (E22-01 Champion), Grid Sweep & S22C",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED (SOTA CHAMPION E22-01)",
+  "confidence": "VERIFIED",
+  "objective": "Expand training data to 166.4h (+WAAZ Tier A), train E22-01..E22-04, certify inference math (S22C).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage22_data_expanded_training/",
+    "kashmiri_dataset/experiments/stage22c_inference_certification/"
+  ],
+  "datasets": [
+    "data_22a_conservative_tier_a.jsonl (97,165 utts / 166.39h)"
+  ],
+  "checkpoints": [
+    "E22-01 (Current Project Champion)",
+    "E22-02",
+    "E22-03",
+    "E22-04"
+  ],
+  "metrics": {
+    "e22_01_wer_greedy": 24.94,
+    "e22_01_wer_kenlm": 24.12,
+    "cer": 6.84
+  },
+  "conclusions": "E22-01 achieved undisputed SOTA project champion status. Exact CTC slicing and Method C2 certified.",
+  "failures": "None. Certified for production deployment."
+}

@@ -1,0 +1,38 @@
+{
+  "source_id": "SRC_QURAN_KASHMIRI",
+  "collection_name": "quran_kashmiri",
+  "total_audio_recordings": 114,
+  "total_corpus_duration_hours": 63.328,
+  "surahs_processed_in_depth": 114,
+  "measured_segment_breakdown": {
+    "kashmiri_translation_segments": 11970,
+    "kashmiri_commentary_segments": 17660,
+    "total_kashmiri_speech_segments": 29630,
+    "arabic_recitation_segments": 3002,
+    "uncertain_mixed_speech_segments": 12857,
+    "rejected_segments": 513,
+    "total_segments_audited": 46002
+  },
+  "measured_durations_hours": {
+    "kashmiri_translation_hours": 14.5386,
+    "kashmiri_commentary_hours": 21.4839,
+    "total_kashmiri_speech_hours": 36.0225,
+    "arabic_recitation_hours": 3.4155,
+    "uncertain_mixed_speech_hours": 10.579,
+    "rejected_duration_hours": 0.0726,
+    "total_accounted_duration_hours": 50.0897
+  },
+  "human_verification_audit": {
+    "human_reviewed_alignments": 0,
+    "human_verified_accurate_transcripts": 0,
+    "human_verification_coverage": "0.0%",
+    "note": "Automated similarity filtering strictly separated from human verification; human_verified is null."
+  },
+  "acoustic_metrics": {
+    "mean_snr_db": 27.24,
+    "min_snr_db": 3.82,
+    "max_snr_db": 44.69,
+    "mean_duration_sec": 4.38,
+    "mean_quality_score": 0.928
+  }
+}

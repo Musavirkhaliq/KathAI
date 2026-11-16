@@ -1,0 +1,22 @@
+# Calibrated Decoding Configuration for Kashmiri ASR
+decoding_mode: "calibrated_kenlm"
+acoustic_temperature: 1.08
+language_model:
+  path: "kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa"
+  type: "arpa_4gram"
+  alpha: 0.50
+  beta: 1.50
+search_parameters:
+  beam_width: 100
+  beam_prune_logp: -10.0
+  token_min_logp: -5.0
+signal_conditioning:
+  slice_exact_logits: true
+  chunking_policy: "method_c2"
+  chunk_core_seconds: 18.0
+  chunk_context_seconds: 2.0
+evaluation_normalization:
+  perso_arabic_harmonization: true
+  strip_diacritics: true
+  normalize_numerals: true
+  remove_punctuation: true

@@ -1,0 +1,25 @@
+{
+  "id": "stage_16",
+  "num": 16,
+  "name": "Advanced Sequence & Decoder Merging",
+  "dates": "2026-11-14 to 2026-11-15",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Evaluate advanced sequence training and model weight soup merging (S16-01 to S16-05).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage16_advanced_sequence_loss/"
+  ],
+  "datasets": [
+    "135h speech"
+  ],
+  "checkpoints": [
+    "S16-01",
+    "S16-02",
+    "S16-05"
+  ],
+  "metrics": {
+    "s16_05_wer": 25.4
+  },
+  "conclusions": "Weight soup merging yielded stable inference but marginal gains over best individual checkpoint.",
+  "failures": "Interpolation between checkpoints with divergent loss landscapes created slight phonetic blurriness."
+}

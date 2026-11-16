@@ -1,0 +1,24 @@
+{
+  "id": "stage_23",
+  "num": 23,
+  "name": "Acoustic-LM Interaction & Search Space Topology",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Analyze loss surface and decoding entropy between acoustic logits and KenLM scores.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage23_acoustic_lm_interaction/"
+  ],
+  "datasets": [
+    "dev_a_disjoint.jsonl (6,257 utts)"
+  ],
+  "checkpoints": [
+    "E22-01"
+  ],
+  "metrics": {
+    "entropy_reduction": 0.35,
+    "acoustic_dominance_ratio": 0.72
+  },
+  "conclusions": "Acoustic posterior confidence dominates over LM in low-resource tokens.",
+  "failures": "Pure language model rescoring cannot recover phonemes missed by acoustic frontend."
+}

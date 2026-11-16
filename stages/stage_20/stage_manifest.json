@@ -1,0 +1,22 @@
+{
+  "id": "stage_20",
+  "num": 20,
+  "name": "Forensic Integrity Audit, 22.05 kHz Discovery & Recovery",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED (CRITICAL MILESTONE)",
+  "confidence": "VERIFIED",
+  "objective": "Uncover hidden sample-rate mismatch (22.05 kHz Bolbosh loaded without 16 kHz resample) and establish canonical evaluation.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage20r_integrity_audit/",
+    "kashmiri_dataset/experiments/stage20s_audio_integrity_recovery/"
+  ],
+  "datasets": [
+    "All evaluation splits"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "wer_correction_impact": "+2.5% to +4.0% across all models when evaluated correctly at 16 kHz"
+  },
+  "conclusions": "Fixed critical sample-rate defect across entire pipeline; re-established trustworthy ground-truth leaderboard.",
+  "failures": "All prior model WER rankings from Stages 9-19 were invalidated and recomputed."
+}

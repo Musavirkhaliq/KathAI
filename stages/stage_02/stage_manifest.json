@@ -1,0 +1,23 @@
+{
+  "id": "stage_02",
+  "num": 2,
+  "name": "Kashmiri Unicode Orthography & Script Harmonization",
+  "dates": "2026-11-02 to 2026-11-02",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Standardize Kashmiri Perso-Arabic orthography, eliminate Arabic substitutions, harmonize diacritics and ZWNJ.",
+  "code_refs": [
+    "kashmiri_dataset/scripts/normalize_transcripts.py",
+    "src/normalization/normalizer.py"
+  ],
+  "datasets": [
+    "All text corpora and transcript manifests"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "normalized_samples": 106487,
+    "script": "perso_arabic_kashmiri"
+  },
+  "conclusions": "Canonical character mapping rules established (Arabic Kaf -> Keheh, Heh -> Goal, Yeh -> Kashmiri Yeh).",
+  "failures": "Inconsistent diacritic usage across sources required strict stripping for acoustic modeling."
+}

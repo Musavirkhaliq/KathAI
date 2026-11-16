@@ -1,0 +1,25 @@
+{
+  "id": "stage_14",
+  "num": 14,
+  "name": "Minimum Word Error Rate (MWER) & Weight Averaging Pilots",
+  "dates": "2026-11-14 to 2026-11-14",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Pilot sequence-level Minimum Word Error Rate (MWER) loss and stochastic weight averaging.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage14_mwer_checkpoint_optimization/"
+  ],
+  "datasets": [
+    "Pilot 10h split"
+  ],
+  "checkpoints": [
+    "MWER-01",
+    "WA-01"
+  ],
+  "metrics": {
+    "reported_wer": 21.3,
+    "reconciled_wer": 26.1
+  },
+  "conclusions": "MWER sequence loss provided small gains but early numerical reports were inflated by evaluation metric differences.",
+  "failures": "Numerical discrepancy identified: Levenshtein normalization was not harmonized across runs."
+}

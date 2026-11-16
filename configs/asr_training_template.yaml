@@ -1,0 +1,42 @@
+# Canonical ASR Training Experiment Configuration Template
+experiment_name: "template_kashmiri_asr_experiment"
+version: "1.0.0"
+author: "EduCasheer Kashmiri AI Team"
+
+dataset:
+  train_manifest: "kashmiri_dataset/releases/asr_training_v2_waaz/training_manifests/train_mixture_2_clean_plus_waaz_tier_a.jsonl"
+  val_manifest: "kashmiri_dataset/releases/asr_training_v2_waaz/validation_manifests/dev_a_legacy_val.jsonl"
+  test_manifest: "kashmiri_dataset/experiments/benchmark_construction/final_benchmark_v1/benchmark_v1_primary_6315.jsonl"
+  max_duration_seconds: 30.0
+  min_duration_seconds: 0.5
+  sample_rate: 16000
+
+model:
+  pretrained_model_name_or_path: "facebook/wav2vec2-xls-r-300m"
+  freeze_feature_extractor: true
+  ctc_loss_reduction: "mean"
+  pad_token_id: 0
+
+training:
+  output_dir: "experiments/checkpoints/template_run"
+  num_train_epochs: 10
+  per_device_train_batch_size: 16
+  per_device_eval_batch_size: 8
+  gradient_accumulation_steps: 2
+  learning_rate: 3.0e-4
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+  logging_steps: 50
+  eval_steps: 500
+  save_steps: 500
+  save_total_limit: 3
+  fp16: false
+  bf16: true
+  gradient_checkpointing: true
+  evaluation_strategy: "steps"
+  metric_for_best_model: "wer"
+  greater_is_better: false
+
+decoding_validation:
+  temperature: 1.08
+  slice_exact_logits: true

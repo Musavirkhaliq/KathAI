@@ -1,0 +1,22 @@
+{
+  "id": "stage_04",
+  "num": 4,
+  "name": "Tokenization Architecture: Subword vs Character CTC",
+  "dates": "2026-11-02 to 2026-11-03",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Evaluate character-level CTC vs subword BPE tokenization for morphologically rich Kashmiri Perso-Arabic script.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/native_asr_training/"
+  ],
+  "datasets": [
+    "kashmiri_dataset/manifests/train.jsonl"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "vocab_size": 159,
+    "tokenizer": "Character-level CTC"
+  },
+  "conclusions": "Character-level CTC selected as optimal due to strict alignment and superior performance on out-of-vocabulary words.",
+  "failures": "Subword BPE suffered from severe fragmentation of Kashmiri morphemes."
+}

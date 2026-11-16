@@ -1,0 +1,7 @@
+decoder_configuration,model_id,norm_wer_pct,norm_cer_pct,raw_wer_pct,raw_cer_pct,substitutions,deletions,insertions,hits,total_ref_words,exact_matches_count,exact_matches_pct,empty_predictions_count,empty_predictions_pct,gpu_time_sec,decoder_latency_sec,decoder_ms_per_sample,end_to_end_sec,rtf,throughput_x_realtime,delta_norm_wer_pp,relative_werr_pct,p_value_wer
+Corrected Masked Greedy CTC,"B-01 (Baseline, Epoch 13)",34.61,11.34,47.40,14.83,25160,2365,2590,59475,87000,579,11.19,0,0.00,364.83,6.08,1.18,370.91,0.01108,90.22,-,-,-
+Corrected Masked Greedy CTC,"B-02A (Recovered Speech, Epoch 19)",28.97,9.65,65.62,19.20,21531,2120,1553,63349,87000,653,12.63,1,0.02,315.31,6.30,1.22,321.61,0.00961,104.06,-5.64,16.31%,0.00000
+"Prefix Beam Search (W=16, No LM)","B-01 (Baseline, Epoch 13)",34.33,11.25,47.08,14.73,24970,2155,2741,59875,87000,600,11.60,0,0.00,364.83,44.22,8.55,409.05,0.01222,81.81,-,-,-
+"Prefix Beam Search (W=16, No LM)","B-02A (Recovered Speech, Epoch 19)",28.62,9.56,65.47,19.09,21320,1924,1657,63756,87000,666,12.88,1,0.02,315.31,31.52,6.09,346.83,0.01036,96.49,-5.71,16.62%,0.00000
+"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)","B-01 (Baseline, Epoch 13)",30.63,10.74,62.12,18.62,21651,2576,2417,62773,87000,732,14.15,0,0.00,364.83,39.25,7.59,404.08,0.01207,82.82,-,-,-
+"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)","B-02A (Recovered Speech, Epoch 19)",24.14,8.80,63.06,18.54,17476,2068,1455,67456,87000,935,18.08,0,0.00,315.31,30.48,5.89,345.79,0.01033,96.78,-6.49,21.19%,0.00000

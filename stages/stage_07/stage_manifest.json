@@ -1,0 +1,25 @@
+{
+  "id": "stage_07",
+  "num": 7,
+  "name": "Romanization & Transliteration Neural Adapters",
+  "dates": "2026-11-06 to 2026-11-07",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Build neural transliteration adapter (ByT5) and rule-based phonetic transliteration engine for Kashmiri.",
+  "code_refs": [
+    "kashmiri_dataset/scripts/kashmiri_transliteration_engine.py",
+    "src/translation/romanizer.py"
+  ],
+  "datasets": [
+    "kashmiri_dataset/scripts/kashmiri_lexicon_cache.json"
+  ],
+  "checkpoints": [
+    "ByT5 transliteration adapter"
+  ],
+  "metrics": {
+    "lexical_accuracy": 99.1,
+    "word_pairs": 47264
+  },
+  "conclusions": "Hybrid verified-lexicon and phonetic-rule romanizer provides reliable Latin conversion for chat and search.",
+  "failures": "Pure neural ByT5 model suffered from hallucinations on out-of-domain religious terms."
+}

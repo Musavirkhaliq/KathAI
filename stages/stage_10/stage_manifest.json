@@ -1,0 +1,24 @@
+{
+  "id": "stage_10",
+  "num": 10,
+  "name": "Quranic Speech Alignment & FastVerseMatcher",
+  "dates": "2026-11-11 to 2026-11-12",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Align spoken Kashmiri Quranic commentary and translation recordings to Surah text via FastVerseMatcher.",
+  "code_refs": [
+    "kashmiri_dataset/raw/external/quran_kashmiri/"
+  ],
+  "datasets": [
+    "Quran Mirwaiz",
+    "Quran Dr. War",
+    "Quran King Fahd"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "aligned_verses": 6236,
+    "total_aligned_hours": 37.1
+  },
+  "conclusions": "Produced high-fidelity aligned Kashmiri religious translation speech corpora.",
+  "failures": "Arabic recitation segments required strict quarantine to prevent non-Kashmiri acoustic pollution."
+}

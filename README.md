@@ -3,174 +3,76 @@
 [![Acoustic Model: XLS-R 300M](https://img.shields.io/badge/Model-wav2vec2--xls--r--300m-blue.svg)](https://huggingface.co/facebook/wav2vec2-xls-r-300m)
 [![Compute: NVIDIA DGX Spark](https://img.shields.io/badge/Compute-NVIDIA%20DGX%20Spark%20GB10-green.svg)](#)
 [![Dataset: 214.65 Hours](https://img.shields.io/badge/Speech%20Corpus-214.65%20Hours%20%7C%20106k%20Utterances-orange.svg)](#)
-[![SOTA Greedy WER: 27.84%](https://img.shields.io/badge/SOTA%20Greedy%20WER-27.84%25-brightgreen.svg)](#)
-[![SOTA KenLM WER: 25.24%](https://img.shields.io/badge/SOTA%20KenLM%20WER-25.24%25-success.svg)](#)
+[![SOTA Champion: E22-01](https://img.shields.io/badge/SOTA%20Model-Stage%2022%20E22--01-gold.svg)](#)
+[![Calib WER: 24.74%](https://img.shields.io/badge/Calib%20KenLM%20WER-24.74%25-brightgreen.svg)](#)
+[![Disjoint Holdout WER: 24.94%](https://img.shields.io/badge/Holdout%20KenLM%20WER-24.94%25-success.svg)](#)
 
-EduCasheer Kashmiri ASR is an advanced, production-grade deep learning research framework dedicated to speech recognition, linguistic normalization, acoustic modeling, language model shallow fusion, and dual romanization for the Kashmiri language (**کٲشُر** / *Koshur*).
+EduCasheer Kashmiri ASR is an advanced, production-grade deep learning research framework dedicated to speech recognition, linguistic normalization, acoustic modeling, language model shallow fusion, and dual romanization for the Kashmiri language (**کٲشُر** / *Koshur*, ISO 639-3: `kas`).
 
 ---
 
-## 🧭 Fast Navigation
+## 🧭 Master Project Documentation Hub
 
-| Document | Purpose & Description |
+| Master Document | Description & Research Role |
 | :--- | :--- |
-| **[`PROJECT_MAP.md`](PROJECT_MAP.md)** | Complete structural map of all directories, code modules, and live runtime dependencies |
-| **[`EXPERIMENT_REGISTRY.md`](EXPERIMENT_REGISTRY.md)** | Exhaustive index of all research experiments (B-01 through Stage 15), architectures, and metrics |
-| **[`DATASET_REGISTRY.md`](DATASET_REGISTRY.md)** | Comprehensive index of 106k+ speech samples, manifests, licenses, and cryptographic hashes |
-| **[`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)** | Step-by-step verified execution commands for training, evaluation, inference, and benchmarking |
-| **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)** | In-depth engineering specifications for acoustic modeling, tokenizers, decoders, and micro-batching |
-| **[`docs/SCRIPTS_CATALOG.md`](docs/SCRIPTS_CATALOG.md)** | Categorized catalog of all 154 standalone research and utility scripts |
+| **[`PROJECT_MASTER_GUIDE.md`](PROJECT_MASTER_GUIDE.md)** | **Definitive 20-Section Master Guide**: Architecture, data lineage, stage evolution, metrics, and onboarding. |
+| **[`REPOSITORY_MAP.md`](REPOSITORY_MAP.md)** | Complete structural map of all 243k+ files, directories, and stage artifacts. |
+| **[`docs/architecture/SYSTEM_ARCHITECTURE.md`](docs/architecture/SYSTEM_ARCHITECTURE.md)** | End-to-end technical diagrams, receptive field math, and decoding derivations. |
+| **[`docs/codebase/CODE_READING_ORDER.md`](docs/codebase/CODE_READING_ORDER.md)** | Recommended 8-step dependency-aware learning sequence for new researchers. |
+| **[`docs/codebase/FILE_BY_FILE_AUDIT.md`](docs/codebase/FILE_BY_FILE_AUDIT.md)** | Exhaustive line-by-line AST audit of all 416 first-party code files. |
+| **[`docs/research/STAGE_REGISTRY.md`](docs/research/STAGE_REGISTRY.md)** | Chronological forensic registry of all 24 research stages (B-01 through Stage 24). |
+| **[`docs/research/EXPERIMENT_RESULTS.md`](docs/research/EXPERIMENT_RESULTS.md)** | Canonical reconciled leaderboard across validation, diagnostic, and disjoint sets. |
+| **[`docs/research/MODEL_REGISTRY.md`](docs/research/MODEL_REGISTRY.md)** | Checkpoint paths, model architectures, and SHA-256 cryptographic provenance. |
+| **[`docs/research/FAILED_EXPERIMENTS.md`](docs/research/FAILED_EXPERIMENTS.md)** | Exhaustive post-mortems of 7 documented negative results and dead ends. |
+| **[`docs/data/DATASET_REGISTRY.md`](docs/data/DATASET_REGISTRY.md)** | Authoritative index of all 12 speech sources (214.65h / 106k samples) and 5 text corpora. |
+| **[`docs/data/DATASET_LINEAGE.md`](docs/data/DATASET_LINEAGE.md)** | End-to-end data pipeline from raw Google Drive shards to 16kHz zero-speaker overlap splits. |
+| **[`docs/reproducibility/REPRODUCTION_GUIDE.md`](docs/reproducibility/REPRODUCTION_GUIDE.md)** | Step-by-step verified execution commands for smoke tests, benchmarks, and audits. |
 
 ---
 
-## 🏆 Current State-of-the-Art (SOTA) Model
+## 🏆 Current State-of-the-Art (SOTA) Model: Stage 22 Champion `E22-01`
 
-The current best-performing Kashmiri acoustic model in this repository is **`B-02C`**:
+The official project champion and production-certified acoustic model is **`E22-01`**:
 
-- **Model Identifier**: `B-02C-xlsr300m-epoch20`
-- **Architecture**: `facebook/wav2vec2-xls-r-300m` (315,603,745 parameters) with Character CTC classification head (159 tokens).
-- **Training Corpus**: **165.32 hours** (96,664 verified utterances) incorporating Bolbosh, IndicVoices, OpenSLR, XKaab, Qur'anic speech, and IndicVoices-R conversational expansion.
+- **Model Identifier**: `Stage 22 E22-01` (Certified Production Champion)
+- **Architecture**: `facebook/wav2vec2-xls-r-300m` (315,603,745 parameters) + Character CTC (159 tokens).
+- **Training Corpus**: **166.39 hours** (97,143 clean utterances) incorporating audited community conversational speech from WAAZ.
 - **Checkpoint Location**:
-  [`kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02C/checkpoints/best_model`](kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02C/checkpoints/best_model)
-- **Empirical Accuracy (on standardized 6,728-sample Development Split)**:
-  - **Greedy CTC Decoding**: **27.84% Normalized WER** (10.96% CER) — *Real-Time Factor: 0.005*
-  - **Prefix Beam Search (W=16)**: **27.48% Normalized WER**
-  - **KenLM 4-Gram Shallow Fusion ($\alpha=0.25, \beta=0.00$)**: **25.24% Normalized WER**
-  - **Tolerant / Re-ranked Evaluation**: **21.68% WER** (Stage 15 E-03)
+  [`kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model`](kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model)
+- **Cryptographic Checksum**: SHA-256 `0c18d60b985966da6f97db20f79211ce669deb6db19861bdedded1569f5560a2`
+- **Certified Empirical Accuracy**:
+  - **`dev_calibration.jsonl` (1,001 utts, 16,632 words)**: **24.74% KenLM WER** (4,114 errors)
+  - **`dev_a_disjoint.jsonl` (6,257 utts, 106,530 words)**: **24.94% KenLM WER** (26,566 errors)
+  - **`dev_b_waaz_val.jsonl` (127 utts, 1,262 words)**: **46.12% KenLM WER** (Held-out spontaneous community speech)
+  - **Real-Time Factor (RTF)**: **0.005** on NVIDIA DGX Spark GB10 GPU.
 
 ---
 
-## 🏗️ End-to-End System Architecture
+## ⚡ Quickstart: 30-Second Verification
 
-```mermaid
-flowchart LR
-    subgraph DataCuration["Data Engineering (214.65h)"]
-        RAW["Raw Audio Sources"] --> VAD["16kHz Mono PCM + VAD + SNR Gate"]
-        VAD --> MANI["Canonical Manifests (106k Samples)"]
-    end
-
-    subgraph AcousticModeling["Acoustic Training Pipeline"]
-        MANI --> XLSR["XLS-R 300M (315.6M Params)"]
-        XLSR --> B01["B-01 (92.9h)"]
-        B01 --> B02A["B-02A (104.9h)"]
-        B02A --> B02B["B-02B (123.5h)"]
-        B02B --> B02C["B-02C SOTA (165.3h)"]
-    end
-
-    subgraph DecodingInference["Decoding & Applications"]
-        B02C --> DEC["Greedy / Beam Search / KenLM 4-gram"]
-        DEC --> NORM["Perso-Arabic Canonical Normalization"]
-        NORM --> ROM["Dual Romanization (ASCII & Phonetic)"]
-        ROM --> PROD["Micro-Batching ASR Server (Port 8026)"]
-    end
-```
-
----
-
-## ⚡ Quickstart
-
-### 1. Test Batch Transcribe (30-Second Verification)
+Transcribe a sample audio file or verify GPU runtime:
 ```bash
+# 1. Fast smoke test on validation sample
 python3 test_batch_transcribe.py
-```
 
-### 2. Transcribe Single Audio File via CLI
-```bash
-# Transcribe with automatic SOTA B-02C loading
-python3 transcribe_kashmiri.py /path/to/speech.wav
+# 2. CLI transcription of any arbitrary audio file
+python3 transcribe_kashmiri.py path/to/recording.wav --normalize
 
-# Output with Perso-Arabic text normalization
-python3 transcribe_kashmiri.py /path/to/speech.wav --normalize
-```
-
-### 3. Interactive Terminal Microphone Recorder
-```bash
-# Records from default mic for 5 seconds and transcribes
-./record_and_transcribe.sh 5
-```
-
-### 4. Interactive Browser Web UI
-```bash
-python3 web_asr_app.py
-# Navigate to http://localhost:8080 in your browser
+# 3. Launch automated repository audit suite
+python3 scripts/audit/run_audit_suite.py
 ```
 
 ---
 
-## 📂 Project Organization
+## 🔬 Key Scientific Findings
 
-```text
-/home/musa/Kashmiri Project/
-├── docs/                                  # Centralized Project Documentation Hub
-│   ├── ARCHITECTURE.md                    # Detailed pipeline, data flow & decoding architecture
-│   ├── DATASET_REGISTRY.md                # Comprehensive data sources, manifests & provenance
-│   ├── EXPERIMENT_REGISTRY.md             # Complete registry of all training runs & SOTA models
-│   ├── PROJECT_MAP.md                     # Component map and dependency graph
-│   ├── REPRODUCIBILITY.md                 # Verified step-by-step reproduction commands
-│   └── SCRIPTS_CATALOG.md                 # Comprehensive catalog of all 154+ scripts
-├── kashmiri_dataset/                      # Primary Research & Production Workspace
-│   ├── experiments/                       # Research stages (B-01, Stage 9, Stage 11-15)
-│   ├── manifests/                         # Canonical dataset manifests (train, val, test, QC)
-│   ├── processed/audio/                   # 16kHz PCM WAV audio by corpus source
-│   ├── provenance/                        # Cryptographic SHA-256 provenance records
-│   ├── scripts/                           # 154 Python/Bash research scripts
-│   └── tokenizers/                        # Character CTC (159 tokens) & SentencePiece tokenizers
-├── Data/                                  # Read-Only Uncompressed Raw Source Data Shards
-├── paper/                                 # Research manuscripts
-├── papers/                                # Curated reference literature library (25 papers)
-├── reading/                               # Theoretical guides on tokenization & low-resource NLP
-├── research/                              # Master multimodal roadmap (Speech, LLM, OCR)
-├── transcribe_kashmiri.py                 # Primary SOTA CLI inference engine
-└── web_asr_app.py                         # Browser web interface
-```
+1. **Acoustic Scaling Dominates**: Expanding training data from 92.9h to 165.3h provided the single largest performance gain in project history (-6.02% absolute WER, $p < 0.0001$).
+2. **Forensic Audio Resampling Breakthrough (Stage 20R/20S)**: Discovered that 431 Bolbosh files at 22,050 Hz were passed into 16 kHz feature extractors unresampled in Stages 11–19, generating 493 phantom word errors. Kaiser windowed sinc resampling eliminated all 493 errors on identical weights and proved that foundation B-02C and sequence-continuation E-03 differ by only 1 word error ($p = 0.963$).
+3. **Exact Receptive Field Slicing (Stage 22C)**: Proved CNN receptive field recurrence ($R=400$ samples, stride 320), eliminating 100% of trailing token hallucinations in pyctcdecode.
+4. **Resolution of Neural Candidate Reranking (Stage 24)**: Proved that a 329k-parameter neural ranker trained over 20,000 utterances yielded zero gain over 4-gram KenLM shallow fusion ($p = 0.738$). Officially halted candidate reranking.
 
 ---
 
-## 🏋️ Training & Resuming Acoustic Models
+## 📄 License & Research Citation
 
-Training is executed using length-bucketed dynamic batching and BF16 AMP on the NVIDIA DGX Spark GB10:
-
-```bash
-# Train B-02C full 20-epoch convergence schedule
-python3 -u kashmiri_dataset/scripts/train_stage9_full_schedule.py \
-    --experiment B-02C \
-    --batch_size 32 \
-    --max_epochs 20 \
-    --min_epochs 3 \
-    --patience 4
-
-# Safe mid-epoch resume
-python3 -u kashmiri_dataset/scripts/train_stage9_full_schedule.py \
-    --experiment B-02C \
-    --resume
-```
-
----
-
-## 📊 Scientific Benchmarks Summary
-
-All acoustic models evaluated on the identical 6,728 validation split (104,685 words) with zero speaker overlap:
-
-| Model ID | Training Corpus | Speech Hours | Greedy Norm WER | Greedy Norm CER | Beam + KenLM WER | P-Value vs Baseline |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **B-01 (Baseline)** | Initial verified corpus | 92.94h | 33.86% | 13.08% | 31.80% | — |
-| **B-02A** | + Recovered speech | 104.93h | 29.42% | 11.66% | 26.30% | $p < 0.0001$ |
-| **B-02B** | + Qur'anic translations | 123.45h | 29.39% | 11.61% | 26.41% | $p < 0.0001$ |
-| **B-02C (SOTA)** | + IndicVoices-R | 165.32h | **27.84%** | **10.96%** | **25.24%** | **$p < 0.0001$** |
-
-For the full breakdown across all 15 stages and individual sources, consult [`EXPERIMENT_REGISTRY.md`](EXPERIMENT_REGISTRY.md).
-
----
-
-## 🛡️ Non-Negotiable Safety & Compatibility Guarantees
-
-1. **Active Processes**: The live micro-batching inference server (`asr_service.py` on PID 10695) remains completely uninterrupted and running.
-2. **Path Stability**: All historical file locations, imports, and checkpoint paths are preserved without modification.
-3. **Data Integrity**: Zero audio files, checkpoints, transcripts, or manifests have been deleted or mutated.
-4. **Reproducibility**: All historical benchmark results match their exact recorded checksums and tables.
-
----
-
-## 👥 Authors & Maintainers
-- **EduCasheer AI Research Initiative**
-- Principal AI Research Engineer & ML Infrastructure Architect
+This research repository is developed under educational and research open-access licenses. Individual datasets retain their respective upstream licenses (e.g., CC-BY 4.0 for Bolbosh and IndicVoices).

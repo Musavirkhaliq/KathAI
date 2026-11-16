@@ -1,0 +1,27 @@
+{
+  "id": "stage_09",
+  "num": 9,
+  "name": "Acoustic Scaling Campaign: B-02A, B-02B, B-02C",
+  "dates": "2026-11-09 to 2026-11-12",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Scale acoustic pretraining: B-02A (135.8h), B-02B (+specaug/curriculum), B-02C (optimal learning schedule).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/"
+  ],
+  "datasets": [
+    "135.8 hours multi-domain speech"
+  ],
+  "checkpoints": [
+    "B-02A/checkpoints/best_model",
+    "B-02B/checkpoints/best_model",
+    "B-02C/checkpoints/best_model"
+  ],
+  "metrics": {
+    "b02a_wer": 28.12,
+    "b02b_wer": 26.5,
+    "b02c_wer": 24.47
+  },
+  "conclusions": "B-02C achieved landmark 24.47% WER on the legacy evaluation split.",
+  "failures": "Evaluation split suffered from minor contamination and 22.05 kHz resampling bug discovered later in Stage 20R."
+}

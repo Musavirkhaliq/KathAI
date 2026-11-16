@@ -1,0 +1,31 @@
+source,decoder_configuration,model_id,sample_count,audio_hours,norm_wer_pct,norm_cer_pct,raw_wer_pct,raw_cer_pct,substitutions,deletions,insertions,ref_words,exact_matches_count,exact_matches_pct,empty_count
+GAASH-Lab/Bolbosh,Corrected Masked Greedy CTC,B-01 (Baseline),1905,3.4460,31.06,9.99,44.63,13.69,8355,1009,510,31789,204,10.71,0
+GAASH-Lab/Bolbosh,Corrected Masked Greedy CTC,B-02A (Epoch 19),1905,3.4460,28.15,8.76,61.80,17.81,7600,823,527,31789,203,10.66,1
+GAASH-Lab/Bolbosh,"Prefix Beam Search (W=16, No LM)",B-01 (Baseline),1905,3.4460,30.79,9.92,44.44,13.63,8294,946,549,31789,216,11.34,0
+GAASH-Lab/Bolbosh,"Prefix Beam Search (W=16, No LM)",B-02A (Epoch 19),1905,3.4460,27.75,8.65,61.54,17.69,7499,751,571,31789,207,10.87,1
+GAASH-Lab/Bolbosh,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-01 (Baseline),1905,3.4460,27.44,9.54,57.13,17.21,7214,1055,455,31789,263,13.81,0
+GAASH-Lab/Bolbosh,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-02A (Epoch 19),1905,3.4460,23.80,8.05,59.08,17.23,6269,798,498,31789,301,15.80,0
+humair025/KashmiriSpeech-IndicVoices,Corrected Masked Greedy CTC,B-01 (Baseline),2473,4.4582,32.79,10.56,44.55,13.41,11202,924,1629,41952,316,12.78,0
+humair025/KashmiriSpeech-IndicVoices,Corrected Masked Greedy CTC,B-02A (Epoch 19),2473,4.4582,26.52,9.20,69.07,19.86,9494,874,758,41952,359,14.52,0
+humair025/KashmiriSpeech-IndicVoices,"Prefix Beam Search (W=16, No LM)",B-01 (Baseline),2473,4.4582,32.43,10.46,44.16,13.29,11062,835,1709,41952,327,13.22,0
+humair025/KashmiriSpeech-IndicVoices,"Prefix Beam Search (W=16, No LM)",B-02A (Epoch 19),2473,4.4582,26.16,9.11,68.92,19.74,9375,794,804,41952,362,14.64,0
+humair025/KashmiriSpeech-IndicVoices,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-01 (Baseline),2473,4.4582,28.84,9.88,64.69,18.52,9535,1025,1541,41952,386,15.61,0
+humair025/KashmiriSpeech-IndicVoices,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-02A (Epoch 19),2473,4.4582,21.45,8.21,66.61,19.10,7465,832,703,41952,487,19.69,0
+muneebharoon/whisper-kashmiri,Corrected Masked Greedy CTC,B-01 (Baseline),153,0.4867,71.86,24.31,89.09,33.89,2537,181,173,4023,0,0.00,0
+muneebharoon/whisper-kashmiri,Corrected Masked Greedy CTC,B-02A (Epoch 19),153,0.4867,64.11,21.40,65.67,22.20,2297,194,88,4023,0,0.00,0
+muneebharoon/whisper-kashmiri,"Prefix Beam Search (W=16, No LM)",B-01 (Baseline),153,0.4867,72.38,24.40,89.76,34.21,2555,161,196,4023,0,0.00,0
+muneebharoon/whisper-kashmiri,"Prefix Beam Search (W=16, No LM)",B-02A (Epoch 19),153,0.4867,64.78,21.73,66.34,22.54,2328,180,98,4023,0,0.00,0
+muneebharoon/whisper-kashmiri,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-01 (Baseline),153,0.4867,70.32,24.79,73.05,26.29,2463,212,154,4023,0,0.00,0
+muneebharoon/whisper-kashmiri,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-02A (Epoch 19),153,0.4867,63.68,22.29,65.25,23.07,2255,215,92,4023,0,0.00,0
+openslr_slr122,Corrected Masked Greedy CTC,B-01 (Baseline),321,0.4408,44.24,16.42,59.40,22.38,1872,137,111,4792,17,5.30,0
+openslr_slr122,Corrected Masked Greedy CTC,B-02A (Epoch 19),321,0.4408,26.36,8.95,56.42,18.62,1077,112,74,4792,45,14.02,0
+openslr_slr122,"Prefix Beam Search (W=16, No LM)",B-01 (Baseline),321,0.4408,43.99,16.29,58.51,22.02,1874,120,114,4792,16,4.98,0
+openslr_slr122,"Prefix Beam Search (W=16, No LM)",B-02A (Epoch 19),321,0.4408,25.56,8.69,56.15,18.38,1056,96,73,4792,50,15.58,0
+openslr_slr122,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-01 (Baseline),321,0.4408,33.81,14.42,60.93,22.77,1358,162,100,4792,39,12.15,0
+openslr_slr122,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-02A (Epoch 19),321,0.4408,16.19,6.68,51.58,16.86,609,106,61,4792,94,29.28,0
+xkaab_asr_4hrs,Corrected Masked Greedy CTC,B-01 (Baseline),320,0.4642,33.19,12.15,43.45,14.37,1194,114,167,4444,42,13.12,0
+xkaab_asr_4hrs,Corrected Masked Greedy CTC,B-02A (Epoch 19),320,0.4642,28.94,11.06,70.48,21.07,1063,117,106,4444,46,14.37,0
+xkaab_asr_4hrs,"Prefix Beam Search (W=16, No LM)",B-01 (Baseline),320,0.4642,32.65,12.03,42.62,14.14,1185,93,173,4444,41,12.81,0
+xkaab_asr_4hrs,"Prefix Beam Search (W=16, No LM)",B-02A (Epoch 19),320,0.4642,28.71,10.92,70.45,20.93,1062,103,111,4444,47,14.69,0
+xkaab_asr_4hrs,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-01 (Baseline),320,0.4642,30.83,11.82,65.14,19.66,1081,122,167,4444,44,13.75,0
+xkaab_asr_4hrs,"Prefix Beam Search + KenLM 4-gram (W=16, alpha=0.25, beta=0.00)",B-02A (Epoch 19),320,0.4642,24.66,10.47,68.70,20.70,878,117,101,4444,53,16.56,0

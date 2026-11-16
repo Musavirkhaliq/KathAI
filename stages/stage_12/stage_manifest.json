@@ -1,0 +1,25 @@
+{
+  "id": "stage_12",
+  "num": 12,
+  "name": "Environmental Robustness & Noise Augmentation",
+  "dates": "2026-11-14 to 2026-11-14",
+  "status": "COMPLETED (NEGATIVE RESULT)",
+  "confidence": "VERIFIED",
+  "objective": "Test room impulse response (RIR) convolution and multi-condition noise augmentation.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage12_data_augmentation/"
+  ],
+  "datasets": [
+    "train_augmented.jsonl"
+  ],
+  "checkpoints": [
+    "R-01",
+    "R-02"
+  ],
+  "metrics": {
+    "r01_wer": 29.8,
+    "baseline_wer": 26.5
+  },
+  "conclusions": "Synthetic noise augmentation degraded clean speech WER by +3.3% without improving real conversational accuracy.",
+  "failures": "Negative result documented: aggressive simulated reverb harms Kashmiri fricative clarity."
+}

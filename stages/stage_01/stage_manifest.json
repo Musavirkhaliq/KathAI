@@ -1,0 +1,27 @@
+{
+  "id": "stage_01",
+  "num": 1,
+  "name": "Project Inception & Raw Speech Corpus Harvest",
+  "dates": "2026-11-01 to 2026-11-02",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Collect, harvest, and structure raw Kashmiri speech across studio, broadcast, read, and conversational domains.",
+  "code_refs": [
+    "kashmiri_dataset/scripts/",
+    "kashmiri_dataset/merged/KASHMIRI-SPEECH/speech_master_manifest.jsonl"
+  ],
+  "datasets": [
+    "Bolbosh",
+    "IndicVoices-Kashmiri",
+    "Quran Mirwaiz",
+    "Quran Dr. War",
+    "Programindz / KTTS"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "total_ingested_hours": 141.61,
+    "samples": 75679
+  },
+  "conclusions": "Initial harvesting created the foundational Kashmiri multi-domain speech corpus across 10 distinct sources.",
+  "failures": "Early manifests lacked uniform duration metadata and speaker clustering."
+}

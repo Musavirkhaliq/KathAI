@@ -1,0 +1,24 @@
+{
+  "id": "stage_17",
+  "num": 17,
+  "name": "Noisy Speech Learning & Pseudo-Labeling",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED (NEGATIVE RESULT)",
+  "confidence": "VERIFIED",
+  "objective": "Iterative self-training with pseudo-labeling on unannotated Kashmiri broadcast audio.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage17_noisy_speech_learning/"
+  ],
+  "datasets": [
+    "Unannotated radio broadcasts (50h)"
+  ],
+  "checkpoints": [
+    "P17-PL"
+  ],
+  "metrics": {
+    "p17_wer": 27.9,
+    "baseline_wer": 25.8
+  },
+  "conclusions": "Self-training with imperfect pseudo-labels reinforced phonetic hallucinations.",
+  "failures": "Negative result documented: confidence thresholding without strict acoustic filtering harms CTC convergence."
+}

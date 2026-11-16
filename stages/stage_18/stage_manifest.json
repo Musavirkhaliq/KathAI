@@ -1,0 +1,23 @@
+{
+  "id": "stage_18",
+  "num": 18,
+  "name": "Kashmiri ASR Error Atlas, Decoder Tuning & MBR",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Systematic phonetic confusion matrix profiling, Minimum Bayes Risk decoding, and adaptive rescoring.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage18a_kashmiri_asr_error_atlas/"
+  ],
+  "datasets": [
+    "dev_assessment.jsonl"
+  ],
+  "checkpoints": [
+    "MBR decoder configuration"
+  ],
+  "metrics": {
+    "top_confusion": "Kaf / Keheh and central vowels (ٲ vs ٕ)"
+  },
+  "conclusions": "Identified primary error sources: central vowel neutralization and dialectal affricates.",
+  "failures": "MBR decoding latency too high for real-time streaming."
+}

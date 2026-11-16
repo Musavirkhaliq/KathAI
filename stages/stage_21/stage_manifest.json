@@ -1,0 +1,26 @@
+{
+  "id": "stage_21",
+  "num": 21,
+  "name": "Candidate Parity Repair, Oracle Ceiling & Calibration",
+  "dates": "2026-11-15 to 2026-11-15",
+  "status": "COMPLETED",
+  "confidence": "CORROBORATED",
+  "objective": "Repair beam candidate extraction pruning defect and determine true oracle ceiling of KenLM search space.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage21a_post_b02c_reconstruction/",
+    "kashmiri_dataset/experiments/stage21b_candidate_relative_ranking/"
+  ],
+  "datasets": [
+    "dev_calibration.jsonl",
+    "dev_assessment.jsonl"
+  ],
+  "checkpoints": [
+    "Pilot CandidateRelativeRanker (312k params)"
+  ],
+  "metrics": {
+    "oracle_wer_ceiling": 16.2,
+    "calibrated_temperature": 1.08
+  },
+  "conclusions": "Oracle WER of 16.20% proves acoustic search space contains high-quality hypotheses; calibrated T=1.08.",
+  "failures": "Pilot neural ranker showed risk of overfitting on small N-best lists."
+}

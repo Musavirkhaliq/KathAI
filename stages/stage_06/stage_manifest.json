@@ -1,0 +1,27 @@
+{
+  "id": "stage_06",
+  "num": 6,
+  "name": "External SOTA ASR Landscape Benchmarking",
+  "dates": "2026-11-04 to 2026-11-06",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Benchmark pre-existing public Kashmiri ASR models (Whisper, IndicConformer, Aazu34, Bodhan AI).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/external_asr_benchmark/"
+  ],
+  "datasets": [
+    "val_eligible_6728.jsonl"
+  ],
+  "checkpoints": [
+    "Aazu34/kashmiri-asr-ctc",
+    "bodhan-ai/indic-transcribe-core",
+    "openai/whisper-small"
+  ],
+  "metrics": {
+    "aazu34_wer": 72.4,
+    "whisper_small_wer": 84.1,
+    "indicconformer_wer": 68.9
+  },
+  "conclusions": "Existing public models exhibit severe WER (>68%) on conversational and regional Kashmiri speech.",
+  "failures": "Token mismatch and lack of diacritic normalization in external models."
+}

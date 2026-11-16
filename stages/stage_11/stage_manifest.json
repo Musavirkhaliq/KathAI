@@ -1,0 +1,23 @@
+{
+  "id": "stage_11",
+  "num": 11,
+  "name": "Diagnostic Benchmark Isolation & Robustness Pilots",
+  "dates": "2026-11-14 to 2026-11-14",
+  "status": "COMPLETED (DEFECT RECOVERED)",
+  "confidence": "CORROBORATED",
+  "objective": "Create isolated evaluation benchmark partitions: Dev Assessment, Dev Calibration, and Degraded splits.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage11_robustness_optimization/"
+  ],
+  "datasets": [
+    "dev_assessment.jsonl",
+    "dev_calibration.jsonl"
+  ],
+  "checkpoints": [],
+  "metrics": {
+    "dev_assessment_utts": 1001,
+    "dev_calibration_utts": 1001
+  },
+  "conclusions": "Isolated evaluation subsets created for fair decoder calibration and error profiling.",
+  "failures": "22.05 kHz resampling defect was accidentally introduced in Bolbosh audio loader during this stage."
+}

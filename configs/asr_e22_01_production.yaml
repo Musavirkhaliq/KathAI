@@ -1,0 +1,33 @@
+# Production ASR Configuration: Champion E22-01 (Stage 22)
+experiment_name: "e22_01_production_asr"
+model:
+  architecture: "Wav2Vec2ForCTC"
+  base_checkpoint: "kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model"
+  tokenizer_path: "kashmiri_dataset/experiments/native_asr_training/experiments/stage9_b02_acoustic_comparison/B-02A/checkpoints/best_model"
+  target_sample_rate: 16000
+  channels: 1
+
+audio_preprocessing:
+  to_mono: true
+  peak_normalization: true
+  target_peak: 0.95
+  min_duration_seconds: 0.5
+  max_uninterrupted_seconds: 30.0
+
+decoding:
+  strategy: "kenlm_beam_search"
+  temperature: 1.08
+  kenlm_model_path: "kashmiri_dataset/experiments/native_asr_training/experiments/stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa"
+  beam_width: 100
+  alpha: 0.50
+  beta: 1.50
+  beam_prune_logp: -10.0
+  token_min_logp: -5.0
+  slice_exact_ctc_logits: true
+  chunking_strategy: "method_c2"
+
+normalization:
+  perso_arabic_kashmiri: true
+  strip_diacritics: false
+  preserve_zwnj: true
+  normalize_digits: true

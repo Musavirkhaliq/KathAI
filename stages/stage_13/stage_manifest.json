@@ -1,0 +1,27 @@
+{
+  "id": "stage_13",
+  "num": 13,
+  "name": "Architectural Exploration: Unfreezing & Auxiliary Losses",
+  "dates": "2026-11-14 to 2026-11-14",
+  "status": "COMPLETED (NEGATIVE RESULT)",
+  "confidence": "VERIFIED",
+  "objective": "Explore CNN feature extractor unfreezing (U-01..U-03) and auxiliary consistency regularization (CR-01).",
+  "code_refs": [
+    "kashmiri_dataset/experiments/stage13_architectural_exploration/"
+  ],
+  "datasets": [
+    "135.8h speech"
+  ],
+  "checkpoints": [
+    "U-01",
+    "U-02",
+    "U-03",
+    "CR-01"
+  ],
+  "metrics": {
+    "u01_wer": 32.4,
+    "u02_wer": 35.1
+  },
+  "conclusions": "Unfreezing the 7-layer CNN encoder caused catastrophic representational drift.",
+  "failures": "Negative result documented: CNN feature encoder must remain frozen during low-resource fine-tuning."
+}

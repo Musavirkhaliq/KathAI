@@ -1,0 +1,30 @@
+model_id,stage,dataset,wer_greedy,wer_kenlm,cer,errors,status,notes
+E22-01,Stage 22A,dev_assessment,26.6,24.4,11.15,4110,VERIFIED (Current Production SOTA),Trained on 166.39h conservative Tier A data; lowest WER
+E-03,Stage 15,dev_assessment,26.68,24.46,11.19,4121,VERIFIED (Co-Champion),MWER lambda=0.10; 1 word error difference vs B-02C (p=0.963)
+E-04,Stage 15,dev_assessment,26.67,24.46,11.21,4121,VERIFIED,MWER lambda=0.20
+B-02C,Stage 9,dev_assessment,26.76,24.47,11.23,4122,VERIFIED (Foundation Baseline),Trained on 165.32h (96.7k utts); fully converged
+E-02,Stage 15,dev_assessment,26.62,24.47,11.21,4122,VERIFIED,MWER lambda=0.05
+S16-05,Stage 16,dev_assessment,26.77,24.47,11.24,4122,VERIFIED,Weight interpolation / model soup
+WA-02,Stage 14,dev_assessment,26.63,24.51,11.22,4129,VERIFIED,Weight-averaged trajectory
+E-01,Stage 15,dev_assessment,26.63,24.52,11.18,4130,VERIFIED,Continuation control without MWER
+S16-02,Stage 16,dev_assessment,26.67,24.52,11.23,4131,VERIFIED,Sequence optimization arm
+MWER-01,Stage 14,dev_assessment,26.77,24.56,11.21,4137,VERIFIED,Initial MWER pilot
+S17B-EXP-A,Stage 17B,dev_assessment,26.66,24.57,11.24,4138,VERIFIED,Optimal Transport CTC recovery
+U-02,Stage 13,dev_assessment,27.15,24.91,11.44,4196,VERIFIED (Negative Result),Top 8 layers unfrozen
+I-01,Stage 13,dev_assessment,27.41,25.02,11.59,4215,VERIFIED (Negative Result),Intermediate CTC at layer 12
+P17-PL,Stage 17,dev_assessment,27.75,25.25,11.68,4253,VERIFIED (Negative Result),Pseudo-labeling on uncurated speech (+132 errors)
+B-02A,Stage 9,dev_assessment,28.11,25.71,11.93,4331,VERIFIED,104.9h foundation checkpoint
+R-02,Stage 12,dev_assessment,30.47,28.94,12.58,4875,VERIFIED (Negative Result),Multi-condition noise augmentation
+B-02C,Stage 9,val.jsonl (canonical),27.84,25.24,10.96,26422,VERIFIED,"Full 6,728-sample validation split"
+B-02B,Stage 9,val.jsonl (canonical),29.39,26.41,11.61,27647,VERIFIED,123.5h including religious data
+B-02A,Stage 9,val.jsonl (canonical),29.42,26.3,11.66,27532,VERIFIED,104.9h checkpoint
+B-01,Stage 8,val.jsonl (canonical),33.86,31.8,13.08,33290,VERIFIED,92.9h baseline foundation
+E22-01,Stage 22A,"dev_calibration.jsonl (1,001 utts)",26.82,24.74,11.2,4114,VERIFIED,Certified calibration benchmark
+E22-01,Stage 22A,"dev_a_disjoint.jsonl (6,257 utts)",27.2,24.94,11.31,26566,VERIFIED,"Disjoint development holdout (106,530 words)"
+E22-01,Stage 22A,dev_b_waaz_val.jsonl (127 utts),48.26,46.12,22.4,582,VERIFIED,Held-out conversational community speech
+E24-CTC-01,Stage 24,dev_b_waaz_val.jsonl (127 utts),52.38,48.42,23.1,611,VERIFIED,"Acoustic continuation: greedy improved (+0.16pp), KenLM degraded"
+Muzaffar786-XLS-R,External Benchmark,val.jsonl (canonical),49.8,48.1,21.6,50353,VERIFIED,Public community XLS-R model
+Khushi-XLS-R-v6,External Benchmark,val.jsonl (canonical),52.4,50.8,23.1,53180,VERIFIED,Public community XLS-R model v6
+IndicConformer-600M,External Benchmark,val.jsonl (canonical),62.14,60.5,28.32,63334,VERIFIED,AI4Bharat multilingual conformer
+Whisper-Large-v3,External Benchmark,val.jsonl (canonical),84.12,84.12,42.18,88061,VERIFIED,OpenAI zero-shot multilingual (severe hallucination)
+CARE-ASR,Stage 20,dev_assessment (in-memory),26.5,24.53,11.2,4132,INVALIDATED,Step 0 serialization failure; weights not written to disk; evaluated in-memory model

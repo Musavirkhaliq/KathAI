@@ -1,0 +1,361 @@
+{
+  "total_files": 243701,
+  "total_bytes": 718678033480,
+  "total_size_human": "669.3GB",
+  "timestamp": "2026-11-16T12:15:32.331490",
+  "git_tracked_files": 376,
+  "by_file_type": {
+    "Model Checkpoint / Weights": {
+      "count": 461,
+      "bytes": 524991019187,
+      "size_human": "488.9GB"
+    },
+    "Dataset Manifest / Table": {
+      "count": 1321,
+      "bytes": 137742248125,
+      "size_human": "128.3GB"
+    },
+    "Audio Media": {
+      "count": 215379,
+      "bytes": 47753087721,
+      "size_human": "44.5GB"
+    },
+    "Other Binary / Artifact": {
+      "count": 7761,
+      "bytes": 4408665125,
+      "size_human": "4.1GB"
+    },
+    "Serialized Numerical Feature Cache": {
+      "count": 10735,
+      "bytes": 2013401089,
+      "size_human": "1.9GB"
+    },
+    "Language Model / Tokenizer Vocab": {
+      "count": 66,
+      "bytes": 748076425,
+      "size_human": "713.4MB"
+    },
+    "Figure / Paper Asset": {
+      "count": 1682,
+      "bytes": 619868869,
+      "size_human": "591.2MB"
+    },
+    "Documentation / Report": {
+      "count": 1361,
+      "bytes": 227235414,
+      "size_human": "216.7MB"
+    },
+    "Configuration / Metadata": {
+      "count": 4508,
+      "bytes": 165817409,
+      "size_human": "158.1MB"
+    },
+    "Source Code": {
+      "count": 416,
+      "bytes": 8573471,
+      "size_human": "8.2MB"
+    },
+    "Execution Log": {
+      "count": 11,
+      "bytes": 40645,
+      "size_human": "39.7KB"
+    }
+  },
+  "by_component": {
+    "Experiments (native_asr_training)": {
+      "count": 8740,
+      "bytes": 382132783680,
+      "size_human": "355.9GB"
+    },
+    "kashmiri_dataset/external": {
+      "count": 7911,
+      "bytes": 52872989460,
+      "size_human": "49.2GB"
+    },
+    "Data (Raw Google Drive Shards)": {
+      "count": 3845,
+      "bytes": 45836583833,
+      "size_human": "42.7GB"
+    },
+    "Data (Processed 16kHz Audio)": {
+      "count": 208851,
+      "bytes": 44443102970,
+      "size_human": "41.4GB"
+    },
+    "Data (Raw Ingestion)": {
+      "count": 5373,
+      "bytes": 37006141041,
+      "size_human": "34.5GB"
+    },
+    "Experiments (stage22_data_expanded_training)": {
+      "count": 145,
+      "bytes": 31688738045,
+      "size_human": "29.5GB"
+    },
+    "Experiments (stage17b_regression_recovery_otc)": {
+      "count": 119,
+      "bytes": 19090552562,
+      "size_human": "17.8GB"
+    },
+    "Experiments (stage20s_audio_integrity_recovery)": {
+      "count": 50,
+      "bytes": 13890277991,
+      "size_human": "12.9GB"
+    },
+    "Experiments (stage13_architectural_optimization)": {
+      "count": 118,
+      "bytes": 13887392957,
+      "size_human": "12.9GB"
+    },
+    "Experiments (stage16_advanced_sequence_and_decoder)": {
+      "count": 98,
+      "bytes": 12631580007,
+      "size_human": "11.8GB"
+    },
+    "Experiments (external_asr_benchmark)": {
+      "count": 1406,
+      "bytes": 10211143042,
+      "size_human": "9.5GB"
+    },
+    "Experiments (stage15_mwer_verification_and_scaling)": {
+      "count": 79,
+      "bytes": 10103751415,
+      "size_human": "9.4GB"
+    },
+    "Experiments (stage17_noisy_speech_learning)": {
+      "count": 86,
+      "bytes": 8900216294,
+      "size_human": "8.3GB"
+    },
+    "Experiments (stage14_mwer_checkpoint_optimization)": {
+      "count": 65,
+      "bytes": 6312625406,
+      "size_human": "5.9GB"
+    },
+    "Experiments (stage20t_sequence_aware_research)": {
+      "count": 65,
+      "bytes": 5699462700,
+      "size_human": "5.3GB"
+    },
+    "Experiments (stage11_robustness_optimization)": {
+      "count": 3059,
+      "bytes": 5489106770,
+      "size_human": "5.1GB"
+    },
+    "Experiments (stage12_robustness_training)": {
+      "count": 52,
+      "bytes": 5146361945,
+      "size_human": "4.8GB"
+    },
+    "kashmiri_dataset/merged": {
+      "count": 4,
+      "bytes": 3814678452,
+      "size_human": "3.6GB"
+    },
+    "Experiments (stage24_actual_reranker_training)": {
+      "count": 44,
+      "bytes": 2343938908,
+      "size_human": "2.2GB"
+    },
+    "Experiments (ceiling_breaker_asr)": {
+      "count": 14,
+      "bytes": 1276704272,
+      "size_human": "1.2GB"
+    },
+    "Experiments (transliteration_evaluation)": {
+      "count": 9,
+      "bytes": 1203567645,
+      "size_human": "1.1GB"
+    },
+    "Experiments (stage21b_candidate_relative_ranking)": {
+      "count": 39,
+      "bytes": 933980130,
+      "size_human": "890.7MB"
+    },
+    "Experiments (stage18_decoder_intelligence)": {
+      "count": 33,
+      "bytes": 795450986,
+      "size_human": "758.6MB"
+    },
+    "Model Artifacts & Checkpoints": {
+      "count": 71,
+      "bytes": 660747521,
+      "size_human": "630.1MB"
+    },
+    "Data (Manifests & Splits)": {
+      "count": 36,
+      "bytes": 417141273,
+      "size_human": "397.8MB"
+    },
+    "Experiments (stage22b_decoder_and_independent_test)": {
+      "count": 2043,
+      "bytes": 380233512,
+      "size_human": "362.6MB"
+    },
+    "Repository Root Operations": {
+      "count": 45,
+      "bytes": 363364353,
+      "size_human": "346.5MB"
+    },
+    "Experiments (stage23_acoustic_lm_interaction)": {
+      "count": 44,
+      "bytes": 359014128,
+      "size_human": "342.4MB"
+    },
+    "Experiments (benchmark_construction)": {
+      "count": 195,
+      "bytes": 239105613,
+      "size_human": "228.0MB"
+    },
+    "kashmiri_dataset/releases": {
+      "count": 37,
+      "bytes": 234348985,
+      "size_human": "223.5MB"
+    },
+    "Literature Library": {
+      "count": 27,
+      "bytes": 71012059,
+      "size_human": "67.7MB"
+    },
+    "Documentation Hub": {
+      "count": 9,
+      "bytes": 50320719,
+      "size_human": "48.0MB"
+    },
+    "Experiments (stage19_phonetic_confusion_recovery)": {
+      "count": 61,
+      "bytes": 47858669,
+      "size_human": "45.6MB"
+    },
+    "Experiments (stage21a_post_b02c_reconstruction)": {
+      "count": 75,
+      "bytes": 41818062,
+      "size_human": "39.9MB"
+    },
+    "Experiments (stage18a_kashmiri_asr_error_atlas)": {
+      "count": 82,
+      "bytes": 23293253,
+      "size_human": "22.2MB"
+    },
+    "Experiments (stage22c_inference_certification)": {
+      "count": 30,
+      "bytes": 15827002,
+      "size_human": "15.1MB"
+    },
+    "kashmiri_dataset/splits": {
+      "count": 8,
+      "bytes": 14937622,
+      "size_human": "14.2MB"
+    },
+    "Experiments (romanization_benchmark)": {
+      "count": 5,
+      "bytes": 9239209,
+      "size_human": "8.8MB"
+    },
+    "Experiments (romanization_evaluation)": {
+      "count": 6,
+      "bytes": 7569673,
+      "size_human": "7.2MB"
+    },
+    "Experiments (unseen_online_data_benchmark)": {
+      "count": 17,
+      "bytes": 7308736,
+      "size_human": "7.0MB"
+    },
+    "Pipeline Scripts": {
+      "count": 312,
+      "bytes": 6707795,
+      "size_human": "6.4MB"
+    },
+    "Experiments (stage18c_acoustic_aware_substitution_rescoring)": {
+      "count": 54,
+      "bytes": 5877262,
+      "size_human": "5.6MB"
+    },
+    "Tokenizers & Vocabularies": {
+      "count": 8,
+      "bytes": 3568377,
+      "size_human": "3.4MB"
+    },
+    "Academic Papers & Drafts": {
+      "count": 83,
+      "bytes": 2205621,
+      "size_human": "2.1MB"
+    },
+    "Experiments (asr_baselines)": {
+      "count": 23,
+      "bytes": 1297169,
+      "size_human": "1.2MB"
+    },
+    "kashmiri_dataset/user_recordings": {
+      "count": 8,
+      "bytes": 1280352,
+      "size_human": "1.2MB"
+    },
+    "Experiments (stage18b_targeted_decoder_optimization)": {
+      "count": 61,
+      "bytes": 1257608,
+      "size_human": "1.2MB"
+    },
+    "Experiments (stage21_multistage_reconstruction)": {
+      "count": 13,
+      "bytes": 695777,
+      "size_human": "679.5KB"
+    },
+    "Experiments (stage20_care_asr)": {
+      "count": 49,
+      "bytes": 204099,
+      "size_human": "199.3KB"
+    },
+    "Experiments (stage20r_integrity_audit)": {
+      "count": 23,
+      "bytes": 122554,
+      "size_human": "119.7KB"
+    },
+    "Tokenization Reading Suite": {
+      "count": 6,
+      "bytes": 100621,
+      "size_human": "98.3KB"
+    },
+    "Experiments (asr_sota_benchmark)": {
+      "count": 12,
+      "bytes": 95108,
+      "size_human": "92.9KB"
+    },
+    "kashmiri_dataset/provenance": {
+      "count": 7,
+      "bytes": 92016,
+      "size_human": "89.9KB"
+    },
+    "Multimodal AI Roadmap": {
+      "count": 8,
+      "bytes": 79409,
+      "size_human": "77.5KB"
+    },
+    "Research Logs & Reports": {
+      "count": 15,
+      "bytes": 75224,
+      "size_human": "73.5KB"
+    },
+    "kashmiri_dataset/documentation": {
+      "count": 7,
+      "bytes": 52120,
+      "size_human": "50.9KB"
+    },
+    "kashmiri_dataset/quality_reports": {
+      "count": 13,
+      "bytes": 43833,
+      "size_human": "42.8KB"
+    },
+    "kashmiri_dataset/research_decision_log.md": {
+      "count": 1,
+      "bytes": 4721,
+      "size_human": "4.6KB"
+    },
+    "kashmiri_dataset/paper": {
+      "count": 2,
+      "bytes": 2914,
+      "size_human": "2.8KB"
+    }
+  }
+}

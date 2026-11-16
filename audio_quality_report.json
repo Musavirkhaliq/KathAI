@@ -1,0 +1,91 @@
+{
+  "report_timestamp": "2026-11-11T18:30:00+05:30",
+  "master_training_corpus": {
+    "total_clips": 106487,
+    "total_hours": 214.65,
+    "quality_tiers": {
+      "Tier A": {
+        "clips": 75811,
+        "hours": 147.19
+      },
+      "Tier B": {
+        "clips": 30463,
+        "hours": 65.47
+      },
+      "Tier C": {
+        "clips": 213,
+        "hours": 1.99
+      }
+    },
+    "duration_seconds": {
+      "mean": 7.26,
+      "std": 5.47,
+      "min": 0.23,
+      "max": 318.54,
+      "median": 6.3
+    },
+    "snr_db": {
+      "mean": 23.39,
+      "std": 14.6,
+      "min": 2.85,
+      "max": 93.14,
+      "median": 16.71
+    },
+    "vad_speech_ratio": {
+      "mean": 0.837,
+      "min": 0.14,
+      "max": 0.898,
+      "median": 0.85
+    }
+  },
+  "workstream_9_newly_acquired_corpus": {
+    "total_clips": 25468,
+    "total_hours": 69.66,
+    "quality_tiers": {
+      "Tier B": {
+        "clips": 2109,
+        "hours": 7.03
+      },
+      "Tier A": {
+        "clips": 23146,
+        "hours": 60.64
+      },
+      "Tier C": {
+        "clips": 213,
+        "hours": 1.99
+      }
+    },
+    "duration_seconds": {
+      "mean": 9.85,
+      "std": 6.48,
+      "min": 1.0,
+      "max": 59.4,
+      "median": 8.51
+    },
+    "snr_db": {
+      "mean": 42.22,
+      "std": 18.25,
+      "min": 9.01,
+      "max": 93.14,
+      "median": 36.86
+    },
+    "vad_speech_ratio": {
+      "mean": 0.794,
+      "min": 0.14,
+      "max": 0.898,
+      "median": 0.83
+    }
+  },
+  "audio_specification": {
+    "target_sample_rate": 16000,
+    "target_channels": 1,
+    "target_format": "PCM 16-bit Mono WAV",
+    "standardization_compliance": "100.0%"
+  },
+  "language_identification_summary": {
+    "target_language": "kas (Kashmiri)",
+    "target_script": "Perso-Arabic (Kashmiri orthography)",
+    "language_confidence_threshold": 0.85,
+    "corpus_language_purity": "99.9%+"
+  }
+}

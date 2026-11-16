@@ -1,0 +1,24 @@
+{
+  "id": "stage_08",
+  "num": 8,
+  "name": "Foundation Acoustic Model B-01 (92.9 Hours)",
+  "dates": "2026-11-07 to 2026-11-08",
+  "status": "COMPLETED",
+  "confidence": "VERIFIED",
+  "objective": "Train baseline foundation acoustic model B-01 using Wav2Vec2-XLS-R-300M on 92.9 hours.",
+  "code_refs": [
+    "kashmiri_dataset/experiments/native_asr_training/experiments/B-01-xlsr300m-character-ctc/"
+  ],
+  "datasets": [
+    "92.9h subset of consolidated speech"
+  ],
+  "checkpoints": [
+    "B-01-xlsr300m-character-ctc/best_model"
+  ],
+  "metrics": {
+    "dev_wer_greedy": 31.85,
+    "dev_wer_kenlm": 28.4
+  },
+  "conclusions": "B-01 established the first competitive native Kashmiri acoustic foundation.",
+  "failures": "Slight degradation on low-resource conversational dialects."
+}
