@@ -1,0 +1,2 @@
+language_pair,sentence_pairs,estimated_src_words,estimated_tgt_words,primary_source
+en -> ks,344445,1928597,1779734,ai4bharat/bpcc

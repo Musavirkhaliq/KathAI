@@ -1,0 +1,7 @@
+file,clips,hours,speakers,words,chars,sources,benchmark_name
+test_clean.csv,866,1.21,40,11817,63311,"['xkaab_asr_4hrs', 'mendeley_ktts', 'programindz_audio_corpus', 'openslr_slr122']",Frozen Test Set (v1 Clean)
+test.csv,928,1.27,41,12400,66297,"['xkaab_asr_4hrs', 'mendeley_ktts', 'programindz_audio_corpus', 'openslr_slr122']",Frozen Test Set (v1 Master)
+val.csv,945,1.45,28,12970,70337,"['xkaab_asr_4hrs', 'mendeley_ktts', 'programindz_audio_corpus', 'openslr_slr122']",Frozen Validation Set (v1)
+tier_a_indicvoices_r_quarantined_verified_samples.jsonl,3731,9.19,60,91091,427664,['indicvoices_r_quarantined_test'],Benchmark Tier A (IndicVoices-R)
+tier_b_educasheer_online_verified_samples.jsonl,668,1.38,43,7616,38111,['DataCollection_Online'],Benchmark Tier B (WAAZ Online)
+tier_c_quran_king_fahd_verified_samples.jsonl,1916,2.39,2,18436,88010,['Quran_King_Fahd'],Benchmark Tier C (Quran King Fahd)

@@ -1,0 +1,12 @@
+source_id,license,commercial_use,redistribution,academic_training
+SRC_GAASH_BOLBOSH,CC-BY 4.0,True,True,True
+SRC_INDICVOICES_R,CC-BY 4.0,True,True,True
+SRC_INDICVOICES_BASE,CC-BY 4.0,True,True,True
+SRC_QURAN_MIRWAIZ,Public Cultural & Educational,False,True,True
+SRC_QURAN_ALFAJR,Public Religious Archive,False,True,True
+SRC_QURAN_SALAFI,Public Religious Archive,False,True,True
+SRC_OMARRRAN_CONVERSATIONAL,CC-BY 4.0,True,True,True
+SRC_OPENSLR122,CC-BY 4.0,True,True,True
+SRC_XKAAB_ASR,Open Research,False,True,True
+SRC_COMM_WAAZ,EduCasheer Contributor License,False,False,True
+SRC_PROGRAMINDZ_TTS,CC-BY 4.0,True,True,True

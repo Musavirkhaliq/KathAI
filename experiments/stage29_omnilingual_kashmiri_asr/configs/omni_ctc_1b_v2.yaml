@@ -1,0 +1,38 @@
+# Stage 29 Configuration: Omnilingual ASR CTC 1B v2
+experiment_id: O29-02
+model:
+  name: omniASR_CTC_1B_v2
+  family: wav2vec2_asr
+  arch: 1b_v2
+  encoder_layers: 48
+  model_dim: 1280
+  ffn_dim: 5120
+  num_heads: 16
+  vocab_size: 10288
+  checkpoint_path: experiments/stage29_omnilingual_kashmiri_asr/checkpoints/omni_1b_v2/omniASR-CTC-1B-v2.pt
+  tokenizer_path: experiments/stage29_omnilingual_kashmiri_asr/assets/omniASR_tokenizer_written_v2.model
+
+training:
+  precision: bf16
+  gradient_checkpointing: true
+  freeze_encoder_updates: 1000
+  batch_size: 16
+  gradient_accumulation_steps: 2
+  num_workers: 4
+  learning_rate: 5.0e-5
+  min_learning_rate: 5.0e-7
+  warmup_steps: 500
+  total_steps: 4000
+  weight_decay: 0.01
+  clip_grad_norm: 1.0
+  max_audio_duration_seconds: 20.0
+  min_audio_duration_seconds: 0.8
+  save_every_steps: 500
+  eval_every_steps: 500
+  log_every_steps: 25
+
+data:
+  train_manifest: experiments/stage29_omnilingual_kashmiri_asr/data/train_manifest_dataset_a.jsonl
+  val_disjoint_manifest: experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_a_disjoint.jsonl
+  val_waaz_manifest: experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_b_waaz.jsonl
+  test_manifest: experiments/stage29_omnilingual_kashmiri_asr/data/test_manifest.jsonl

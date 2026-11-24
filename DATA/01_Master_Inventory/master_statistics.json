@@ -1,0 +1,41 @@
+{
+  "audit_version": "v2_canonical_2026",
+  "timestamp": "2026-11-19T16:30:00",
+  "physical_files_count": 256496,
+  "physical_disk_consumption_gb": 733.65,
+  "total_audio_recordings": 226487,
+  "total_physical_human_speech_hours": 542.28,
+  "total_synthetic_speech_hours": 4.42,
+  "manifested_speech": {
+    "gold_tier_hours": 210.77,
+    "gold_tier_clips": 105356,
+    "silver_tier_hours": 151.41,
+    "silver_tier_clips": 32501,
+    "bronze_tier_hours": 5.82,
+    "bronze_tier_clips": 1569,
+    "synthetic_tier_hours": 4.42,
+    "synthetic_tier_clips": 2984,
+    "total_human_manifested_hours": 368.01,
+    "total_human_manifested_clips": 139426
+  },
+  "text_corpus": {
+    "monolingual_records": 108905,
+    "estimated_words": 4699267,
+    "parallel_sentence_pairs": 344445,
+    "lexicon_headwords": 131231,
+    "unique_lexicon_words": 29472
+  },
+  "benchmarks": {
+    "frozen_test_samples": 928,
+    "frozen_test_hours": 1.27,
+    "protected_speakers": 67,
+    "test_path_collisions": 0,
+    "test_speaker_overlap": 0
+  },
+  "training_data_utilization": {
+    "max_historical_training_hours": 178.6,
+    "currently_unused_gold_hours": 2.86,
+    "total_human_speech_never_used_hours": 363.68,
+    "recoverable_speech_potential_hours": 178.08
+  }
+}

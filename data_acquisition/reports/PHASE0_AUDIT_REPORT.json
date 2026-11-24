@@ -1,0 +1,46 @@
+{
+  "physical_files_count": 220747,
+  "physical_audio_hours": 422.0545724677579,
+  "physical_by_location": [
+    {
+      "location_group": "DataCollection_Platform",
+      "count": 2942,
+      "hours": 7.61180625
+    },
+    {
+      "location_group": "Data_Google_Drive_Shards",
+      "count": 43,
+      "hours": 3.3778139720726252
+    },
+    {
+      "location_group": "kashmiri_dataset/external/aazu34_openslr122_tar",
+      "count": 0,
+      "hours": 0.0
+    },
+    {
+      "location_group": "kashmiri_dataset/external/programindz_audio_corpus_parquet",
+      "count": 1955,
+      "hours": 2.5298722222222225
+    },
+    {
+      "location_group": "kashmiri_dataset/processed/audio",
+      "count": 208846,
+      "hours": 336.9763679517039
+    },
+    {
+      "location_group": "kashmiri_dataset/raw",
+      "count": 2497,
+      "hours": 71.55871207175926
+    }
+  ],
+  "manifest_pairs_count": 238843,
+  "manifest_pairs_hours": 421.4497302777778,
+  "pairs_with_text": 238814,
+  "pairs_with_text_hours": 421.0390102777778,
+  "in_master_214h_count": 106487,
+  "in_master_214h_hours": 214.64570250000003,
+  "training_eligible_count": 106487,
+  "training_eligible_hours": 214.64570249999795,
+  "frozen_test_count": 928,
+  "frozen_test_hours": 1.269365555555558
+}

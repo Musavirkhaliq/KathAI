@@ -1,0 +1,199 @@
+{
+  "model_a": "E22-01 (Baseline XLS-R 300M)",
+  "model_b": "O29-01 (Omnilingual 300M v2)",
+  "num_utterances": 5923,
+  "statistical_metrics": {
+    "obs_wer_a": 30.50895155483086,
+    "obs_wer_b": 40.71695208455764,
+    "observed_delta_wer": 10.208000529726782,
+    "bootstrap_mean_delta": 10.217441557657574,
+    "ci_lower_95": 9.255195874994437,
+    "ci_upper_95": 10.89724223522011,
+    "bootstrap_p_value": 0.0001,
+    "wilcoxon_stat": 1316335.0,
+    "wilcoxon_p_value": 0.0,
+    "is_statistically_significant": false
+  },
+  "linguistic_analysis": {
+    "E22-01 (Baseline XLS-R 300M)": {
+      "central_vowel_errors": 912,
+      "retroflex_errors": 505,
+      "word_boundary_disparities": 4525
+    },
+    "O29-01 (Omnilingual 300M v2)": {
+      "central_vowel_errors": 1506,
+      "retroflex_errors": 794,
+      "word_boundary_disparities": 6036
+    }
+  },
+  "archetypes": {
+    "both_succeed": [
+      {
+        "index": 4,
+        "reference": "ہیلو",
+        "e22_01_prediction": "ہیلو",
+        "omni_prediction": "ہیلو",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      },
+      {
+        "index": 5,
+        "reference": "آ",
+        "e22_01_prediction": "آ",
+        "omni_prediction": "آ",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      },
+      {
+        "index": 6,
+        "reference": "نہ",
+        "e22_01_prediction": "نہ",
+        "omni_prediction": "نہ",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      },
+      {
+        "index": 7,
+        "reference": "ٹھیک",
+        "e22_01_prediction": "ٹھیک",
+        "omni_prediction": "ٹھیک",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      },
+      {
+        "index": 9,
+        "reference": "پتھ",
+        "e22_01_prediction": "پتھ",
+        "omni_prediction": "پتھ",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      }
+    ],
+    "only_e22_01_succeeds": [
+      {
+        "index": 2,
+        "reference": "اہن حظ",
+        "e22_01_prediction": "اہن حظ",
+        "omni_prediction": "ان حظ",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      },
+      {
+        "index": 11,
+        "reference": "وق",
+        "e22_01_prediction": "وق",
+        "omni_prediction": "و",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      },
+      {
+        "index": 12,
+        "reference": "تہ",
+        "e22_01_prediction": "تہ",
+        "omni_prediction": "ت",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      },
+      {
+        "index": 29,
+        "reference": "ترے",
+        "e22_01_prediction": "ترے",
+        "omni_prediction": "ترے اکھ",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      },
+      {
+        "index": 30,
+        "reference": "ٹھیک",
+        "e22_01_prediction": "ٹھیک",
+        "omni_prediction": "",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      }
+    ],
+    "only_omnilingual_succeeds": [
+      {
+        "index": 8,
+        "reference": "ٹھیک",
+        "e22_01_prediction": "جیک",
+        "omni_prediction": "ٹھیک",
+        "e22_01_errors": 1,
+        "omni_errors": 0
+      },
+      {
+        "index": 87,
+        "reference": "آ",
+        "e22_01_prediction": "اں",
+        "omni_prediction": "آ",
+        "e22_01_errors": 1,
+        "omni_errors": 0
+      },
+      {
+        "index": 89,
+        "reference": "شے",
+        "e22_01_prediction": "شاے",
+        "omni_prediction": "شے",
+        "e22_01_errors": 1,
+        "omni_errors": 0
+      },
+      {
+        "index": 107,
+        "reference": "برۄنہہ",
+        "e22_01_prediction": "برونہہ",
+        "omni_prediction": "برۄنہہ",
+        "e22_01_errors": 1,
+        "omni_errors": 0
+      },
+      {
+        "index": 130,
+        "reference": "امہ کھۄتہ",
+        "e22_01_prediction": "کمہ خٲتر",
+        "omni_prediction": "امہ کھۄتہ",
+        "e22_01_errors": 2,
+        "omni_errors": 0
+      }
+    ],
+    "both_fail": [
+      {
+        "index": 210,
+        "reference": "ترییہ دۅہۍ یا",
+        "e22_01_prediction": "ترےی تےا",
+        "omni_prediction": "ردیا",
+        "e22_01_errors": 3,
+        "omni_errors": 3
+      },
+      {
+        "index": 226,
+        "reference": "آ سا کینہہ",
+        "e22_01_prediction": "ک",
+        "omni_prediction": "اتھ سک",
+        "e22_01_errors": 3,
+        "omni_errors": 3
+      },
+      {
+        "index": 242,
+        "reference": "اد کیاہ یہ چھ",
+        "e22_01_prediction": "آٹی چھ",
+        "omni_prediction": "آڈیچ",
+        "e22_01_errors": 3,
+        "omni_errors": 4
+      },
+      {
+        "index": 248,
+        "reference": "اچھا اسلام علیکم",
+        "e22_01_prediction": "ٹھیک چھ اسلام",
+        "omni_prediction": "سچ س",
+        "e22_01_errors": 3,
+        "omni_errors": 3
+      },
+      {
+        "index": 249,
+        "reference": "دہ ترکھ تام",
+        "e22_01_prediction": "مے اوس ترکھ تامۍ",
+        "omni_prediction": "بو کھن",
+        "e22_01_errors": 3,
+        "omni_errors": 3
+      }
+    ]
+  }
+}

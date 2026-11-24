@@ -1,0 +1,110 @@
+{
+  "model_a": "E22-01 (Baseline XLS-R 300M)",
+  "model_b": "O29-02 (Omnilingual 1B v2)",
+  "num_utterances": 127,
+  "statistical_metrics": {
+    "obs_wer_a": 43.21966693100714,
+    "obs_wer_b": 46.391752577319586,
+    "observed_delta_wer": 3.1720856463124463,
+    "bootstrap_mean_delta": 3.207107090357697,
+    "ci_lower_95": -0.7931089827332622,
+    "ci_upper_95": 6.859645974748614,
+    "bootstrap_p_value": 0.115,
+    "wilcoxon_stat": 1168.0,
+    "wilcoxon_p_value": 0.001010495127440101,
+    "is_statistically_significant": false
+  },
+  "linguistic_analysis": {
+    "E22-01 (Baseline XLS-R 300M)": {
+      "central_vowel_errors": 68,
+      "retroflex_errors": 11,
+      "word_boundary_disparities": 70
+    },
+    "O29-02 (Omnilingual 1B v2)": {
+      "central_vowel_errors": 63,
+      "retroflex_errors": 10,
+      "word_boundary_disparities": 66
+    }
+  },
+  "archetypes": {
+    "both_succeed": [
+      {
+        "index": 40,
+        "reference": "تم چھ دکاندارن ہندۍ پٲٹھۍ کٲم کران",
+        "e22_01_prediction": "تم چھ دکاندارن ہندۍ پٲٹھۍ کٲم کران",
+        "omni_prediction": "تم چھ دکاندارن ہندۍ پٲٹھۍ کٲم کران",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      },
+      {
+        "index": 51,
+        "reference": "بلیک بورڈ چھ ٹیبلس قریب",
+        "e22_01_prediction": "بلیک بورڈ چھ ٹیبلس قریب",
+        "omni_prediction": "بلیک بورڈ چھ ٹیبلس قریب",
+        "e22_01_errors": 0,
+        "omni_errors": 0
+      }
+    ],
+    "only_e22_01_succeeds": [
+      {
+        "index": 0,
+        "reference": "مگر شہزاد اوس تھوکمت",
+        "e22_01_prediction": "مگر شہزاد اوس تھوکمت",
+        "omni_prediction": "اگر شہزاد اوستہکمت",
+        "e22_01_errors": 0,
+        "omni_errors": 3
+      },
+      {
+        "index": 75,
+        "reference": "کیاہ تۄہہ چھا اتھ منز موجود مضمونس پٮٹھ غور کورمت",
+        "e22_01_prediction": "کیاہ تۄہہ چھا اتھ منز موجود مضمونس پٮٹھ غور کورمت",
+        "omni_prediction": "کیاہ تۄہہ چھا اتھ منز موجود مضمونس پٮٹھ گور کورمت",
+        "e22_01_errors": 0,
+        "omni_errors": 1
+      }
+    ],
+    "only_omnilingual_succeeds": [],
+    "both_fail": [
+      {
+        "index": 2,
+        "reference": "گرمی ٲس نہ وۄنۍ تتہ",
+        "e22_01_prediction": "گرمی ٲسۍ نہ ونہ تہ",
+        "omni_prediction": "گرمی ٲسنہ ونتہ",
+        "e22_01_errors": 3,
+        "omni_errors": 4
+      },
+      {
+        "index": 7,
+        "reference": "یہ چھ حقیقتس منز رود تہ شینہ دوان",
+        "e22_01_prediction": "أسۍ چھ حقیقس منز رود تہ شین دوان",
+        "omni_prediction": "یس چھ حقیقس منز رود تہ شین دوان",
+        "e22_01_errors": 3,
+        "omni_errors": 3
+      },
+      {
+        "index": 8,
+        "reference": "موہن سند خٲطر بنٲوۍ گرم دودھ",
+        "e22_01_prediction": "مونسند خٲطر بناوو گرم دۄد",
+        "omni_prediction": "من زندۍ خٲطر بناوو گرم دۄد",
+        "e22_01_errors": 4,
+        "omni_errors": 4
+      },
+      {
+        "index": 15,
+        "reference": "تہنز زنان چھے ماسٹرباے",
+        "e22_01_prediction": "تہنز زنانہ چھ معاشر باے",
+        "omni_prediction": "تہندز زنان چھ ماسٹر باے",
+        "e22_01_errors": 4,
+        "omni_errors": 4
+      },
+      {
+        "index": 17,
+        "reference": "پرائڈ آف دی نیشن گولڈمیڈل",
+        "e22_01_prediction": "پریویٹ آفسہ نش کولڈ میڈل",
+        "omni_prediction": "پرایویٹ آفدنش گولڈ میڈل",
+        "e22_01_errors": 5,
+        "omni_errors": 5
+      }
+    ]
+  }
+}

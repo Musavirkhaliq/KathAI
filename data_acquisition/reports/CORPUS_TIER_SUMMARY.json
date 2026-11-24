@@ -1,0 +1,15 @@
+{
+  "gold_clips": 105356,
+  "gold_hours": 210.77,
+  "silver_clips": 32501,
+  "silver_hours": 151.41,
+  "bronze_clips": 1569,
+  "bronze_hours": 5.82,
+  "synthetic_clips": 2984,
+  "synthetic_hours": 4.42,
+  "total_human_clips": 139426,
+  "total_human_hours": 368.01,
+  "target_hours": 500.0,
+  "stretch_target_hours": 1000.0,
+  "target_achieved": false
+}

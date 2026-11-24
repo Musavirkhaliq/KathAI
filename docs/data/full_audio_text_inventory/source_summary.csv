@@ -1,0 +1,17 @@
+source_dataset,total_clips,total_hours,with_transcript_clips,with_transcript_hours,in_e22_01_clips,in_e22_01_hours,benchmark_contaminated_clips,benchmark_contaminated_hours
+Gaash_Bolbosh,39996,79.897,39996,79.897,33308,60.701,5000,10.012
+IndicVoices_Kashmiri,20015,37.183,20015,37.183,13066,22.111,7001,12.724
+OpenSLR_122_Segments,1478,0.0,1478,0.0,0,0.0,0,0.0
+Programindz_TTS,2984,4.421,2984,4.421,0,0.0,0,0.0
+Quran_Dr_War,3678,4.013,3678,4.013,3678,4.013,0,0.0
+Quran_King_Fahd,1920,2.389,1919,2.389,0,0.0,0,0.0
+Quran_Mirwaiz,11906,14.512,11906,14.512,11906,14.512,0,0.0
+UChicago_SHassan_Dictionary,1876,0.34,1876,0.34,0,0.0,0,0.0
+WAAZ_Community,1449,3.791,1422,3.381,501,1.07,127,0.201
+Whisper_Kashmiri_1,520,2.569,520,2.569,0,0.0,520,2.569
+indicvoices_r,24654,62.07,24654,62.07,16558,41.867,9423,23.568
+manifest_omarrran_tts,2984,4.421,2984,4.421,2984,4.421,0,0.0
+meta_omnilingual,398,3.774,398,3.774,0,0.0,0,0.0
+programindz_audio_corpus,1955,2.53,1955,2.53,1918,2.194,292,0.364
+quran_kashmiri,17724,23.778,17724,23.778,0,0.0,0,0.0
+whisper_kashmiri_2,26,0.181,26,0.181,0,0.0,0,0.0

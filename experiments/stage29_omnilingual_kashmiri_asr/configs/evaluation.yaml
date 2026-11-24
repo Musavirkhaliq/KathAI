@@ -1,0 +1,31 @@
+# Stage 29 Configuration: Evaluation Protocol
+evaluation:
+  batch_size: 16
+  precision: bf16
+  max_audio_duration_seconds: 35.0
+  normalize_references: true
+  normalize_hypotheses: true
+  normalization_fn: normalize_for_wer_evaluation
+
+benchmarks:
+  dev_a_disjoint:
+    manifest: experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_a_disjoint.jsonl
+    description: "Primary speaker-disjoint development benchmark (6,257 utterances, 11.30h)"
+  dev_b_waaz_val:
+    manifest: experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_b_waaz.jsonl
+    description: "Spontaneous conversational religious speech benchmark (127 utterances, 0.20h)"
+  test:
+    manifest: experiments/stage29_omnilingual_kashmiri_asr/data/test_manifest.jsonl
+    description: "Sealed held-out test benchmark (5,923 utterances, 13.04h)"
+
+metrics:
+  - raw_wer
+  - normalized_wer
+  - raw_cer
+  - normalized_cer
+  - substitutions
+  - insertions
+  - deletions
+  - sentence_accuracy
+  - real_time_factor
+  - peak_gpu_memory_gb

@@ -1,0 +1,186 @@
+{
+  "audit_timestamp": "2026-11-24T17:31:34.540238",
+  "total_files": 255436,
+  "total_physical_size_bytes": 355376123843,
+  "total_physical_size_gb": 330.97,
+  "categories": {
+    "archive": {
+      "count": 38,
+      "size_gb": 15.2
+    },
+    "audio": {
+      "count": 223334,
+      "size_gb": 45.12
+    },
+    "code": {
+      "count": 1856,
+      "size_gb": 0.03
+    },
+    "columnar_data": {
+      "count": 538,
+      "size_gb": 121.45
+    },
+    "database": {
+      "count": 5,
+      "size_gb": 1.09
+    },
+    "document": {
+      "count": 112,
+      "size_gb": 0.67
+    },
+    "image": {
+      "count": 1839,
+      "size_gb": 0.02
+    },
+    "model_checkpoint": {
+      "count": 150,
+      "size_gb": 132.34
+    },
+    "other": {
+      "count": 20906,
+      "size_gb": 6.22
+    },
+    "text_manifest": {
+      "count": 6658,
+      "size_gb": 8.85
+    }
+  },
+  "dataset_summaries": [
+    {
+      "dataset_association": "Akashvani_Radio_Srinagar",
+      "file_count": 16,
+      "total_size_mb": 59.54
+    },
+    {
+      "dataset_association": "CodeMixed_RASA",
+      "file_count": 22,
+      "total_size_mb": 11566.85
+    },
+    {
+      "dataset_association": "Gaash_Bolbosh",
+      "file_count": 52188,
+      "total_size_mb": 25813.68
+    },
+    {
+      "dataset_association": "General_Project",
+      "file_count": 128781,
+      "total_size_mb": 178811.65
+    },
+    {
+      "dataset_association": "IndicVoices_Baseline",
+      "file_count": 20069,
+      "total_size_mb": 52997.56
+    },
+    {
+      "dataset_association": "IndicVoices_R",
+      "file_count": 24900,
+      "total_size_mb": 6882.84
+    },
+    {
+      "dataset_association": "Koshur_Org_Language_Courses",
+      "file_count": 1089,
+      "total_size_mb": 279.27
+    },
+    {
+      "dataset_association": "Koshur_Pixel",
+      "file_count": 370,
+      "total_size_mb": 41812.91
+    },
+    {
+      "dataset_association": "Lexicon_Dictionary",
+      "file_count": 268,
+      "total_size_mb": 821.84
+    },
+    {
+      "dataset_association": "Meta_Omnilingual",
+      "file_count": 759,
+      "total_size_mb": 891.05
+    },
+    {
+      "dataset_association": "Omarrran_Archive",
+      "file_count": 5447,
+      "total_size_mb": 2493.84
+    },
+    {
+      "dataset_association": "Omarrran_Conversational",
+      "file_count": 1539,
+      "total_size_mb": 539.18
+    },
+    {
+      "dataset_association": "Omarrran_Single_Speaker",
+      "file_count": 2991,
+      "total_size_mb": 1839.64
+    },
+    {
+      "dataset_association": "OpenSLR122",
+      "file_count": 1888,
+      "total_size_mb": 1204.0
+    },
+    {
+      "dataset_association": "Parallel_Translation",
+      "file_count": 1395,
+      "total_size_mb": 143.26
+    },
+    {
+      "dataset_association": "Programindz_Kashmiri",
+      "file_count": 2993,
+      "total_size_mb": 3233.17
+    },
+    {
+      "dataset_association": "Quran_AlFajr",
+      "file_count": 126,
+      "total_size_mb": 3435.17
+    },
+    {
+      "dataset_association": "Quran_Dr_War",
+      "file_count": 3739,
+      "total_size_mb": 804.17
+    },
+    {
+      "dataset_association": "Quran_Hakeem_Shafiq",
+      "file_count": 40,
+      "total_size_mb": 83.53
+    },
+    {
+      "dataset_association": "Quran_King_Fahd",
+      "file_count": 2011,
+      "total_size_mb": 429.71
+    },
+    {
+      "dataset_association": "Quran_Mirwaiz",
+      "file_count": 2,
+      "total_size_mb": 18.32
+    },
+    {
+      "dataset_association": "Quran_Salafi",
+      "file_count": 31,
+      "total_size_mb": 862.56
+    },
+    {
+      "dataset_association": "WAAZ_Community_Collection",
+      "file_count": 104,
+      "total_size_mb": 2100.36
+    },
+    {
+      "dataset_association": "Wakhlu_Learn_Kashmiri",
+      "file_count": 13,
+      "total_size_mb": 36.58
+    },
+    {
+      "dataset_association": "Whisper_Kashmiri",
+      "file_count": 577,
+      "total_size_mb": 897.09
+    },
+    {
+      "dataset_association": "Wikipedia_Kashmiri",
+      "file_count": 4,
+      "total_size_mb": 61.71
+    },
+    {
+      "dataset_association": "Xkaab_ASR",
+      "file_count": 4074,
+      "total_size_mb": 793.6
+    }
+  ],
+  "elapsed_seconds": 2.58
+}

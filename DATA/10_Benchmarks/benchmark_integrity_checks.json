@@ -1,0 +1,89 @@
+{
+  "audit_version": "v2_canonical_2026",
+  "benchmark_isolation_enforced": true,
+  "zero_training_collision": true,
+  "protected_speaker_count": 67,
+  "verified_benchmarks": [
+    {
+      "file": "test_clean.csv",
+      "clips": 866,
+      "hours": 1.21,
+      "speakers": 40,
+      "words": 11817,
+      "chars": 63311,
+      "sources": [
+        "xkaab_asr_4hrs",
+        "mendeley_ktts",
+        "programindz_audio_corpus",
+        "openslr_slr122"
+      ],
+      "benchmark_name": "Frozen Test Set (v1 Clean)"
+    },
+    {
+      "file": "test.csv",
+      "clips": 928,
+      "hours": 1.27,
+      "speakers": 41,
+      "words": 12400,
+      "chars": 66297,
+      "sources": [
+        "xkaab_asr_4hrs",
+        "mendeley_ktts",
+        "programindz_audio_corpus",
+        "openslr_slr122"
+      ],
+      "benchmark_name": "Frozen Test Set (v1 Master)"
+    },
+    {
+      "file": "val.csv",
+      "clips": 945,
+      "hours": 1.45,
+      "speakers": 28,
+      "words": 12970,
+      "chars": 70337,
+      "sources": [
+        "xkaab_asr_4hrs",
+        "mendeley_ktts",
+        "programindz_audio_corpus",
+        "openslr_slr122"
+      ],
+      "benchmark_name": "Frozen Validation Set (v1)"
+    },
+    {
+      "file": "tier_a_indicvoices_r_quarantined_verified_samples.jsonl",
+      "clips": 3731,
+      "hours": 9.19,
+      "speakers": 60,
+      "words": 91091,
+      "chars": 427664,
+      "sources": [
+        "indicvoices_r_quarantined_test"
+      ],
+      "benchmark_name": "Benchmark Tier A (IndicVoices-R)"
+    },
+    {
+      "file": "tier_b_educasheer_online_verified_samples.jsonl",
+      "clips": 668,
+      "hours": 1.38,
+      "speakers": 43,
+      "words": 7616,
+      "chars": 38111,
+      "sources": [
+        "DataCollection_Online"
+      ],
+      "benchmark_name": "Benchmark Tier B (WAAZ Online)"
+    },
+    {
+      "file": "tier_c_quran_king_fahd_verified_samples.jsonl",
+      "clips": 1916,
+      "hours": 2.39,
+      "speakers": 2,
+      "words": 18436,
+      "chars": 88010,
+      "sources": [
+        "Quran_King_Fahd"
+      ],
+      "benchmark_name": "Benchmark Tier C (Quran King Fahd)"
+    }
+  ]
+}

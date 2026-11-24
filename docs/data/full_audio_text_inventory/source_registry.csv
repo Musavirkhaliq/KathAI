@@ -1,0 +1,17 @@
+source_id,dataset_name,provider,modality,license,local_path,total_physical_clips,total_hours,status
+SRC_EXT_BOLBOSH,Bolbosh Kashmiri Speech Corpus,GAASH-Lab (IUST),Multi-speaker read & conversation,CC-BY 4.0,kashmiri_dataset/processed/audio/bolbosh/,47214,88.02,Physically Available
+SRC_EXT_INDICVOICES_R,IndicVoices-R Kashmiri Expansion,AI4Bharat / IIT Madras,Spontaneous native dialogue,CC-BY 4.0,kashmiri_dataset/processed/audio/indicvoices_r/,24894,62.59,Physically Available
+SRC_EXT_INDICVOICES,IndicVoices Kashmiri Primary,AI4Bharat / IIT Madras,Conversational field recordings,CC-BY 4.0,kashmiri_dataset/processed/audio/indicvoices_kashmiri/,44669,99.25,Physically Available
+SRC_QURAN_MIRWAIZ,Al-Quran Kashmiri Translation (Mirwaiz),Mirwaiz Research Foundation,Spoken religious translation,Educational / Research,kashmiri_dataset/processed/audio/quran_kashmiri/,45937,116.06,Physically Available
+SRC_QURAN_DR_WAR,Al-Quran Kashmiri Commentary (Dr. War),Gulistan News Ingestion,Spoken religious commentary,Educational / Research,kashmiri_dataset/processed/audio/quran_dr_war/,3706,8.87,Physically Available
+SRC_QURAN_KING_FAHD,Al-Quran Kashmiri Ingestion (King Fahd),King Fahd Holy Quran Complex,Studio religious recitation & commentary,Educational / Research,kashmiri_dataset/processed/audio/quran_king_fahd/,1959,5.17,Physically Available
+SRC_COMM_WAAZ,WAAZ Community Crowdsourced Platform,EduCasheer WAAZ Community,Crowdsourced native read & spontaneous,CC-BY-NC 4.0,DataCollection/data/raw/contributions/,2896,7.16,Physically Available
+SRC_RAW_KTTS,Kashmiri Text-to-Speech Corpus (KTTS),Mendeley / Programindz,Single-speaker read studio speech,CC-BY 4.0,kashmiri_dataset/processed/audio/ktts/,44253,68.13,Physically Available
+SRC_EXT_OPENSLR122,OpenSLR-122 Kashmiri Speech Corpus,OpenSLR / LRAC,Multi-speaker reading & dialogue,GPL-3.0,kashmiri_dataset/processed/audio/openslr122/,2986,2.04,Physically Available
+SRC_EXT_XKAAB,XKaab Kashmiri ASR 4-Hour Corpus,XKaab Research,Studio & conversation speech,CC-BY 4.0,kashmiri_dataset/processed/audio/xkaab_4hrs/,2733,4.14,Physically Available
+SRC_EXT_AUDIO_CORPUS,Programindz Spoken Audio Corpus,Programindz / OpenSLR-122 Slices,Multi-speaker short segments,GPL-3.0,kashmiri_dataset/processed/audio/audio_corpus/,4939,6.95,Physically Available
+SRC_EXT_META_OMNI,Meta Omnilingual Kashmiri ASR Corpus,Meta AI Research (FAIR),Conversational prompted monologue,CC-BY 4.0,kashmiri_dataset/processed/audio/meta_omnilingual/,758,8.11,Physically Available
+SRC_EXT_WHISPER_1,Whisper Kashmiri Community Slice 1,Community Ingestion,Near-field read speech,MIT,kashmiri_dataset/processed/audio/whisper_kashmiri/,550,2.78,Physically Available
+SRC_EXT_WHISPER_2,Whisper Kashmiri Fine-tune Part 2,Muneeb Haroon / HuggingFace,Community read speech,Apache 2.0,kashmiri_dataset/processed/audio/whisper_kashmiri_2/,550,2.78,Physically Available
+SRC_EXT_UCHICAGO_DICT,UChicago S. Hassan Kashmiri Dictionary,University of Chicago / S. Hassan,Lexicon single-word pronunciations,Educational / Research,kashmiri_dataset/raw/external/mzmmoazam_dataset/,1876,0.34,Physically Available
+SRC_BENCH_SARVAM,Sarvam Indic DiarBench (Kashmiri),Sarvam AI,Multi-speaker diarization benchmark,CC-BY-SA 4.0,kashmiri_dataset/processed/audio/sarvam_diarbench/,20,1.1,Physically Available

@@ -1,0 +1,6 @@
+model_id,model_architecture,manifest_path,clips_used,training_hours,notes
+B-01,Conformer CTC (Baseline v1),kashmiri_dataset/manifests/train.csv,7307,10.4,"Initial 4-source baseline (OpenSLR, Programindz, Xkaab, KTTS)"
+B-02A,Conformer CTC + KenLM 3-gram,kashmiri_dataset/manifests/train.csv,7307,10.4,Same acoustic split as B-01 with language model rescoring
+Stage 12 (R-01/R-02),Robust Conformer (Acoustic Augmentation),kashmiri_dataset/experiments/stage12_robustness_training/manifests/stage12_train_approved_96k.jsonl,93126,151.37,Expanded with Bolbosh and augmented acoustic variations
+Stage 22 (E-22),Conformer Large + CTC Beam Search,asr_training_eligible_manifest.jsonl,106487,214.65,Full expanded training manifest (106k clips)
+Stage 29 (O29),Meta Omnilingual / MMS Kashmiri Fine-Tuning,experiments/stage29_omnilingual_kashmiri_asr/configs/train_manifest.jsonl,0,0.0,Multilingual foundation model adapted to Kashmiri

@@ -1,0 +1,98 @@
+{
+  "Dataset_A_Matched": {
+    "record_count": 97165,
+    "total_duration_seconds": 599005.4879999872,
+    "total_duration_hours": 166.39041333332978,
+    "total_words": 1576735,
+    "total_chars": 7069065,
+    "unique_speakers": 507,
+    "sources": {
+      "humair025/KashmiriSpeech-IndicVoices": 15808,
+      "Baseline_Corpus": 36681,
+      "GAASH-Lab/Bolbosh": 40526,
+      "omarrran/kashmiri_single_speaker_ttd_hf_dataset_2024": 2984,
+      "programindz_audio_corpus": 253,
+      "xkaab_asr_4hrs": 385,
+      "openslr_slr122": 27,
+      "WAAZ_Community": 501
+    },
+    "sha256": "1fbc9e5f2064e9faa45733042803c8e304078d3f96a1e0f7bc297464c98c8d0b",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/train_manifest_dataset_a.jsonl"
+  },
+  "Dataset_B_Expanded": {
+    "record_count": 105699,
+    "total_duration_seconds": 746065.149999992,
+    "total_duration_hours": 207.2403194444422,
+    "total_words": 1943635,
+    "total_chars": 8708144,
+    "unique_speakers": 557,
+    "sources": {
+      "Gaash_Bolbosh": 39996,
+      "IndicVoices_Kashmiri": 20015,
+      "Quran_Mirwaiz": 11906,
+      "Programindz_TTS": 2984,
+      "Quran_Dr_War": 3678,
+      "Quran_King_Fahd": 1920,
+      "Whisper_Kashmiri_1": 520,
+      "whisper_kashmiri_2": 26,
+      "indicvoices_r": 24654
+    },
+    "sha256": "6fff9b30a3d43d7af71875e84bf033fb5d7c86af6ee9bcda7bc834ea78b24fbb",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/train_manifest_dataset_b.jsonl"
+  },
+  "Exclusions_Meta_Omnilingual": {
+    "record_count": 788,
+    "total_duration_seconds": 26659.379000000004,
+    "total_duration_hours": 7.405383055555557,
+    "total_words": 26020,
+    "total_chars": 124547,
+    "unique_speakers": 6,
+    "sources": {
+      "meta_omnilingual": 788
+    },
+    "sha256": "5c3f4e7933bcfa0e1c69b2307ec15ffaf2f862d14b04ca9dcc47187d4974239b",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/exclusion_manifest.jsonl"
+  },
+  "Validation_Dev_A_Disjoint": {
+    "record_count": 6257,
+    "total_duration_seconds": 40684.288999999924,
+    "total_duration_hours": 11.301191388888867,
+    "total_words": 106532,
+    "total_chars": 478226,
+    "unique_speakers": 101,
+    "sources": {
+      "xkaab_asr_4hrs": 535,
+      "humair025/KashmiriSpeech-IndicVoices": 3002,
+      "openslr_slr122": 137,
+      "GAASH-Lab/Bolbosh": 2583
+    },
+    "sha256": "b37e57b2e3286baf5976a584f6580f3b36dd3b893a17e8f0b7a6a5d1dbfe59bf",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_a_disjoint.jsonl"
+  },
+  "Validation_Dev_B_Waaz": {
+    "record_count": 127,
+    "total_duration_seconds": 722.1600000000001,
+    "total_duration_hours": 0.20060000000000003,
+    "total_words": 1261,
+    "total_chars": 5815,
+    "unique_speakers": 6,
+    "sources": {
+      "WAAZ_Community": 127
+    },
+    "sha256": "e5b93515dee70b3a70c0ca104386a4f1eab9962b30e0ec742c65f1b53785eb8c",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/validation_manifest_dev_b_waaz.jsonl"
+  },
+  "Test_Held_Out": {
+    "record_count": 5923,
+    "total_duration_seconds": 46944.10700000007,
+    "total_duration_hours": 13.040029722222242,
+    "total_words": 120817,
+    "total_chars": 546109,
+    "unique_speakers": 86,
+    "sources": {
+      "unknown_source": 5923
+    },
+    "sha256": "f99bbcfb65957f52c41ef6e56bbbf127d9fce17fae19000dab1e24ba3bb6d30d",
+    "output_path": "experiments/stage29_omnilingual_kashmiri_asr/data/test_manifest.jsonl"
+  }
+}

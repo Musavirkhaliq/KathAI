@@ -1,0 +1,1393 @@
+{
+  "tokenizer_model": "experiments/stage29_omnilingual_kashmiri_asr/assets/omniASR_tokenizer_written_v2.model",
+  "vocab_size": 10288,
+  "special_tokens": {
+    "unk_id": 3,
+    "pad_id": 1,
+    "bos_id": 0,
+    "eos_id": 2
+  },
+  "inventory_audit": {
+    "Standard Consonants": [
+      {
+        "char": "ا",
+        "unicode": "U+0627",
+        "char_name": "ARABIC LETTER ALEF",
+        "pieces": [
+          "ا"
+        ],
+        "token_ids": [
+          1577
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ب",
+        "unicode": "U+0628",
+        "char_name": "ARABIC LETTER BEH",
+        "pieces": [
+          "ب"
+        ],
+        "token_ids": [
+          8592
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "پ",
+        "unicode": "U+067E",
+        "char_name": "ARABIC LETTER PEH",
+        "pieces": [
+          "پ"
+        ],
+        "token_ids": [
+          6736
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ت",
+        "unicode": "U+062A",
+        "char_name": "ARABIC LETTER TEH",
+        "pieces": [
+          "ت"
+        ],
+        "token_ids": [
+          9632
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٹ",
+        "unicode": "U+0679",
+        "char_name": "ARABIC LETTER TTEH",
+        "pieces": [
+          "ٹ"
+        ],
+        "token_ids": [
+          2573
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ث",
+        "unicode": "U+062B",
+        "char_name": "ARABIC LETTER THEH",
+        "pieces": [
+          "ث"
+        ],
+        "token_ids": [
+          4640
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ج",
+        "unicode": "U+062C",
+        "char_name": "ARABIC LETTER JEEM",
+        "pieces": [
+          "ج"
+        ],
+        "token_ids": [
+          380
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "چ",
+        "unicode": "U+0686",
+        "char_name": "ARABIC LETTER TCHEH",
+        "pieces": [
+          "چ"
+        ],
+        "token_ids": [
+          186
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ح",
+        "unicode": "U+062D",
+        "char_name": "ARABIC LETTER HAH",
+        "pieces": [
+          "ح"
+        ],
+        "token_ids": [
+          4329
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "خ",
+        "unicode": "U+062E",
+        "char_name": "ARABIC LETTER KHAH",
+        "pieces": [
+          "خ"
+        ],
+        "token_ids": [
+          5292
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "د",
+        "unicode": "U+062F",
+        "char_name": "ARABIC LETTER DAL",
+        "pieces": [
+          "د"
+        ],
+        "token_ids": [
+          3038
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ڈ",
+        "unicode": "U+0688",
+        "char_name": "ARABIC LETTER DDAL",
+        "pieces": [
+          "ڈ"
+        ],
+        "token_ids": [
+          2897
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ذ",
+        "unicode": "U+0630",
+        "char_name": "ARABIC LETTER THAL",
+        "pieces": [
+          "ذ"
+        ],
+        "token_ids": [
+          4132
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ر",
+        "unicode": "U+0631",
+        "char_name": "ARABIC LETTER REH",
+        "pieces": [
+          "ر"
+        ],
+        "token_ids": [
+          8065
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ڑ",
+        "unicode": "U+0691",
+        "char_name": "ARABIC LETTER RREH",
+        "pieces": [
+          "ڑ"
+        ],
+        "token_ids": [
+          3416
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ز",
+        "unicode": "U+0632",
+        "char_name": "ARABIC LETTER ZAIN",
+        "pieces": [
+          "ز"
+        ],
+        "token_ids": [
+          3026
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ژ",
+        "unicode": "U+0698",
+        "char_name": "ARABIC LETTER JEH",
+        "pieces": [
+          "ژ"
+        ],
+        "token_ids": [
+          9002
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "س",
+        "unicode": "U+0633",
+        "char_name": "ARABIC LETTER SEEN",
+        "pieces": [
+          "س"
+        ],
+        "token_ids": [
+          6975
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ش",
+        "unicode": "U+0634",
+        "char_name": "ARABIC LETTER SHEEN",
+        "pieces": [
+          "ش"
+        ],
+        "token_ids": [
+          233
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ص",
+        "unicode": "U+0635",
+        "char_name": "ARABIC LETTER SAD",
+        "pieces": [
+          "ص"
+        ],
+        "token_ids": [
+          2106
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ض",
+        "unicode": "U+0636",
+        "char_name": "ARABIC LETTER DAD",
+        "pieces": [
+          "ض"
+        ],
+        "token_ids": [
+          6711
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ط",
+        "unicode": "U+0637",
+        "char_name": "ARABIC LETTER TAH",
+        "pieces": [
+          "ط"
+        ],
+        "token_ids": [
+          1672
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ظ",
+        "unicode": "U+0638",
+        "char_name": "ARABIC LETTER ZAH",
+        "pieces": [
+          "ظ"
+        ],
+        "token_ids": [
+          2938
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ع",
+        "unicode": "U+0639",
+        "char_name": "ARABIC LETTER AIN",
+        "pieces": [
+          "ع"
+        ],
+        "token_ids": [
+          5171
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "غ",
+        "unicode": "U+063A",
+        "char_name": "ARABIC LETTER GHAIN",
+        "pieces": [
+          "غ"
+        ],
+        "token_ids": [
+          4857
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ف",
+        "unicode": "U+0641",
+        "char_name": "ARABIC LETTER FEH",
+        "pieces": [
+          "ف"
+        ],
+        "token_ids": [
+          8621
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ق",
+        "unicode": "U+0642",
+        "char_name": "ARABIC LETTER QAF",
+        "pieces": [
+          "ق"
+        ],
+        "token_ids": [
+          745
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ک",
+        "unicode": "U+06A9",
+        "char_name": "ARABIC LETTER KEHEH",
+        "pieces": [
+          "ک"
+        ],
+        "token_ids": [
+          9921
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "گ",
+        "unicode": "U+06AF",
+        "char_name": "ARABIC LETTER GAF",
+        "pieces": [
+          "گ"
+        ],
+        "token_ids": [
+          126
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ل",
+        "unicode": "U+0644",
+        "char_name": "ARABIC LETTER LAM",
+        "pieces": [
+          "ل"
+        ],
+        "token_ids": [
+          6886
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "م",
+        "unicode": "U+0645",
+        "char_name": "ARABIC LETTER MEEM",
+        "pieces": [
+          "م"
+        ],
+        "token_ids": [
+          3376
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ن",
+        "unicode": "U+0646",
+        "char_name": "ARABIC LETTER NOON",
+        "pieces": [
+          "ن"
+        ],
+        "token_ids": [
+          183
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ں",
+        "unicode": "U+06BA",
+        "char_name": "ARABIC LETTER NOON GHUNNA",
+        "pieces": [
+          "ں"
+        ],
+        "token_ids": [
+          4065
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "و",
+        "unicode": "U+0648",
+        "char_name": "ARABIC LETTER WAW",
+        "pieces": [
+          "و"
+        ],
+        "token_ids": [
+          6481
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ہ",
+        "unicode": "U+06C1",
+        "char_name": "ARABIC LETTER HEH GOAL",
+        "pieces": [
+          "ہ"
+        ],
+        "token_ids": [
+          36
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ھ",
+        "unicode": "U+06BE",
+        "char_name": "ARABIC LETTER HEH DOACHASHMEE",
+        "pieces": [
+          "ھ"
+        ],
+        "token_ids": [
+          7112
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ی",
+        "unicode": "U+06CC",
+        "char_name": "ARABIC LETTER FARSI YEH",
+        "pieces": [
+          "ی"
+        ],
+        "token_ids": [
+          3783
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ے",
+        "unicode": "U+06D2",
+        "char_name": "ARABIC LETTER YEH BARREE",
+        "pieces": [
+          "ے"
+        ],
+        "token_ids": [
+          5718
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      }
+    ],
+    "Kashmiri-Specific Letters & Variants": [
+      {
+        "char": "ژ",
+        "unicode": "U+0698",
+        "char_name": "ARABIC LETTER JEH",
+        "pieces": [
+          "ژ"
+        ],
+        "token_ids": [
+          9002
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٹ",
+        "unicode": "U+0679",
+        "char_name": "ARABIC LETTER TTEH",
+        "pieces": [
+          "ٹ"
+        ],
+        "token_ids": [
+          2573
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ڈ",
+        "unicode": "U+0688",
+        "char_name": "ARABIC LETTER DDAL",
+        "pieces": [
+          "ڈ"
+        ],
+        "token_ids": [
+          2897
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ڑ",
+        "unicode": "U+0691",
+        "char_name": "ARABIC LETTER RREH",
+        "pieces": [
+          "ڑ"
+        ],
+        "token_ids": [
+          3416
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ک",
+        "unicode": "U+06A9",
+        "char_name": "ARABIC LETTER KEHEH",
+        "pieces": [
+          "ک"
+        ],
+        "token_ids": [
+          9921
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "گ",
+        "unicode": "U+06AF",
+        "char_name": "ARABIC LETTER GAF",
+        "pieces": [
+          "گ"
+        ],
+        "token_ids": [
+          126
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ہ",
+        "unicode": "U+06C1",
+        "char_name": "ARABIC LETTER HEH GOAL",
+        "pieces": [
+          "ہ"
+        ],
+        "token_ids": [
+          36
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ھ",
+        "unicode": "U+06BE",
+        "char_name": "ARABIC LETTER HEH DOACHASHMEE",
+        "pieces": [
+          "ھ"
+        ],
+        "token_ids": [
+          7112
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ی",
+        "unicode": "U+06CC",
+        "char_name": "ARABIC LETTER FARSI YEH",
+        "pieces": [
+          "ی"
+        ],
+        "token_ids": [
+          3783
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ے",
+        "unicode": "U+06D2",
+        "char_name": "ARABIC LETTER YEH BARREE",
+        "pieces": [
+          "ے"
+        ],
+        "token_ids": [
+          5718
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ں",
+        "unicode": "U+06BA",
+        "char_name": "ARABIC LETTER NOON GHUNNA",
+        "pieces": [
+          "ں"
+        ],
+        "token_ids": [
+          4065
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      }
+    ],
+    "Kashmiri Vowels & Central Vowels": [
+      {
+        "char": "آ",
+        "unicode": "U+0622",
+        "char_name": "ARABIC LETTER ALEF WITH MADDA ABOVE",
+        "pieces": [
+          "آ"
+        ],
+        "token_ids": [
+          6160
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٲ",
+        "unicode": "U+0672",
+        "char_name": "ARABIC LETTER ALEF WITH WAVY HAMZA ABOVE",
+        "pieces": [
+          "ٲ"
+        ],
+        "token_ids": [
+          5120
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٳ",
+        "unicode": "U+0673",
+        "char_name": "ARABIC LETTER ALEF WITH WAVY HAMZA BELOW",
+        "pieces": [
+          "ٳ"
+        ],
+        "token_ids": [
+          3
+        ],
+        "is_unk": true,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ۆ",
+        "unicode": "U+06C6",
+        "char_name": "ARABIC LETTER OE",
+        "pieces": [
+          "ۆ"
+        ],
+        "token_ids": [
+          8116
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ۇ",
+        "unicode": "U+06C7",
+        "char_name": "ARABIC LETTER U",
+        "pieces": [
+          "ۇ"
+        ],
+        "token_ids": [
+          3923
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ۄ",
+        "unicode": "U+06C4",
+        "char_name": "ARABIC LETTER WAW WITH RING",
+        "pieces": [
+          "ۄ"
+        ],
+        "token_ids": [
+          4057
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ؠ",
+        "unicode": "U+0620",
+        "char_name": "ARABIC LETTER KASHMIRI YEH",
+        "pieces": [
+          "ؠ"
+        ],
+        "token_ids": [
+          3
+        ],
+        "is_unk": true,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ۍ",
+        "unicode": "U+06CD",
+        "char_name": "ARABIC LETTER YEH WITH TAIL",
+        "pieces": [
+          "ۍ"
+        ],
+        "token_ids": [
+          484
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ێ",
+        "unicode": "U+06CE",
+        "char_name": "ARABIC LETTER YEH WITH SMALL V",
+        "pieces": [
+          "ێ"
+        ],
+        "token_ids": [
+          8677
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      }
+    ],
+    "Combining Diacritics & Vowel Signs": [
+      {
+        "char": "َ",
+        "unicode": "U+064E",
+        "char_name": "ARABIC FATHA",
+        "pieces": [
+          "َ"
+        ],
+        "token_ids": [
+          3697
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ِ",
+        "unicode": "U+0650",
+        "char_name": "ARABIC KASRA",
+        "pieces": [
+          "ِ"
+        ],
+        "token_ids": [
+          10198
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ُ",
+        "unicode": "U+064F",
+        "char_name": "ARABIC DAMMA",
+        "pieces": [
+          "ُ"
+        ],
+        "token_ids": [
+          3083
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ْ",
+        "unicode": "U+0652",
+        "char_name": "ARABIC SUKUN",
+        "pieces": [
+          "ْ"
+        ],
+        "token_ids": [
+          1964
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ّ",
+        "unicode": "U+0651",
+        "char_name": "ARABIC SHADDA",
+        "pieces": [
+          "ّ"
+        ],
+        "token_ids": [
+          1462
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٔ",
+        "unicode": "U+0654",
+        "char_name": "ARABIC HAMZA ABOVE",
+        "pieces": [
+          "ٔ"
+        ],
+        "token_ids": [
+          5946
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٕ",
+        "unicode": "U+0655",
+        "char_name": "ARABIC HAMZA BELOW",
+        "pieces": [
+          "ٕ"
+        ],
+        "token_ids": [
+          2570
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٰ",
+        "unicode": "U+0670",
+        "char_name": "ARABIC LETTER SUPERSCRIPT ALEF",
+        "pieces": [
+          "ٰ"
+        ],
+        "token_ids": [
+          5649
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٚ",
+        "unicode": "U+065A",
+        "char_name": "ARABIC VOWEL SIGN SMALL V ABOVE",
+        "pieces": [
+          "ٚ"
+        ],
+        "token_ids": [
+          880
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "ٛ",
+        "unicode": "U+065B",
+        "char_name": "ARABIC VOWEL SIGN INVERTED SMALL V ABOVE",
+        "pieces": [
+          "ٛ"
+        ],
+        "token_ids": [
+          1949
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      }
+    ],
+    "Numerals (Eastern Arabic & Western)": [
+      {
+        "char": "۰",
+        "unicode": "U+06F0",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT ZERO",
+        "pieces": [
+          "۰"
+        ],
+        "token_ids": [
+          7077
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۱",
+        "unicode": "U+06F1",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT ONE",
+        "pieces": [
+          "۱"
+        ],
+        "token_ids": [
+          8092
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۲",
+        "unicode": "U+06F2",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT TWO",
+        "pieces": [
+          "۲"
+        ],
+        "token_ids": [
+          770
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۳",
+        "unicode": "U+06F3",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT THREE",
+        "pieces": [
+          "۳"
+        ],
+        "token_ids": [
+          4536
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۴",
+        "unicode": "U+06F4",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT FOUR",
+        "pieces": [
+          "۴"
+        ],
+        "token_ids": [
+          10164
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۵",
+        "unicode": "U+06F5",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT FIVE",
+        "pieces": [
+          "۵"
+        ],
+        "token_ids": [
+          8970
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۶",
+        "unicode": "U+06F6",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT SIX",
+        "pieces": [
+          "۶"
+        ],
+        "token_ids": [
+          156
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۷",
+        "unicode": "U+06F7",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT SEVEN",
+        "pieces": [
+          "۷"
+        ],
+        "token_ids": [
+          5932
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۸",
+        "unicode": "U+06F8",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT EIGHT",
+        "pieces": [
+          "۸"
+        ],
+        "token_ids": [
+          6867
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۹",
+        "unicode": "U+06F9",
+        "char_name": "EXTENDED ARABIC-INDIC DIGIT NINE",
+        "pieces": [
+          "۹"
+        ],
+        "token_ids": [
+          666
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "0",
+        "unicode": "U+0030",
+        "char_name": "DIGIT ZERO",
+        "pieces": [
+          "0"
+        ],
+        "token_ids": [
+          9095
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "1",
+        "unicode": "U+0031",
+        "char_name": "DIGIT ONE",
+        "pieces": [
+          "1"
+        ],
+        "token_ids": [
+          6347
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "2",
+        "unicode": "U+0032",
+        "char_name": "DIGIT TWO",
+        "pieces": [
+          "2"
+        ],
+        "token_ids": [
+          7964
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "3",
+        "unicode": "U+0033",
+        "char_name": "DIGIT THREE",
+        "pieces": [
+          "3"
+        ],
+        "token_ids": [
+          9787
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "4",
+        "unicode": "U+0034",
+        "char_name": "DIGIT FOUR",
+        "pieces": [
+          "4"
+        ],
+        "token_ids": [
+          2564
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "5",
+        "unicode": "U+0035",
+        "char_name": "DIGIT FIVE",
+        "pieces": [
+          "5"
+        ],
+        "token_ids": [
+          5917
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "6",
+        "unicode": "U+0036",
+        "char_name": "DIGIT SIX",
+        "pieces": [
+          "6"
+        ],
+        "token_ids": [
+          8359
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "7",
+        "unicode": "U+0037",
+        "char_name": "DIGIT SEVEN",
+        "pieces": [
+          "7"
+        ],
+        "token_ids": [
+          4526
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "8",
+        "unicode": "U+0038",
+        "char_name": "DIGIT EIGHT",
+        "pieces": [
+          "8"
+        ],
+        "token_ids": [
+          5559
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "9",
+        "unicode": "U+0039",
+        "char_name": "DIGIT NINE",
+        "pieces": [
+          "9"
+        ],
+        "token_ids": [
+          7293
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      }
+    ],
+    "Punctuation & Control": [
+      {
+        "char": "،",
+        "unicode": "U+060C",
+        "char_name": "ARABIC COMMA",
+        "pieces": [
+          "،"
+        ],
+        "token_ids": [
+          8012
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "؛",
+        "unicode": "U+061B",
+        "char_name": "ARABIC SEMICOLON",
+        "pieces": [
+          "؛"
+        ],
+        "token_ids": [
+          5804
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "؟",
+        "unicode": "U+061F",
+        "char_name": "ARABIC QUESTION MARK",
+        "pieces": [
+          "؟"
+        ],
+        "token_ids": [
+          9130
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "۔",
+        "unicode": "U+06D4",
+        "char_name": "ARABIC FULL STOP",
+        "pieces": [
+          "۔"
+        ],
+        "token_ids": [
+          3996
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "!",
+        "unicode": "U+0021",
+        "char_name": "EXCLAMATION MARK",
+        "pieces": [
+          "!"
+        ],
+        "token_ids": [
+          330
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "?",
+        "unicode": "U+003F",
+        "char_name": "QUESTION MARK",
+        "pieces": [
+          "?"
+        ],
+        "token_ids": [
+          6412
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": ",",
+        "unicode": "U+002C",
+        "char_name": "COMMA",
+        "pieces": [
+          ","
+        ],
+        "token_ids": [
+          6391
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": ".",
+        "unicode": "U+002E",
+        "char_name": "FULL STOP",
+        "pieces": [
+          "."
+        ],
+        "token_ids": [
+          2885
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": "-",
+        "unicode": "U+002D",
+        "char_name": "HYPHEN-MINUS",
+        "pieces": [
+          "-"
+        ],
+        "token_ids": [
+          2751
+        ],
+        "is_unk": false,
+        "roundtrip_ok": true
+      },
+      {
+        "char": " ",
+        "unicode": "U+0020",
+        "char_name": "SPACE",
+        "pieces": [],
+        "token_ids": [],
+        "is_unk": false,
+        "roundtrip_ok": false
+      },
+      {
+        "char": "‌",
+        "unicode": "U+200C",
+        "char_name": "ZERO WIDTH NON-JOINER",
+        "pieces": [
+          "‌"
+        ],
+        "token_ids": [
+          3
+        ],
+        "is_unk": true,
+        "roundtrip_ok": true
+      }
+    ]
+  },
+  "corpus_statistics": {
+    "Dataset A (data_22a)": {
+      "utterances": 97165,
+      "total_words": 1576735,
+      "total_chars": 7069065,
+      "total_tokens": 7069064,
+      "avg_tokens_per_utt": 72.75319302217876,
+      "avg_tokens_per_word": 4.483355795361935,
+      "token_length_min": 1,
+      "token_length_max": 478,
+      "token_length_median": 62,
+      "unk_tokens": 3766,
+      "utts_with_unk": 2195,
+      "utts_with_unk_pct": 2.259043894406422,
+      "char_coverage_pct": 99.94672562025184,
+      "roundtrip_failures": 0
+    },
+    "dev_a_disjoint": {
+      "utterances": 6257,
+      "total_words": 106532,
+      "total_chars": 478226,
+      "total_tokens": 478226,
+      "avg_tokens_per_utt": 76.43055777529167,
+      "avg_tokens_per_word": 4.489036158149664,
+      "token_length_min": 1,
+      "token_length_max": 617,
+      "token_length_median": 65,
+      "unk_tokens": 224,
+      "utts_with_unk": 119,
+      "utts_with_unk_pct": 1.9018699057056097,
+      "char_coverage_pct": 99.95316022131794,
+      "roundtrip_failures": 0
+    },
+    "dev_b_waaz_val": {
+      "utterances": 127,
+      "total_words": 1261,
+      "total_chars": 5815,
+      "total_tokens": 5815,
+      "avg_tokens_per_utt": 45.78740157480315,
+      "avg_tokens_per_word": 4.611419508326724,
+      "token_length_min": 17,
+      "token_length_max": 159,
+      "token_length_median": 38,
+      "unk_tokens": 31,
+      "utts_with_unk": 29,
+      "utts_with_unk_pct": 22.83464566929134,
+      "char_coverage_pct": 99.46689595872743,
+      "roundtrip_failures": 0
+    },
+    "test": {
+      "utterances": 5923,
+      "total_words": 120817,
+      "total_chars": 546109,
+      "total_tokens": 546108,
+      "avg_tokens_per_utt": 92.20124936687489,
+      "avg_tokens_per_word": 4.520125479030269,
+      "token_length_min": 1,
+      "token_length_max": 8001,
+      "token_length_median": 78,
+      "unk_tokens": 276,
+      "utts_with_unk": 149,
+      "utts_with_unk_pct": 2.515617085936181,
+      "char_coverage_pct": 99.94946054626558,
+      "roundtrip_failures": 0
+    }
+  },
+  "unsupported_characters": [
+    {
+      "char": "ؠ",
+      "unicode": "U+0620",
+      "name": "ARABIC LETTER KASHMIRI YEH",
+      "frequency": 4292
+    },
+    {
+      "char": "ٱ",
+      "unicode": "U+0671",
+      "name": "ARABIC LETTER ALEF WASLA",
+      "frequency": 5
+    },
+    {
+      "char": "ڮ",
+      "unicode": "U+06AE",
+      "name": "ARABIC LETTER KAF WITH THREE DOTS BELOW",
+      "frequency": 2
+    }
+  ]
+}

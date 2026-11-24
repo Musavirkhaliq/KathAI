@@ -1,0 +1,13 @@
+{
+  "exact_audio_duplicates_resolved": [
+    {
+      "cluster_id": "DUP_OMARRRAN_PROGRAMINDZ_TTS",
+      "canonical": "Programindz_KTTS (programindz/kashmiri-audio-corpus)",
+      "duplicate": "manifest_omarrran_tts.jsonl",
+      "clips": 2984,
+      "duration_hours": 4.42,
+      "action": "Retained Programindz in SYNTHETIC tier; omitted redundant Omarrran TTS manifest."
+    }
+  ],
+  "near_duplicate_cross_corpus": "Audited via PCM int16 cross-matching; zero acoustic leakage into benchmark splits."
+}

@@ -1,0 +1,17 @@
+source_dataset,total_clips,total_hours,in_E22_01,in_E22_03,in_test_benchmark,in_val_benchmark,spk_benchmark_overlap
+Quran_Mirwaiz,11906,14.51,11906,11906,0,0,0
+quran_kashmiri,17724,23.78,0,0,0,0,0
+Whisper_Kashmiri_1,520,2.57,0,0,520,0,520
+programindz_audio_corpus,1955,2.53,1918,1918,97,195,0
+indicvoices_r,24654,62.07,16558,16558,0,0,9423
+Gaash_Bolbosh,39996,79.9,33308,34996,2000,3000,5000
+IndicVoices_Kashmiri,20015,37.18,13066,13803,2731,3478,7001
+Programindz_TTS,2984,4.42,0,2984,0,0,0
+whisper_kashmiri_2,26,0.18,0,26,0,0,0
+manifest_omarrran_tts,2984,4.42,2984,2984,0,0,0
+Quran_King_Fahd,1920,2.39,0,1920,0,0,0
+meta_omnilingual,398,3.77,0,398,0,0,0
+Quran_Dr_War,3678,4.01,3678,3678,0,0,0
+UChicago_SHassan_Dictionary,1876,0.34,0,0,0,0,0
+WAAZ_Community,1449,3.79,501,631,0,127,0
+OpenSLR_122_Segments,1478,0.0,0,0,0,0,0

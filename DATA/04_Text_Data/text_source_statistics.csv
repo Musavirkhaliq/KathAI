@@ -1,0 +1,6 @@
+filename,records,total_words,total_chars,sampled_vocab,perso_arabic_pct,devanagari_pct,latin_pct
+kashmiri_text_corpus.jsonl,50000,1999578,10587090,118616,82.6,0.0,0.0
+kashmiri_wikipedia_cleaned.jsonl,14060,1816621,12008513,125016,80.4,0.6,14.8
+dataset.jsonl,24402,603068,3184478,49149,96.4,0.0,0.0
+qwen_dataset.jsonl,0,0,0,0,0.0,0.0,0.0
+train.jsonl,20443,282155,1562521,52643,80.0,0.0,0.0

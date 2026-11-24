@@ -1,0 +1,129 @@
+{
+  "timestamp": "2026-11-24T17:31:13",
+  "total_files_deleted": 342,
+  "total_gb_freed": 401.86,
+  "preserved_files_count": 142,
+  "preserved_gb": 133.15,
+  "deleted_files_sample": [
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-500/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-500/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-500/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-250/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-250/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-02/checkpoint-250/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/checkpoint-500/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/checkpoint-500/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/checkpoint-500/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-500/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-500/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-500/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-250/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-250/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-03/checkpoint-250/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-04/checkpoint-500/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-04/checkpoint-500/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-04/checkpoint-500/optimizer.pt",
+      "size_bytes": 2491480391,
+      "size_gb": 2.32,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-04/checkpoint-250/scheduler.pt",
+      "size_bytes": 1401,
+      "size_gb": 0.0,
+      "reason": "Intermediate training step/epoch checkpoint"
+    },
+    {
+      "path": "./kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-04/checkpoint-250/model.safetensors",
+      "size_bytes": 1262467532,
+      "size_gb": 1.176,
+      "reason": "Intermediate training step/epoch checkpoint"
+    }
+  ]
+}

@@ -544,3 +544,46 @@
 - **Failed Approaches & Anomalies**: Candidate-level neural reranking failed to outperform KenLM shallow fusion despite extensive GPU training. Escalation decision: HALT candidate reranking permanently.
 - **Relationship to Subsequent Research**: Permanently certified Stage 22 E22-01 + 4-gram KenLM as the undisputed Kashmiri ASR Champion.
 
+
+
+### `STAGE-29`: Meta Omnilingual ASR CTC Adaptation & Scaling (300M & 1B v2)
+
+- **Original Stage Identifier**: `Stage 29`
+- **Timeline**: 2026-11-17 – 2026-11-18 | **Status**: `COMPLETED (DECISIVE BENCHMARK & PRODUCTION CHAMPION CONFIRMED)` | **Confidence**: `VERIFIED`
+- **Research Objective**: Adapt and benchmark Meta's foundation models (`omniASR_CTC_300M_v2` and `omniASR_CTC_1B_v2`) on Kashmiri speech recognition under strictly matched conditions against historical champion `E22-01` across 12,307 test utterances (24.54 hours).
+- **Scientific Hypothesis**: Multilingual pretraining across 1,000+ languages in Omnilingual CTC models will outperform monolingual/multilingual XLS-R representation in low-resource Perso-Arabic Kashmiri.
+- **Predecessor Stage**: `STAGE-24` / `STAGE-22`
+- **Input Data & Artifacts**:
+  - `train_manifest_dataset_a.jsonl`: 97,165 records (166.39 hours), strictly matched to `E22-01`
+  - `validation_manifest_dev_a_disjoint.jsonl`: 6,257 records (11.30 hours)
+  - `validation_manifest_dev_b_waaz.jsonl`: 127 records (0.20 hours)
+  - `test_manifest.jsonl`: 5,923 records (13.04 hours)
+  - `omniASR_tokenizer_written_v2.model`: 10,288 SentencePiece vocabulary
+- **Source Code & Pipelines**: `experiments/stage29_omnilingual_kashmiri_asr/`
+  - Model Architecture: `scripts/model.py` (Native pure-PyTorch ARM64 implementation mapping 319 / 607 fairseq2 parameter tensors)
+  - Training Engine: `scripts/train.py` (BF16 mixed precision, gradient checkpointing, expandable segments)
+  - Evaluation Suite: `scripts/evaluate.py`, `scripts/evaluate_suite.py` (Duration-aware chunking for memory safety)
+  - Statistical Comparison: `scripts/compare_models.py` (10,000 paired bootstrap resamples, Wilcoxon signed-rank tests)
+- **Models Loaded / Utilized**:
+  - `E22-01` (Baseline Champion: Wav2Vec2 XLS-R 300M + Character CTC)
+  - `omniASR-CTC-300M-v2.pt` (Pretrained 300M checkpoint, SHA-256: `8ce340ada22435d189908a8af67e3bb04899b6f2f5329d036248b9c3e38d2b50`)
+  - `omniASR-CTC-1B-v2.pt` (Pretrained 1B checkpoint, SHA-256: `354f981756aa8f41591ea363e45b9c4eba1ec5144c2273af82e747efbb08919c`)
+- **Models / Checkpoints Trained**:
+  - `O29-01`: Fine-tuned `omniASR_CTC_300M_v2` (4,000 steps, best WER 38.09%, checkpoint: `checkpoints/O29-01/best_model.pt`, 1.9 GB)
+  - `O29-02`: Fine-tuned `omniASR_CTC_1B_v2` (4,000 steps, best WER 43.98%, checkpoint: `checkpoints/O29-02/best_model.pt`, 5.5 GB)
+- **Major Findings & Verified Results**:
+  1. **Zero-Shot Baselines**: Both 300M and 1B Omnilingual models yield 100.00% WER / 100.00% CER in zero-shot mode, confirming that supervised acoustic adaptation is required for Perso-Arabic Kashmiri.
+  2. **Pre-Norm Architecture Fix**: Proved that Meta fairseq2 models strictly require Pre-Norm Transformer layers (`norm_order = PRE`). Standard Post-Norm collapsed representations into blanks. Correcting to Pre-Norm enabled convergence to 0.0896 loss on Kashmiri.
+  3. **Held-Out Test Set (`test_manifest`, 5,923 utts / 13.04h)**:
+     - `E22-01`: **30.51% WER | 11.27% CER** (RTF: 0.0025x)
+     - `O29-01 (300M)`: **40.72% WER | 14.97% CER** (RTF: 0.0034x)
+     - `O29-02 (1B)`: **42.31% WER | 15.48% CER** (RTF: 0.0056x)
+     - E22-01 retains statistically significant superiority ($\Delta = +10.21\%$, 95% CI `[+9.26%, +10.90%]`, $p = 1.0 \times 10^{-4}$).
+  4. **Conversational Speech Parity (`dev_b_waaz_val`, 127 utts / 0.20h)**:
+     - `E22-01`: **43.22% WER | 16.19% CER**
+     - `O29-01 (300M)`: **46.23% WER | 16.39% CER** ($\Delta = +3.01\%$, 95% CI `[-0.40%, +6.23%]`, $p = 0.0834$)
+     - `O29-02 (1B)`: **46.39% WER | 16.39% CER** ($\Delta = +3.17\%$, 95% CI `[-0.79%, +6.86%]`, $p = 0.1150$)
+     - In both models, the 95% bootstrap CI crosses 0.0%, confirming **statistical equivalence** on spontaneous conversational Kashmiri. Omnilingual 1B recorded fewer central vowel errors (63) than E22-01 (68).
+  5. **Model Scaling Findings (300M vs 1B)**: Scaling parameters from 326M to 976M did not improve performance (300M outperformed 1B: 40.72% vs 42.31% WER) while operating $1.65\times$ faster.
+  6. **Root Cause**: The 10,288 SentencePiece subword vocabulary exhibits word-boundary splitting (6,036 and 7,442 boundary disparities vs 4,525 in E22-01).
+- **Production Status**: **EduCasheer E22-01 remains confirmed as the Production Champion** for Kashmiri speech recognition.

@@ -1,0 +1,15 @@
+{
+  "train_speakers": [
+    "SPK_TEA_01",
+    "SPK_TEA_02",
+    "SPK_TEA_03"
+  ],
+  "val_speakers": [
+    "SPK_TEA_04"
+  ],
+  "test_speakers": [
+    "SPK_TEA_05"
+  ],
+  "speaker_overlap": false,
+  "certified_disjoint": true
+}

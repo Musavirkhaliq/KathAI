@@ -103,3 +103,32 @@
 - **Deployment Status**: `RESEARCH COMPLETE (CONFIRMED EQUIVALENT TO KENLM, PERMANENTLY HALTED)`
 - **Reproduction Command**: `python3 kashmiri_dataset/experiments/stage24_actual_reranker_training/evaluate_stage24_reranker.py`
 
+
+
+### Meta Omnilingual ASR CTC 300M v2 (O29-01)
+
+- **Research Stage**: `Stage 29`
+- **Architecture**: `Meta Omnilingual ASR CTC 300M v2 + SentencePiece CTC` (326,227,888 parameters, vocab: 10,288)
+- **Training Dataset**: 166.39 hours (97,165 utterances, Dataset A matched to E22-01)
+- **Local Checkpoint Directory**: `experiments/stage29_omnilingual_kashmiri_asr/checkpoints/O29-01/best_model.pt`
+- **Weights File**: `best_model.pt` (1,962,561,048 bytes)
+- **Verified Benchmark Metrics**:
+  - `dev_a_disjoint` (6,257 utts / 11.3h): 38.09% WER | 14.63% CER | 0.0034x RTF
+  - `dev_b_waaz_val` (127 utts / 0.2h): 46.23% WER | 16.39% CER | 0.0033x RTF (Statistical parity with E22-01, p=0.0834)
+  - `test_manifest` (5,923 utts / 13.04h): 40.72% WER | 14.97% CER | 0.0034x RTF
+- **Deployment Status**: `RESEARCH COMPLETE (CONVERSATIONAL ALTERNATIVE / SPEED CHAMPION: 294x REAL-TIME)`
+- **Reproduction Command**: `python3 experiments/stage29_omnilingual_kashmiri_asr/scripts/evaluate_suite.py --model-type 300m --checkpoint experiments/stage29_omnilingual_kashmiri_asr/checkpoints/O29-01/best_model.pt --exp-name O29-01`
+
+### Meta Omnilingual ASR CTC 1B v2 (O29-02)
+
+- **Research Stage**: `Stage 29`
+- **Architecture**: `Meta Omnilingual ASR CTC 1B v2 + SentencePiece CTC` (975,671,216 parameters, vocab: 10,288)
+- **Training Dataset**: 166.39 hours (97,165 utterances, Dataset A matched to E22-01)
+- **Local Checkpoint Directory**: `experiments/stage29_omnilingual_kashmiri_asr/checkpoints/O29-02/best_model.pt`
+- **Weights File**: `best_model.pt` (5,862,298,728 bytes)
+- **Verified Benchmark Metrics**:
+  - `dev_a_disjoint` (6,257 utts / 11.3h): 39.42% WER | 14.93% CER | 0.0056x RTF
+  - `dev_b_waaz_val` (127 utts / 0.2h): 46.39% WER | 16.39% CER | 0.0058x RTF (Fewer central vowel errors than E22-01: 63 vs 68)
+  - `test_manifest` (5,923 utts / 13.04h): 42.31% WER | 15.48% CER | 0.0056x RTF
+- **Deployment Status**: `RESEARCH COMPLETE (SCALING AUDIT COMPLETE; SURPASSED BY 300M CANDIDATE)`
+- **Reproduction Command**: `python3 experiments/stage29_omnilingual_kashmiri_asr/scripts/evaluate_suite.py --model-type 1b --checkpoint experiments/stage29_omnilingual_kashmiri_asr/checkpoints/O29-02/best_model.pt --exp-name O29-02`

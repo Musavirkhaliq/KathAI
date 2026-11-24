@@ -1,5 +1,6 @@
 # Raw data & large dataset directories
 Data/
+external/
 kashmiri_dataset/raw/
 kashmiri_dataset/processed/
 kashmiri_dataset/external/
@@ -15,13 +16,21 @@ kashmiri_dataset/experiments/
 # Large media, archives and binary datasets
 *.parquet
 *.zip
+*.ZIP
 *.tar
+*.TAR
 *.tar.gz
+*.TAR.GZ
 *.wav
+*.WAV
 *.mp3
+*.MP3
 *.flac
+*.FLAC
 *.ogg
+*.OGG
 *.pdf
+*.PDF
 
 # Python cache & virtual environments
 __pycache__/
