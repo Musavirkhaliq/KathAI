@@ -1,92 +1,100 @@
-# Mathematical Foundations: Decision Theory, Bayesian Formulation & Sequence Bounds
+# Mathematical Foundations: Decision Theory, Bayes Risk, and MAP Decoding
 
 ---
 
-## 1. Statistical Decision Theory and the Zero-One Loss
+## 1. Rigorous Proof: Equivalence of Zero-One Loss and MAP Sequence Decoding
 
-Let $\mathcal{X}$ denote the space of all possible acoustic observation sequences:
-$$\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_T] \in \mathcal{X}, \quad \mathbf{x}_t \in \mathbb{R}^D$$
-where $T \in \mathbb{N}$ is the variable number of acoustic frames, and $D$ is the feature dimension.
+Let $\mathcal{W}$ be the discrete countable set of all permissible linguistic word sequences over vocabulary $\mathcal{V}$.
+Let $\mathbf{X} \in \mathcal{X}$ be the observed continuous acoustic feature tensor.
+Let $P(\mathbf{w} \mid \mathbf{X})$ denote the true posterior probability distribution over $\mathcal{W}$ given observation $\mathbf{X}$, satisfying:
+$$\sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) = 1, \quad P(\mathbf{w} \mid \mathbf{X}) \ge 0 \quad \forall \mathbf{w} \in \mathcal{W}$$
 
-Let $\mathcal{W}$ denote the discrete countable set of all valid linguistic word sequences over vocabulary $\mathcal{V}$:
-$$\mathbf{w} = (w_1, w_2, \dots, w_U) \in \mathcal{W}, \quad w_u \in \mathcal{V}, \; U \in \mathbb{N}$$
+Let $\delta: \mathcal{X} \to \mathcal{W}$ be a deterministic decision rule mapping acoustic observation $\mathbf{X}$ to hypothesized sequence $\hat{\mathbf{w}} = \delta(\mathbf{X})$.
 
-A speech recognizer is a decision rule (hypothesis function) that maps an acoustic observation to a predicted word sequence:
-$$\delta: \mathcal{X} \longrightarrow \mathcal{W}$$
-
-### Expected Risk Formulation
-Let $L(\mathbf{w}, \delta(\mathbf{X})) \ge 0$ be a loss function quantifying the penalty of predicting $\delta(\mathbf{X})$ when the true intended sequence was $\mathbf{w}$.
-The conditional Bayes risk of decision rule $\delta$ given observation $\mathbf{X}$ is:
-$$R(\delta \mid \mathbf{X}) = \mathbb{E}_{\mathbf{w} \sim P(\mathbf{w} \mid \mathbf{X})} \left[ L(\mathbf{w}, \delta(\mathbf{X})) \right] = \sum_{\mathbf{w} \in \mathcal{W}} L(\mathbf{w}, \delta(\mathbf{X})) P(\mathbf{w} \mid \mathbf{X})$$
-
-The overall Bayes risk across the joint data distribution $P(\mathbf{X}, \mathbf{w})$ is:
-$$R(\delta) = \mathbb{E}_{(\mathbf{X}, \mathbf{w})} \left[ L(\mathbf{w}, \delta(\mathbf{X})) \right] = \int_{\mathcal{X}} R(\delta \mid \mathbf{X}) P(\mathbf{X}) d\mathbf{X}$$
-
-An optimal decision rule $\delta^*$ minimizes the expected risk:
-$$\delta^* = \arg\min_\delta R(\delta)$$
-
-### Theorem 1: Optimality of the MAP Decision Rule under Zero-One Loss
-**Theorem**: If the loss function is the zero-one sequence loss:
-$$L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}}) = 1 - \delta_{\mathbf{w}, \hat{\mathbf{w}}}$$
-where $\delta_{\mathbf{w}, \hat{\mathbf{w}}}$ is the Kronecker delta, then the optimal Bayes decision rule is strictly the Maximum A Posteriori (MAP) classifier:
+### Theorem 1:
+Under the Zero-One Sentence Error loss function:
+$$L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \neq \hat{\mathbf{w}}) = \begin{cases} 0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\ 1 & \text{if } \mathbf{w} \neq \hat{\mathbf{w}} \end{cases}$$
+the decision rule $\delta^*(\mathbf{X})$ that minimizes the expected Bayes risk is strictly the **Maximum A Posteriori (MAP)** decision rule:
 $$\delta^*(\mathbf{X}) = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$$
 
-**Proof**:
-Substitute $L_{0-1}$ into the conditional risk expression:
-$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \in \mathcal{W}} \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
-$$= \sum_{\mathbf{w} \ne \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X})$$
-$$= \sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
-Since probabilities over $\mathcal{W}$ sum to $1$ ($\sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) = 1$):
+### Proof:
+The conditional Bayes risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ for selecting hypothesis $\hat{\mathbf{w}}$ is defined as:
+$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \mathbb{E}_{\mathbf{w} \sim P(\mathbf{w} \mid \mathbf{X})} [L_{0-1}(\mathbf{w}, \hat{\mathbf{w}})] = \sum_{\mathbf{w} \in \mathcal{W}} L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
+
+Substitute the definition of $L_{0-1}$:
+$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \in \mathcal{W}, \mathbf{w} \neq \hat{\mathbf{w}}} (1) \cdot P(\mathbf{w} \mid \mathbf{X}) + (0) \cdot P(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \neq \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X})$$
+
+Since the total probability mass over all sequences sums to 1:
+$$\sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) = P(\hat{\mathbf{w}} \mid \mathbf{X}) + \sum_{\mathbf{w} \neq \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X}) = 1$$
+it follows directly that:
+$$\sum_{\mathbf{w} \neq \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
+
+Therefore, the conditional risk is:
 $$R(\hat{\mathbf{w}} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
 
-To minimize $R(\hat{\mathbf{w}} \mid \mathbf{X})$, we must choose $\hat{\mathbf{w}}$ to maximize the subtracted term:
-$$\hat{\mathbf{w}}^* = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} \left[ 1 - P(\hat{\mathbf{w}} \mid \mathbf{X}) \right] = \arg\max_{\hat{\mathbf{w}} \in \mathcal{W}} P(\hat{\mathbf{w}} \mid \mathbf{X})$$
-Since $P(\mathbf{X}) > 0$ everywhere, minimizing conditional risk at every $\mathbf{X}$ minimizes total risk $R(\delta)$. $\blacksquare$
+We seek the decision rule $\hat{\mathbf{w}}^* = \delta^*(\mathbf{X})$ that minimizes conditional risk:
+$$\hat{\mathbf{w}}^* = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} R(\hat{\mathbf{w}} \mid \mathbf{X}) = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} [1 - P(\hat{\mathbf{w}} \mid \mathbf{X})]$$
+
+Since minimizing $1 - f(x)$ is mathematically equivalent to maximizing $f(x)$:
+$$\hat{\mathbf{w}}^* = \arg\max_{\hat{\mathbf{w}} \in \mathcal{W}} P(\hat{\mathbf{w}} \mid \mathbf{X})$$
+This completes the proof. $\blacksquare$
 
 ---
 
-## 2. Derivation of the Decoupled Bayesian Objective
+## 2. Invariance of the Marginal Likelihood (Evidence) in MAP Decoding
 
-By Bayes' Theorem:
+Applying Bayes' Rule to the posterior:
 $$P(\mathbf{w} \mid \mathbf{X}) = \frac{P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})}{P(\mathbf{X})}$$
 
-Where:
-- $P(\mathbf{X} \mid \mathbf{w})$ is the marginal likelihood (Acoustic Model).
-- $P(\mathbf{w})$ is the prior probability (Language Model).
-- $P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$ is the evidence.
+### Proposition 2:
+The denominator $P(\mathbf{X})$ has zero influence on the argmax decision:
+$$\arg\max_{\mathbf{w} \in \mathcal{W}} \frac{P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})}{P(\mathbf{X})} = \arg\max_{\mathbf{w} \in \mathcal{W}} [P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})]$$
 
-Substituting into the MAP rule:
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \frac{P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})}{P(\mathbf{X})}$$
+### Proof:
+By the Law of Total Probability:
+$$P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X}, \mathbf{w}') = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$$
+Notice that $\mathbf{w}'$ is a dummy summation index over all candidate sequences in $\mathcal{W}$. Thus, $P(\mathbf{X})$ is a scalar function strictly of the acoustic tensor $\mathbf{X}$ and does not depend on the specific candidate hypothesis $\mathbf{w}$ being evaluated.
 
-Because $P(\mathbf{X})$ is strictly invariant with respect to $\mathbf{w}$:
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})$$
-
-Applying the natural logarithm (a monotonic strictly increasing transformation on $\mathbb{R}^+$):
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ \ln P(\mathbf{X} \mid \mathbf{w}) + \ln P(\mathbf{w}) \right]$$
+Since $P(\mathbf{X}) > 0$ for any realizable observation $\mathbf{X}$, multiplying the objective function by the strictly positive constant $\frac{1}{P(\mathbf{X})}$ preserves the order of all elements in $\mathcal{W}$:
+$$P(\mathbf{w}_1 \mid \mathbf{X}) > P(\mathbf{w}_2 \mid \mathbf{X}) \iff \frac{P(\mathbf{X} \mid \mathbf{w}_1) P(\mathbf{w}_1)}{P(\mathbf{X})} > \frac{P(\mathbf{X} \mid \mathbf{w}_2) P(\mathbf{w}_2)}{P(\mathbf{X})} \iff P(\mathbf{X} \mid \mathbf{w}_1) P(\mathbf{w}_1) > P(\mathbf{X} \mid \mathbf{w}_2) P(\mathbf{w}_2)$$
+Hence, the argmax operator yields the exact same maximizing element. $\blacksquare$
 
 ---
 
-## 3. Generalized Shallow Fusion and Acoustic Weight Scaling
+## 3. Minimum Bayes Risk (MBR) under Word Error Rate Loss
 
-In practical modern neural systems, the acoustic model does not output a true generative density $P(\mathbf{X} \mid \mathbf{w})$; instead, a deep neural network parameterized by $\theta$ predicts discriminative posterior probabilities or CTC sequence probabilities $P_\theta(\mathbf{w} \mid \mathbf{X})$.
+While zero-one loss optimizes Sentence Error Rate (SER), speech recognition benchmarks are evaluated on Word Error Rate (WER), defined by the Levenshtein distance:
+$$\mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) = \frac{\text{EditDistance}(\mathbf{w}, \hat{\mathbf{w}})}{|\mathbf{w}|} = \frac{S(\mathbf{w}, \hat{\mathbf{w}}) + D(\mathbf{w}, \hat{\mathbf{w}}) + I(\mathbf{w}, \hat{\mathbf{w}})}{|\mathbf{w}|}$$
 
-Furthermore, two empirical phenomena distort pure Bayesian addition:
-1. **Acoustic Overconfidence**: Neural networks trained on cross-entropy or CTC output peaked posterior distributions where acoustic log-probabilities have a dynamic range vastly exceeding that of statistical $n$-gram language models.
-2. **Length Bias**: Because the language model probability $P(\mathbf{w}) = \prod_{u=1}^U P(w_u \mid w_{<u})$ is a product of terms strictly less than $1.0$, $\ln P(\mathbf{w}) < 0$. Each additional word penalizes the hypothesis score, causing beam search to systematically favor unrealistically short transcriptions (deleting short words).
+Under Levenshtein loss $\mathcal{W}(\mathbf{w}, \hat{\mathbf{w}})$, the conditional Bayes risk is:
+$$R_{\text{WER}}(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \in \mathcal{W}} \mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
 
-To restore calibration, speech scientists introduce two hyperparameters:
-- $\alpha \in \mathbb{R}^+$: Language model interpolation weight.
-- $\beta \in \mathbb{R}$: Word insertion bonus (or character length bonus).
+The MBR decision rule is:
+$$\hat{\mathbf{w}}_{\text{MBR}} = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} \sum_{\mathbf{w} \in \mathcal{W}} \mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
 
-The generalized decoding objective becomes:
-$$\mathcal{S}(\mathbf{w} \mid \mathbf{X}) = \ln P_\theta(\mathbf{w} \mid \mathbf{X}) + \alpha \ln P_\text{LM}(\mathbf{w}) + \beta |\mathbf{w}|$$
-where $|\mathbf{w}| = U$ is the number of words in candidate sequence $\mathbf{w}$.
+### Why MBR Diverges from MAP:
+Suppose the posterior distribution over 3 hypotheses is:
+- $\mathbf{w}_1 = \text{"کٲشُر زَبان"}$, $P(\mathbf{w}_1 \mid \mathbf{X}) = 0.45$
+- $\mathbf{w}_2 = \text{"کٲشُر زَبانہٕ"}$, $P(\mathbf{w}_2 \mid \mathbf{X}) = 0.35$
+- $\mathbf{w}_3 = \text{"ہِندوستان"}$, $P(\mathbf{w}_3 \mid \mathbf{X}) = 0.20$
 
-### Gradient Interpretation of $\alpha$ and $\beta$
-During beam search hypothesis expansion, extending a prefix by word $w_{u}$ changes the total score by:
-$$\Delta \mathcal{S} = \underbrace{\Delta \ln P_\text{AM}(w_u)}_{\text{Acoustic Evidence}} + \alpha \underbrace{\ln P_\text{LM}(w_u \mid w_{<u})}_{\text{Linguistic Plausibility (} \le 0 \text{)}} + \underbrace{\beta}_{\text{Length Compensation}}$$
+Under MAP decoding:
+$$\hat{\mathbf{w}}_{\text{MAP}} = \mathbf{w}_1 \quad (\text{since } 0.45 > 0.35 > 0.20)$$
 
-- If $\beta = 0$, every extension carries a negative LM penalty $\alpha \ln P_\text{LM} < 0$. If an acoustic sound is quiet or ambiguous, the decoder maximizes score by terminating early.
-- When $\beta > 0$, it compensates for the average word perplexity:
-  $$\beta \approx -\alpha \mathbb{E}_{w} [\ln P_\text{LM}(w \mid \text{context})]$$
-  neutralizing the length penalty.
+However, notice that $\mathbf{w}_1$ and $\mathbf{w}_2$ share the word `"کٲشُر"` and differ only by a single suffix vowel. If $\mathbf{w}_2$ is the truth, predicting $\mathbf{w}_1$ incurs an edit distance of only 1 word, whereas predicting $\mathbf{w}_3$ incurs an edit distance of 2 words. MBR explicitly minimizes word-level editing risk rather than winner-take-all sentence probability.
+
+---
+
+## 4. Length Bias Derivation in Log-Linear Shallow Fusion
+
+In character-level decoding, a word hypothesis $\mathbf{w}$ spanning $L$ characters requires $L$ distinct character transitions.
+Because each frame emission probability $P(c_t \mid \mathbf{X}) < 1.0$, log-probabilities are strictly negative:
+$$\log P(c_t \mid \mathbf{X}) < 0$$
+
+Summing negative log-probabilities across time frames causes longer hypotheses to accumulate larger negative penalties:
+$$\sum_{t=1}^{T_{\text{long}}} \log P(c_t \mid \mathbf{X}) \ll \sum_{t=1}^{T_{\text{short}}} \log P(c_t \mid \mathbf{X})$$
+
+Without length compensation, the decoder exhibits **brevity bias**: it systematically prefers deleting words or emitting shorter strings.
+By introducing the linear word insertion bonus $\beta |\mathbf{w}|$ (where $\beta > 0$):
+$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$$
+each completed word receives a positive credit $\beta$, restoring an unbiased trade-off between insertion and deletion errors.

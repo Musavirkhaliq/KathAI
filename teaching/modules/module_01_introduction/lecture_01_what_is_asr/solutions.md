@@ -1,92 +1,74 @@
-# Homework Solutions: Lecture 01
+# Solutions: Lecture 01 (What is Automatic Speech Recognition?)
 
 ---
 
-## Solution to Problem 1: Zero-One Loss vs. Levenshtein WER
+## Solution to Exercise 1
 
-### Part 1: Non-Equivalence Proof
-The Bayes-optimal decision rule under arbitrary loss $L$ is:
-$$\hat{\mathbf{w}}_L = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} \sum_{\mathbf{w} \in \mathcal{W}} L(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
+### Part 1:
+The marginal likelihood (evidence) is:
+$$P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X}, \mathbf{w}') = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$$
 
-Under zero-one loss, $L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) = 1 - \delta_{\mathbf{w}, \hat{\mathbf{w}}}$. The risk is $1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$, which depends solely on the posterior probability of the single candidate $\hat{\mathbf{w}}$.
+### Part 2:
+In the summation above, $\mathbf{w}'$ is a bound dummy summation variable integrating over all candidate sequences in the vocabulary space $\mathcal{W}$. The expression evaluates to a scalar dependent solely on $\mathbf{X}$. It has no functional dependence on any specific candidate sequence $\mathbf{w}$. Hence:
+$$\frac{\partial P(\mathbf{X})}{\partial \mathbf{w}} = 0$$
 
-Under Levenshtein Word Error Rate, the loss $L_\text{WER}(\mathbf{w}, \hat{\mathbf{w}}) = \frac{\text{EditDist}(\mathbf{w}, \hat{\mathbf{w}})}{|\mathbf{w}|}$ is a metric taking continuous non-negative values.
-The expected risk is:
-$$R_\text{WER}(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \in \mathcal{W}} \left( \frac{\text{EditDist}(\mathbf{w}, \hat{\mathbf{w}})}{|\mathbf{w}|} \right) P(\mathbf{w} \mid \mathbf{X})$$
-
-Notice that $R_\text{WER}$ is a weighted sum over all other hypotheses in the space $\mathcal{W}$.
-A candidate $\hat{\mathbf{w}}_1$ with moderate posterior probability $P(\hat{\mathbf{w}}_1 \mid \mathbf{X}) = 0.35$ may share many common words with the remaining $65\%$ of probability mass (e.g. diverging by only 1 substitution). Its expected edit distance across the distribution is low.
-
-Conversely, a candidate $\hat{\mathbf{w}}_2$ with the highest individual posterior $P(\hat{\mathbf{w}}_2 \mid \mathbf{X}) = 0.40$ may be an outlier sentence completely phonetically distant from the rest of the distribution.
-In this case:
-$$\hat{\mathbf{w}}_\text{MAP} = \hat{\mathbf{w}}_2 \ne \arg\min_{\hat{\mathbf{w}}} R_\text{WER}(\hat{\mathbf{w}} \mid \mathbf{X}) = \hat{\mathbf{w}}_1$$
-Thus, MAP decoding is NOT Bayes-optimal under Word Error Rate. Minimizing expected WER requires Minimum Bayes Risk (MBR) decoding over word lattices. $\blacksquare$
-
-### Part 2: Coincidence Conditions
-The MAP rule coincides with the minimum expected WER rule if and only if the posterior distribution $P(\mathbf{w} \mid \mathbf{X})$ is degenerate (a Dirac delta function where $P(\mathbf{w}^* \mid \mathbf{X}) = 1.0$), or if the edit distance between all distinct pairs of hypotheses is uniform ($L(\mathbf{w}, \hat{\mathbf{w}}) = c \cdot \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}})$).
+### Part 3:
+Let $\hat{\mathbf{w}}^* = \arg\max_{\mathbf{w} \in \mathcal{W}} [g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X})]$.
+By definition of argmax:
+$$g(\mathbf{X}) P(\hat{\mathbf{w}}^* \mid \mathbf{X}) \ge g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X}) \quad \forall \mathbf{w} \in \mathcal{W}$$
+Since $g(\mathbf{X}) > 0$, we can divide both sides by $g(\mathbf{X})$ without altering the direction of the inequality:
+$$P(\hat{\mathbf{w}}^* \mid \mathbf{X}) \ge P(\mathbf{w} \mid \mathbf{X}) \quad \forall \mathbf{w} \in \mathcal{W}$$
+This is the exact definition of $\hat{\mathbf{w}}^* = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$. $\blacksquare$
 
 ---
 
-## Solution to Problem 2: Decision Boundary Transition
+## Solution to Exercise 2
 
-### Part 1: Evaluating Scores at $\alpha = 1.0$
-- **Hypothesis A**:
-  $$\mathcal{S}(A) = \ln(0.045) + 1.0 \cdot \ln(0.015)$$
-  $$\ln(0.045) = -3.1011, \quad \ln(0.015) = -4.1997$$
-  $$\mathcal{S}(A) = -3.1011 - 4.1997 = -7.3008$$
+### Part 1:
+$$L_{\text{emergency}}(\mathbf{w}, \hat{\mathbf{w}}) = \begin{cases}
+0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\
+100 & \text{if } \mathbf{w} = \text{"خَطَر"} \land \hat{\mathbf{w}} \neq \text{"خَطَر"} \\
+1 & \text{otherwise}
+\end{cases}$$
 
-- **Hypothesis B**:
-  $$\mathcal{S}(B) = \ln(0.090) + 1.0 \cdot \ln(0.002)$$
-  $$\ln(0.090) = -2.4079, \quad \ln(0.002) = -6.2146$$
-  $$\mathcal{S}(B) = -2.4079 - 6.2146 = -8.6225$$
+### Part 2:
+MAP decoding selects the hypothesis with highest posterior probability:
+$$P(\text{"خَبَر"} \mid \mathbf{X}) = 0.95 > P(\text{"خَطَر"} \mid \mathbf{X}) = 0.05 \implies \hat{\mathbf{w}}_{\text{MAP}} = \mathbf{\text{"خَبَر"}}$$
 
-Since $\mathcal{S}(A) = -7.3008 > \mathcal{S}(B) = -8.6225$, **Hypothesis A is selected**.
-
-### Part 2: Finding Critical Alpha $\alpha^*$
-Set $\mathcal{S}(A) = \mathcal{S}(B)$:
-$$\ln P(\mathbf{X} \mid A) + \alpha^* \ln P(A) = \ln P(\mathbf{X} \mid B) + \alpha^* \ln P(B)$$
-$$\ln P(\mathbf{X} \mid A) - \ln P(\mathbf{X} \mid B) = \alpha^* \left[ \ln P(B) - \ln P(A) \right]$$
-$$\ln\left( \frac{P(\mathbf{X} \mid A)}{P(\mathbf{X} \mid B)} \right) = \alpha^* \ln\left( \frac{P(B)}{P(A)} \right)$$
-$$\alpha^* = \frac{\ln(0.045 / 0.090)}{\ln(0.002 / 0.015)} = \frac{\ln(0.50)}{\ln(0.13333)} = \frac{-0.69315}{-2.01490} \approx 0.3440$$
-
-**Conclusion**:
-- For $\alpha > 0.3440$: Language model prior dominates; Hypothesis A wins.
-- For $\alpha < 0.3440$: Acoustic model evidence dominates; Hypothesis B wins.
+### Part 3:
+Calculate conditional Bayes risk:
+1. If predicting $\hat{\mathbf{w}} = \text{"خَبَر"}$:
+   $$R(\text{"خَبَر"} \mid \mathbf{X}) = L(\text{"خَطَر"}, \text{"خَبَر"}) P(\text{"خَطَر"}) + L(\text{"خَبَر"}, \text{"خَبَر"}) P(\text{"خَبَر"}) = 100 \times 0.05 + 0 \times 0.95 = \mathbf{5.0}$$
+2. If predicting $\hat{\mathbf{w}} = \text{"خَطَر"}$:
+   $$R(\text{"خَطَر"} \mid \mathbf{X}) = L(\text{"خَطَر"}, \text{"خَطَر"}) P(\text{"خَطَر"}) + L(\text{"خَبَر"}, \text{"خَطَر"}) P(\text{"خَبَر"}) = 0 \times 0.05 + 1 \times 0.95 = \mathbf{0.95}$$
+Since $0.95 < 5.0$, MBR decoding selects **`"خَطَر"`**! Even with only 5% probability, the asymmetric penalty for missing a danger alert dictates the optimal decision.
 
 ---
 
-## Solution to Problem 3: PyTorch SNR Implementation
+## Solution to Exercise 3
 
-```python
-import torch
+### Part 1:
+- Vowel A ($F_1 = 300\text{ Hz}, F_2 = 2200\text{ Hz}$): High front unrounded vowel **/i/**.
+- Vowel B ($F_1 = 340\text{ Hz}, F_2 = 1450\text{ Hz}$): High central unrounded vowel **/ɨ/** (`إ`).
+- Vowel C ($F_1 = 580\text{ Hz}, F_2 = 1550\text{ Hz}$): Low-mid central unrounded vowel **/əː/** (`ٲ`).
 
-def calculate_audio_snr(signal_tensor: torch.Tensor, noise_tensor: torch.Tensor) -> float:
-    if signal_tensor.shape != noise_tensor.shape:
-        raise ValueError("Signal and noise tensors must have identical shapes.")
-        
-    p_signal = torch.mean(signal_tensor ** 2)
-    p_noise = torch.mean(noise_tensor ** 2)
-    
-    if p_noise.item() == 0.0:
-        return float('inf')
-    if p_signal.item() == 0.0:
-        return float('-inf')
-        
-    snr_db = 10.0 * torch.log10(p_signal / p_noise)
-    return snr_db.item()
-```
+### Part 2:
+Vowel C corresponds to the letter `ٲ` in `"کٲشُر"` (/kəːʃur/).
+
+### Part 3:
+Urdu lacks phonemic central unrounded vowels. Its acoustic vowel space has an empty cavity between $F_2 = 1200\text{ Hz}$ and $F_2 = 1800\text{ Hz}$. When presented with 1450–1550 Hz formant energy, an Urdu acoustic model maps the sound to the nearest available trained Gaussian clusters: front vowels (/i/, /e/) or back vowels (/u/, /o/).
 
 ---
 
-## Solution to Problem 4: Urdu vs. Kashmiri Phonetic Failure
+## Solution to Exercise 4
 
-1. **Phonetic Inventory Divergence**:
-   - **Kashmiri Consonants Absent in Urdu**:
-     - Dental affricate /t͡s/ (ژ)
-     - Aspirated dental affricate /t͡sʰ/ (څ)
-     - Palatalized alveolar consonants (e.g. /tʲ/, /dʲ/, /lʲ/)
-   - **Kashmiri Vowels Absent in Urdu**:
-     - High central unrounded vowel /ɨ/ (Tschapre hath: `U+0655`)
-     - Mid central unrounded vowel /ə/ (Pesh with circle: `U+0654`)
-2. **Why Central Vowels Cause Deletions**:
-   Central vowels in Kashmiri are frequently short ($30 - 50\text{ ms}$). Because the Urdu acoustic model was never trained on audio containing central formant resonances ($F_1 \approx 500\text{ Hz}, F_2 \approx 1500\text{ Hz}$), the neural encoder outputs low activations across all its known phone heads. The highest output emission probability defaults to the blank token $\epsilon$ or silence. Under the CTC collapse operator $\mathcal{B}$, sequences of blanks are stripped, completely eliminating the vowel and producing a deletion error.
+### Part 1:
+Rejection rate:
+$$\frac{191}{500} \times 100 = \mathbf{38.2\% \text{ of utterances rejected}}$$
+
+### Part 2:
+Levenshtein WER formula:
+$$\text{WER} = \frac{S + D + I}{N} \times 100 = \frac{2118 + 1890 + 412}{5000} \times 100 = \frac{4420}{5000} \times 100 = \mathbf{88.40\%}$$
+
+### Part 3:
+The statement is fundamentally flawed because Word Error Rate is an edit distance ratio, not a bounded percentage of correct items. Because insertions can grow unbounded, WER can exceed 100%. A model with 88.4% WER could have recognized only 5% of words correctly if insertions were low, or 30% correctly with high insertions.

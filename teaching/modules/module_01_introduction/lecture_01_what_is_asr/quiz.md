@@ -1,56 +1,74 @@
-# Comprehension Quiz: Lecture 01
+# Quiz: Lecture 01 (What is Automatic Speech Recognition?)
 
 ---
 
-### Question 1: The Marginal Evidence Term
-In the Bayesian derivation of the speech recognition objective $\hat{\mathbf{w}} = \arg\max_{\mathbf{w}} P(\mathbf{w} \mid \mathbf{X})$, why is the evidence denominator $P(\mathbf{X})$ omitted during inference?
-- [ ] A) Because $P(\mathbf{X})$ is always equal to $1.0$ for normalized audio tensors.
-- [x] B) Because $P(\mathbf{X}) = \sum_{\mathbf{w}'} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$ depends strictly on the acoustic features $\mathbf{X}$ and is invariant across all competing word hypotheses $\mathbf{w}$.
-- [ ] C) Because $P(\mathbf{X})$ cancels out when applying the CTC collapse operator.
-- [ ] D) Because $P(\mathbf{X})$ underflows in 32-bit floating point arithmetic.
+### Question 1:
+Under statistical decision theory, what loss function makes Maximum A Posteriori (MAP) sequence decoding strictly optimal?
+- [A] Word Error Rate (Levenshtein distance)
+- [B] Mean Squared Error (MSE)
+- [C] Zero-One Sentence Error Loss ($L(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}})$)
+- [D] Cross-Entropy Loss
 
-**Explanation**: The argmax operator seeks the hypothesis $\mathbf{w}$ that maximizes the posterior. Since $P(\mathbf{X})$ has the exact same value for every hypothesis $\mathbf{w}$, dividing by it does not alter their relative rankings.
-
----
-
-### Question 2: Zero-One Loss Optimality
-The Maximum A Posteriori (MAP) decision rule $\hat{\mathbf{w}} = \arg\max_{\mathbf{w}} P(\mathbf{w} \mid \mathbf{X})$ is Bayes-optimal strictly under which of the following loss functions?
-- [ ] A) Word Error Rate (Levenshtein Distance)
-- [ ] B) Mean Squared Error (MSE)
-- [x] C) Zero-One Sequence Loss ($L(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}})$)
-- [ ] D) Connectionist Temporal Classification Loss
-
-**Explanation**: Under zero-one loss, the risk is $R(\hat{\mathbf{w}} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$. Minimizing risk is mathematically identical to maximizing posterior $P(\hat{\mathbf{w}} \mid \mathbf{X})$. Under edit distance, expected risk depends on all neighboring hypotheses.
+**Correct Answer**: **[C]**  
+*In-Depth Explanation*:
+- **Why [C] is correct**: As proved in `mathematical_foundations.md`, the conditional risk under zero-one loss reduces directly to $R(\hat{\mathbf{w}} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$. Minimizing risk is therefore identical to maximizing posterior probability $P(\hat{\mathbf{w}} \mid \mathbf{X})$ (MAP).
+- **Why [A] is incorrect**: Word Error Rate penalizes sequences proportionally to edit operations, leading to Minimum Bayes Risk (MBR) decoding, not MAP.
+- **Why [B] is incorrect**: MSE is defined for continuous regression, not discrete sequence classification.
+- **Why [D] is incorrect**: Cross-entropy is a surrogate training loss, not an evaluation decision loss.
 
 ---
 
-### Question 3: The Abjad Dilemma in Kashmiri ASR
-Why does the common practice of omitting vowel diacritics (*aerab*) in informal Kashmiri text create severe difficulties for training an acoustic model?
-- [ ] A) It makes the text file size smaller than the audio file.
-- [x] B) Multiple distinct acoustic phonetic words map to the exact same undiacritized written representation, forcing the neural network to learn an unnatural multimodal distribution with high conditional entropy.
-- [ ] C) PyTorch cannot compute cross-entropy on strings with fewer than 3 characters.
-- [ ] D) It causes the GPU to throw a CUDA Out-of-Memory exception.
+### Question 2:
+Why can the marginal likelihood (evidence) $P(\mathbf{X})$ be omitted during MAP sequence decoding?
+- [A] Because $P(\mathbf{X}) = 1.0$ for all audio files.
+- [B] Because $P(\mathbf{X})$ is an integral over all candidate sequences that depends solely on acoustic observation $\mathbf{X}$ and does not vary across competing hypotheses $\mathbf{w}$.
+- [C] Because PyTorch automatically normalizes tensors.
+- [D] Because acoustic models only operate in the frequency domain.
 
-**Explanation**: When distinct sounds (e.g. /kar/, /kər/, /kɨr/) are all labeled with the identical target `کر`, the network cannot find a consistent acoustic mapping, resulting in high loss entropy and poor convergence.
-
----
-
-### Question 4: Word Insertion Bonus
-In the shallow fusion objective $\mathcal{S}(\mathbf{w}) = \ln P_\text{AM}(\mathbf{w} \mid \mathbf{X}) + \alpha \ln P_\text{LM}(\mathbf{w}) + \beta |\mathbf{w}|$, what is the primary role of the hyperparameter $\beta > 0$?
-- [ ] A) It increases the learning rate during gradient descent.
-- [ ] B) It multiplies the audio sample rate by factor $\beta$.
-- [x] C) It provides a positive reward for each emitted word to counteract the negative log-probability accumulation of the language model, preventing the decoder from favoring unrealistically short hypotheses.
-- [ ] D) It scales the CTC blank token probability.
-
-**Explanation**: Because $\ln P_\text{LM}(w) \le 0$, adding words decreases total score. $\beta > 0$ compensates for this penalty to prevent deletion bias.
+**Correct Answer**: **[B]**  
+*In-Depth Explanation*:
+- **Why [B] is correct**: By the Law of Total Probability, $P(\mathbf{X}) = \sum_{\mathbf{w}'} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$. It is constant with respect to candidate hypothesis $\mathbf{w}$. Since multiplying an objective by a positive constant preserves argmax, it has zero impact on search.
+- **Why [A] is incorrect**: $P(\mathbf{X})$ is a continuous probability density, not 1.0.
+- **Why [C] and [D] are incorrect**: These are irrelevant implementation and signal details.
 
 ---
 
-### Question 5: Lessons from EduCasheer Stage 01
-What was the primary reason an off-the-shelf Urdu Wav2Vec2 model failed on Kashmiri speech with an $88.4\%$ Word Error Rate?
-- [ ] A) The audio was recorded at 44.1 kHz instead of 16 kHz.
-- [x] B) Kashmiri possesses central vowels (/ɨ/, /ə/) and dental affricates absent in Urdu phonology, causing the Urdu model to misclassify or delete these sounds.
-- [ ] C) The Urdu model was trained on CPU rather than GPU.
-- [ ] D) The Kashmiri language cannot be represented in Unicode.
+### Question 3:
+What acoustic property primarily distinguishes the Kashmiri central vowel /əː/ (represented by `ٲ` in `کٲشُر`) from high front /i/ and high back /u/?
+- [A] It has an intermediate second formant ($F_2 \approx 1550\text{ Hz}$), whereas /i/ has high $F_2$ (~2200 Hz) and /u/ has low $F_2$ (~800 Hz).
+- [B] It has zero fundamental frequency ($F_0 = 0$).
+- [C] It has a duration exceeding 5 seconds.
+- [D] It can only be spoken by male speakers.
 
-**Explanation**: Shared Perso-Arabic writing between Urdu and Kashmiri masks fundamental phonetic divergence, especially in central vowels and Dardic affricates.
+**Correct Answer**: **[A]**  
+*In-Depth Explanation*:
+- **Why [A] is correct**: Second formant frequency ($F_2$) directly correlates with tongue advancement (backness). Front vowels have high $F_2$, back vowels have low $F_2$, and central vowels occupy the intermediate 1400–1600 Hz space.
+- **Why [B], [C], and [D] are incorrect**: Vowels are voiced ($F_0 > 0$), have normal phonetic durations (100–300 ms), and are spoken across genders.
+
+---
+
+### Question 4:
+What was the primary technical root cause of the 88.40% WER collapse in the Stage 01 Urdu Kaldi baseline?
+- [A] The audio files were corrupted by MP3 compression.
+- [B] The Urdu pronunciation lexicon contained zero phonetic entries for Kashmiri central vowels and palatalization, causing forced alignment to reject 38.2% of utterances.
+- [C] The computer ran out of GPU memory.
+- [D] The sample rate was too high (96 kHz).
+
+**Correct Answer**: **[B]**  
+*In-Depth Explanation*:
+- **Why [B] is correct**: As proven by `stages/stage_01/logs/urdu_baseline_eval.log`, Kaldi's WFST composition $H \circ C \circ L \circ G$ had no valid paths for Kashmiri phonetics, rejecting 191 out of 500 utterances and producing catastrophic substitution rates.
+- **Why [A], [C], and [D] are incorrect**: The audio was standard WAV format, Kaldi ran on CPU, and sampling was 16 kHz.
+
+---
+
+### Question 5:
+Why does unconstrained character-level CTC decoding require a positive word insertion penalty ($\beta |\mathbf{w}|$) during shallow fusion?
+- [A] To increase decoding latency.
+- [B] To compensate for brevity bias caused by negative log-probabilities decaying with sequence length, preventing excessive word deletions.
+- [C] To convert Perso-Arabic text to Latin script.
+- [D] To satisfy Unicode NFKC standardization.
+
+**Correct Answer**: **[B]**  
+*In-Depth Explanation*:
+- **Why [B] is correct**: Since frame log-probabilities are negative ($\log P < 0$), longer strings accumulate more negative penalties. Adding $\beta |\mathbf{w}|$ adds a positive reward for each completed word, counterbalancing deletion bias.
+- **Why [A], [C], and [D] are incorrect**: Length penalties are designed for accuracy balancing, not latency, script transliteration, or Unicode formatting.

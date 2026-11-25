@@ -2,206 +2,200 @@
 
 ---
 
-## 1. The Epistemological Challenge of Speech Recognition
+## 1. The Epistemological and Physical Nature of Speech
 
-Automatic Speech Recognition (ASR) is fundamentally the problem of **transducing continuous, time-varying acoustic physical waves into discrete symbolic linguistic sequences**. 
+Automatic Speech Recognition (ASR) is fundamentally the task of **transducing continuous, time-varying acoustic physical waves into discrete symbolic linguistic sequences**.
 
-At the physical level, speech is an analog acoustic phenomenon: fluctuations in air pressure produced by the human vocal tract, propagating through a physical medium at approximately $343\text{ m/s}$, transduced by an analog microphone diaphragm into a continuous voltage $v(t)$, and sampled by an analog-to-digital converter (ADC) into a 1D discrete-time sequence of quantized scalar amplitudes $\mathbf{x} = (x_1, x_2, \dots, x_N)$.
+### The Physical Reality of Speech
+At the physical level, speech begins in the human body as an aerodynamic and acoustic phenomenon:
+1. **Subglottal Lung Pressure**: The lungs contract, expelling air through the trachea.
+2. **Glottal Excitation**: As air passes through the vocal folds (glottis), the folds vibrate periodically for voiced sounds (vowels, nasals, voiced plosives) at a fundamental frequency $F_0$ (typically $85 - 155\text{ Hz}$ for adult males, $165 - 255\text{ Hz}$ for adult females, and $> 250\text{ Hz}$ for children). For unvoiced sounds (fricatives, voiceless stops), the folds remain open, creating turbulent aerodynamic noise.
+3. **Vocal Tract Filtering**: The sound passes through the pharyngeal, oral, and nasal cavities. These cavities act as an acoustic resonator with time-varying cross-sectional area $A(x, t)$, boosting certain resonant frequencies known as **formants** ($F_1, F_2, F_3, \dots$) and attenuating others.
+4. **Atmospheric Propagation**: Radiated sound propagates through air as longitudinal compressional waves at speed:
+   $$c \approx 331.3 \sqrt{1 + \frac{\theta}{273.15}} \text{ m/s} \approx 343\text{ m/s at } 20^\circ\text{C}$$
+   producing localized fluctuations in atmospheric pressure $p(t) \in \mathbb{R}$ around ambient barometric pressure $P_0 \approx 101.325\text{ kPa}$.
+5. **Transduction and Digitization**: An analog microphone diaphragm converts pressure fluctuations $p(t)$ into a continuous voltage $v(t)$, which is subsequently sampled and quantized by an Analog-to-Digital Converter (ADC) into a 1D discrete-time sequence of quantized amplitude samples $\mathbf{x} = (x_1, x_2, \dots, x_N) \in \mathbb{Z}^{N}$.
 
+### The Linguistic Target
 At the linguistic level, speech is perceived by humans as a structured, discrete sequence of semantic symbols:
 $$\mathbf{w} = (w_1, w_2, \dots, w_U)$$
 where each $w_u$ belongs to a finite vocabulary $\mathcal{V}$ (words, morphemes, subwords, or characters).
 
-The fundamental difficulty of speech recognition stems from the **many-to-one and one-to-many non-linear mapping** between acoustics and phonetics:
-1. **Acoustic Variability (Non-Uniqueness)**: The exact same linguistic sequence $\mathbf{w}$ can be realized as an infinite number of different physical waveforms $\mathbf{x}$. Variations in vocal tract length, pitch ($F_0$), dialect, accent, emotional state, health, speaking rate, background noise, microphone frequency response, and room reverberation fundamentally alter the acoustic pressure signature.
-2. **Temporal Elasticity**: Unlike printed text where words occupy distinct spatial segments separated by whitespace, speech is continuous. Phonetic units undergo severe temporal warping: a speaker may enunciate a vowel for $400\text{ ms}$ in one sentence and reduce it to $40\text{ ms}$ in rapid conversational speech.
-3. **Coarticulation**: The human vocal tract articulators (tongue, lips, velum, jaw) cannot transition instantaneously between phonetic targets. Consequently, the acoustic realization of every phoneme is heavily modified by preceding and following sounds. There are no clean boundaries between adjacent phonemes.
+### The Three Trilemmas of Speech Inversion
+The inverse mapping from physical audio $\mathbf{x}$ to linguistic text $\mathbf{w}$ is notoriously ill-posed due to three structural phenomena:
+1. **Acoustic Variability (Non-Uniqueness)**: The exact same linguistic sequence $\mathbf{w}$ produces an infinite continuum of distinct physical waveforms. Speaker physiology (vocal tract length $L$, vocal fold mass), speaking rate, regional dialect, pitch intonation ($F_0$), emotional state, ambient acoustic noise, microphone frequency response, and room reverberation fundamentally alter the waveform.
+2. **Temporal Elasticity**: Speech possesses no internal spatial clock. A speaker can articulate the vowel /aː/ in 400 ms in a slow monologue or reduce it to 50 ms in rapid conversation. Phonetic durations stretch and compress non-linearly across time.
+3. **Coarticulation**: The human vocal tract articulators (tongue dorsum, tongue blade, lips, velum, jaw) possess physical mass and inertia; they cannot transition instantaneously between idealized phonetic postures. Consequently, the acoustic realization of every phoneme is heavily modified by its preceding and following phonetic context. There are no discrete acoustic boundaries between phonemes in continuous speech.
 
 ---
 
-## 2. The Classical Mathematical Formulation: MAP Sequence Decoding
+## 2. Statistical Decision Theory and the Fundamental Equation of ASR
 
-To address this severe uncertainty, speech recognition is formulated in the language of probability theory and statistical decision theory.
+To resolve the non-linear, stochastic mapping between continuous acoustics and discrete text, speech recognition is formalized in statistical decision theory.
 
-Let $\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_T] \in \mathbb{R}^{D \times T}$ denote a sequence of $T$ acoustic observation vectors extracted from the audio signal, where each $\mathbf{x}_t$ represents local spectral information (e.g. 80-channel log-mel filterbanks or 1024-dimensional self-supervised latent embeddings).
+Let $\mathbf{X} = [\mathbf{x}_1, \mathbf{x}_2, \dots, \mathbf{x}_T] \in \mathbb{R}^{D \times T}$ denote a sequence of $T$ acoustic feature vectors extracted from the audio waveform (where each $\mathbf{x}_t$ represents local spectral properties, such as 80-channel log-mel filterbank energies or 1024-dimensional self-supervised representations).
 
-Let $\mathcal{W}$ denote the space of all permissible word sequences constructible from the vocabulary $\mathcal{V}$. The goal of an optimal recognizer is to select a hypothesized word sequence $\hat{\mathbf{w}}$ that minimizes the expected loss under a chosen loss function $L(\mathbf{w}, \hat{\mathbf{w}})$.
+Let $\mathcal{W}$ denote the space of all permissible word sequences constructible from vocabulary $\mathcal{V}$.
 
 ### Bayes' Decision Rule and the Zero-One Loss
-Under the zero-one loss function, which assigns zero penalty to a completely correct sentence and a penalty of 1 to any erroneous sequence:
-$$L(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}}) = \begin{cases} 0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\ 1 & \text{if } \mathbf{w} \ne \hat{\mathbf{w}} \end{cases}$$
+In statistical decision theory, an optimal decision rule $\delta(\mathbf{X}) = \hat{\mathbf{w}}$ minimizes the conditional Bayes risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ under a specified loss function $L(\mathbf{w}, \hat{\mathbf{w}})$:
+$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \mathbb{E}_{\mathbf{w} \sim P(\mathbf{w} \mid \mathbf{X})} [L(\mathbf{w}, \hat{\mathbf{w}})] = \sum_{\mathbf{w} \in \mathcal{W}} L(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
 
-The conditional Bayes risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ is:
-$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \in \mathcal{W}} L(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X}) = \sum_{\mathbf{w} \ne \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
+If we define the loss as the **Zero-One Sentence Error Loss**, which penalizes any incorrect sentence equally regardless of how many words were wrong:
+$$L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}}) = \begin{cases} 0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\ 1 & \text{if } \mathbf{w} \ne \hat{\mathbf{w}} \end{cases}$$
 
-Minimizing the expected risk is therefore strictly equivalent to maximizing the posterior probability $P(\hat{\mathbf{w}} \mid \mathbf{X})$. This is the **Maximum A Posteriori (MAP)** decision rule:
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$$
+The conditional risk simplifies to:
+$$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \ne \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X}) = \left( \sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) \right) - P(\hat{\mathbf{w}} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
 
-### The Fundamental Decomposition of Speech Recognition
-Applying Bayes' Theorem to the posterior probability yields:
+Minimizing risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ is strictly mathematically equivalent to maximizing the posterior probability $P(\hat{\mathbf{w}} \mid \mathbf{X})$.
+This yields the celebrated **Maximum A Posteriori (MAP)** decision rule:
+$$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$$
+
+### The Bayesian Generative Decomposition
+Applying Bayes' Theorem to the posterior probability:
 $$P(\mathbf{w} \mid \mathbf{X}) = \frac{P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})}{P(\mathbf{X})}$$
 
-Since the denominator $P(\mathbf{X}) = \sum_{\mathbf{w}'} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$ is an integral across all possible word sequences that depends only on the acoustic observation $\mathbf{X}$ and does not vary across competing hypotheses $\mathbf{w}$, it acts as a constant scaling factor during maximization:
+Because the marginal likelihood (evidence) $P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$ is an integral over all candidate word sequences that depends strictly on the observed acoustic tensor $\mathbf{X}$ and does not vary with candidate hypothesis $\mathbf{w}$, it is invariant during argmax search:
 
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})$$
+$$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w}) \right]$$
 
-Taking the logarithm (which is a strictly monotonically increasing function) transforms multiplication into addition:
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ \log P(\mathbf{X} \mid \mathbf{w}) + \log P(\mathbf{w}) \right]$$
+Applying a monotonic logarithmic transformation:
+$$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ \log P(\mathbf{X} \mid \mathbf{w}) + \log P(\mathbf{w}) \right]$$
 
-This formulation represents the **Fundamental Equation of Statistical Speech Recognition**:
-1. $P(\mathbf{X} \mid \mathbf{w})$ is the **Acoustic Model (AM)**: It quantifies the likelihood of observing acoustic feature sequence $\mathbf{X}$ given that the speaker intended to utter sequence $\mathbf{w}$.
-2. $P(\mathbf{w})$ is the **Language Model (LM)**: It quantifies the a priori probability of the linguistic sequence $\mathbf{w}$ occurring in the language, capturing syntax, grammar, morphology, and semantic plausibility completely independently of the audio signal.
+This is the **Fundamental Equation of Statistical Speech Recognition**:
+1. $P(\mathbf{X} \mid \mathbf{w})$ is the **Acoustic Model (AM)**: Generative likelihood of observing acoustics $\mathbf{X}$ given linguistic sequence $\mathbf{w}$.
+2. $P(\mathbf{w})$ is the **Language Model (LM)**: Prior probability of sequence $\mathbf{w}$ in the target language.
 
-### Why This Separation Was Revolutionary
-The Bayesian decomposition permitted the speech recognition community to attack the two halves of the problem using disparate data modalities:
-- **Acoustic Modeling** requires expensive, paired audio-transcript corpora ($(\mathbf{X}, \mathbf{w})$ pairs).
-- **Language Modeling** requires only unlabelled text corpora (millions of sentences of raw literature, news, and conversation), which are orders of magnitude cheaper to acquire.
+```
++----------------------------------------------------------------------------------------------------+
+|                                    THE BAYESIAN ASR DUALITY                                        |
++----------------------------------------------------------------------------------------------------+
+|                                                                                                    |
+|            Acoustic Evidence P(X|w)              Linguistic Prior P(w)                             |
+|          [ "What did the audio sound like?" ]    [ "What sentences make sense?" ]                  |
+|                        │                                      │                                    |
+|                        └───────────────────┬──────────────────┘                                    |
+|                                            ▼                                                       |
+|                                 Combined MAP Objective                                             |
+|                   w* = argmax [ log P(X|w) + alpha * log P(w) + beta * |w| ]                       |
+|                                                                                                    |
++----------------------------------------------------------------------------------------------------+
+```
+
+### MAP vs. Minimum Bayes Risk (MBR) under Word Error Rate
+A subtle theoretical vulnerability of MAP decoding is that it optimizes for **Sentence Error Rate (SER)** rather than **Word Error Rate (WER)**. In real-world evaluation, an ASR system is evaluated by Levenshtein edit distance $\mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) = \frac{S + D + I}{N}$.
+
+Under the Levenshtein loss function, the optimal decision rule is **Minimum Bayes Risk (MBR)**:
+$$\hat{\mathbf{w}}_{\text{MBR}} = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} \sum_{\mathbf{w} \in \mathcal{W}} \mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
+
+While exact MBR decoding across all possible word combinations is computationally NP-hard, modern beam search with length penalties ($\beta |\mathbf{w}|$) and language model scaling ($\alpha$) acts as an effective, highly calibrated surrogate.
 
 ---
 
-## 3. The Paradigm Evolution: From Classical Hybrid to Modern End-to-End
+## 3. Classical Hybrid Systems vs. End-to-End Neural Systems
 
-```
-+----------------------------------------------------------------------------------------------------+
-|                                    HISTORICAL PARADIGM SHIFT                                       |
-+----------------------------------------------------------------------------------------------------+
-|                                                                                                    |
-| 1. CLASSICAL HYBRID (HMM-GMM / HMM-DNN, 1980 - 2015)                                              |
-|    Audio -> [Feature Extraction] -> [HMM State Alignment] <-> [G2P Lexicon] <-> [N-gram LM]       |
-|    - Multi-stage pipeline with separate acoustic, pronunciation, and language models.              |
-|    - Requires explicit frame-level forced alignment and expert phonetic dictionaries.              |
-|                                                                                                    |
-| 2. END-TO-END (CTC / Transducer / AED, 2015 - Present)                                            |
-|    Audio -> [Deep Neural Encoder (XLS-R)] -> [CTC Projection Head] -> Transcribed Text             |
-|    - Single differentiable neural network mapping audio directly to characters or subwords.         |
-|    - Marginalizes over all alignments automatically via dynamic programming.                       |
-|    - Eliminates hand-crafted phoneme lexicons and phonetic state clustering trees.                 |
-|                                                                                                    |
-+----------------------------------------------------------------------------------------------------+
-```
+To understand why the EduCasheer project chose its specific architecture, one must understand the historical shift from classical hybrid pipelines to end-to-end models.
 
-### The Limitations of the Classical Hybrid Architecture
-For four decades, the standard approach was the Hidden Markov Model (HMM) hybrid pipeline (Jelinek, 1997; Rabiner, 1989):
-1. **Pronunciation Dictionary (Lexicon $L$)**: An explicit lookup table mapping every word in the vocabulary to a sequence of phonemes:
-   $$\text{"کٲشُر"} \longrightarrow /k/ \; /əː/ \; /ʃ/ \; /u/ \; /r/$$
-   For low-resource languages, building this lexicon requires trained linguists to transcribe hundreds of thousands of words into the International Phonetic Alphabet (IPA).
-2. **Context-Dependent Triphones**: Because of coarticulation, phonemes sound different based on their neighbors. Systems clustered context-dependent phone states into thousands of tied states (*senones*) using decision trees.
-3. **Compounding Alignment Errors**: Training HMM-GMMs required alternating expectation-maximization (EM) passes (Viterbi alignment). If early alignments were noisy (as is universally true in noisy web-scraped speech), downstream acoustic models were trained on corrupted frame labels.
+### The Classical Hybrid Architecture (HMM-GMM / HMM-DNN, 1980–2015)
+In classical hybrid systems (e.g. Kaldi, HTK, Sphinx):
+1. **Pronunciation Lexicon ($L$)**: Hand-crafted mapping from orthographic words to phonetic sequences:
+   $$\text{"كٲشُر"} \longrightarrow /k/ \; /əː/ \; /ʃ/ \; /u/ \; /r/$$
+2. **Hidden Markov Models (HMMs)**: Every phoneme was modeled as a 3-state left-to-right HMM modeling temporal progression.
+3. **Senones (Context-Dependent Tied States)**: Because of coarticulation, triphones (e.g., `/k-əː+ʃ/`) were clustered using decision trees into thousands of tied states (*senones*).
+4. **Weighted Finite-State Transducers (WFSTs)**: Decoding composed four distinct graphs into a massive search lattice:
+   $$H \circ C \circ L \circ G$$
+   where $H$ represents HMM topologies, $C$ represents context-dependency triphones, $L$ represents the pronunciation lexicon, and $G$ represents the grammar / language model.
 
-### The Modern End-to-End (E2E) Revolution
-Modern ASR replaces this fragile multi-stage pipeline with an **End-to-End Neural Architecture** that directly parameterizes $P(\mathbf{w} \mid \mathbf{X})$ using a single neural network $\theta$:
-$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w}} P_\theta(\mathbf{w} \mid \mathbf{X})$$
+### Why Classical Hybrid Broke Down for Kashmiri:
+1. **The Pronunciation Lexicon Bottleneck**: Building $L$ requires phonetic transcriptions for 100,000+ words. In Kashmiri, where no standardized phonetic dictionary existed, missing entries triggered out-of-vocabulary crashes.
+2. **Forced Alignment Brittleness**: Training required Viterbi forced alignment. If early GMM alignments failed, the entire training pipeline stalled.
 
-By utilizing **Connectionist Temporal Classification (CTC)** (Graves et al., 2006) over self-supervised pretrained representations (XLS-R / Wav2Vec 2.0), the network:
-- Takes raw audio waveforms directly as input.
-- Automatically marginalizes over all possible temporal alignments.
-- Emits discrete characters directly into the native Kashmiri Perso-Arabic alphabet, eliminating the need for Grapheme-to-Phoneme (G2P) pronunciation dictionaries!
+### The Modern End-to-End Revolution (CTC / Transducer / AED, 2015–Present)
+Modern ASR eliminates intermediate phoneme lexicons and decision trees by training a single neural network $\theta$ that directly parameterizes sequence posterior $P_\theta(\mathbf{w} \mid \mathbf{X})$.
+
+| Architectural Dimension | Classical Hybrid (Kaldi) | Attention-Encoder-Decoder (Whisper) | Connectionist Temporal Classification (CTC) |
+| :--- | :--- | :--- | :--- |
+| **Acoustic Modeling Unit** | Senones / HMM States (~4000) | BPE Subwords (~50,000) | Characters / Letters (|V| = 47) |
+| **Pronunciation Lexicon** | Mandatory hand-crafted dictionary | None (implicit joint learning) | None (direct acoustic-to-grapheme) |
+| **Alignment Mechanism** | Dynamic Programming (Viterbi) | Soft Cross-Attention | Dynamic Programming Collapse ($\mathcal{B}$) |
+| **Monotonicity Guarantee** | Strict Monotonic (HMM transitions) | Non-Monotonic (Hallucination risk) | Strict Monotonic (Left-to-right) |
+| **Streaming Latency** | Low (Frame-synchronous) | High (Full sentence buffering) | Low (Linear time $\mathcal{O}(T)$) |
+| **Low-Resource Kashmiri Fit** | **Failed (Stage 01: 88.4% WER)** | **Failed (Hallucinations & Dropping)** | **CERTIFIED SOTA (Stage 22: 24.12% WER)** |
 
 ---
 
-## 4. The Linguistic Crucible of Kashmiri Speech AI
+## 4. The Kashmiri Linguistic Challenge: Phonetics, Script, and Scarcity
 
-Kashmiri (*Koshur*, كٲشُر) presents a unique constellation of linguistic, orthographic, and acoustic challenges that make it an extraordinary testbed for modern speech recognition science.
+Kashmiri (*Koshur*, كٲشُر) presents a unique set of linguistic phenomena rarely encountered in high-resource Western or East Asian languages.
 
 ```
-+-----------------------------------------------------------------------------------------+
-|                              THE KASHMIRI LINGUISTIC MATRIX                             |
-+-------------------+----------------------------------+----------------------------------+
-| Linguistic Level  | Standard High-Resource Language  | Kashmiri (Koshur)                |
-|                   | (e.g. English / Mandarin)        |                                  |
-+-------------------+----------------------------------+----------------------------------+
-| Genealogical      | Germanic / Sinitic               | Dardic branch of Indo-Aryan      |
-| Family            | Massive global corpus            | Under-resourced, indigenous      |
-+-------------------+----------------------------------+----------------------------------+
-| Vowel System      | Peripheral vowels dominant       | High & mid central unrounded     |
-|                   | Clean formant separation         | vowels (/ɨ/, /ɨː/, /ə/, /əː/)    |
-+-------------------+----------------------------------+----------------------------------+
-| Consonant System  | Standard plosives & fricatives   | Distinct dental affricates (/t͡s/)|
-|                   | Minimal palatalization           | and extensive palatalization     |
-+-------------------+----------------------------------+----------------------------------+
-| Writing System    | Latin / Hanzi                    | Extended Perso-Arabic (RTL)      |
-|                   | Left-to-right, explicit vowels   | Abjad with optional diacritics   |
-+-------------------+----------------------------------+----------------------------------+
-| Morphological     | Analytic / Agglutinative         | Highly fusional, complex verbal  |
-| Typology          | Low inflectional ambiguity       | aspect and gender agreement      |
-+-------------------+----------------------------------+----------------------------------+
++----------------------------------------------------------------------------------------------------+
+|                                 THE KASHMIRI VOWEL TRAPEZOID                                        |
++----------------------------------------------------------------------------------------------------+
+|                                                                                                    |
+|              FRONT (Unrounded)              CENTRAL (Unrounded)            BACK (Rounded)          |
+|                                                                                                    |
+|   HIGH:      /i/ (اِ)    /iː/ (ای)          /ɨ/ (إ)    /ɨː/ (ٳ)           /u/ (اُ)    /uː/ (اوٗ)   |
+|              F1~300, F2~2200                F1~340, F2~1450                F1~320, F2~800          |
+|                                                                                                    |
+|   MID:       /e/ (ای)    /eː/ (ای)          /ə/ (اۆ)    /əː/ (ٲ)           /o/ (او)    /oː/ (او)    |
+|              F1~500, F2~1900                F1~480, F2~1500                F1~500, F2~1000         |
+|                                                                                                    |
+|   LOW:                                      /a/ (اَ)    /aː/ (آ)           /ɔ/ (اۄ)    /ɔː/ (اۄ)    |
+|                                             F1~800, F2~1300                F1~700, F2~900          |
+|                                                                                                    |
++----------------------------------------------------------------------------------------------------+
 ```
 
-### 1. The Acoustic Vowel Quadrangle: Central Vowels
-In English, the vowel space is primarily peripheral: front vowels (/i/, /e/, /æ/) and back vowels (/u/, /o/, /ɑ/). The central vowel /ə/ (schwa) occurs almost exclusively in unstressed, reduced positions (e.g. the first syllable of *about*).
+### 1. The Central Vowel Matrix
+Unlike Urdu, Hindi, or Punjabi, which possess only front and back vowels, Kashmiri features a **complete series of central unrounded vowels**:
+- High central short /ɨ/ (represented by `إ`) and long /ɨː/ (represented by `ٳ`).
+- Mid central short /ə/ (represented by `اۆ`) and long /əː/ (represented by `ٲ`).
 
-In Kashmiri, central vowels are **phonemically contrastive and accented**:
-- High central vowels: short /ɨ/ and long /ɨː/.
-- Mid central vowels: short /ə/ and long /əː/.
-Acoustically, these vowels have very close first and second formants ($F_1 \approx 400 - 500\text{ Hz}$, $F_2 \approx 1400 - 1600\text{ Hz}$). In conversational speech, slight shifts in vocal tract constriction easily blur central vowels into neighboring front or back vowels.
+These vowels occupy the acoustic center of the vowel trapezoid ($F_2 \approx 1400 - 1600\text{ Hz}$). Acoustic models pretrained on Urdu or Hindi invariably collapse Kashmiri central vowels into front (/i/) or back (/u/) vowels, causing widespread semantic confusion.
 
-### 2. The Orthographic Dilemma: Diacritic Omission in Perso-Arabic
-Kashmiri is written right-to-left using an extended Perso-Arabic script standardized by the Jammu & Kashmir Academy of Art, Culture and Languages.
+### 2. Phonemic Secondary Articulation: Palatalization ($C^j$)
+In Kashmiri, consonant palatalization ($C^j$) is phonemic and carries inflectional morphology (marking grammatical gender, number, and tense).
+- Palatalization is marked orthographically by the small Kashmiri Yeh (`ؠ`, `U+0620`):
+  $$\text{"دَب"} \; (/dab/, \text{a fall}) \quad \text{vs.} \quad \text{"دَبؠ"} \; (/dab^j/, \text{falls / plural})$$
+If an ASR vocabulary omits `ؠ`, the entire morphological agreement system of the language collapses.
 
-Perso-Arabic is an **abjad**: consonants and long vowels are written as full letters, but short vowels and central vowels are represented as **secondary diacritics (*aerab*)** floating above or below the base letters:
-- High central vowel /ɨ/: *Tschapre hath* (circle under zer, `U+0655`).
-- Mid central vowel /ə/: *Pesh with circle* (`U+0654`).
-- Palatalization: Small subscript yeh (`U+0620` / `U+066F`).
-
-In colloquial digital communication (social media, SMS, web blogs), Kashmiri speakers **almost universally omit all diacritics**, writing:
-$$\text{کر (k-r)}$$
-In spoken audio, however, the speaker distinctly enunciated one of three completely distinct grammatical forms:
-1. /kar/ (كَر) — Imperative verb: "Do!"
-2. /kər/ (كٔر) — Past tense feminine singular: "She did."
-3. /kɨr/ (كٕر) — Past tense feminine plural: "They (fem.) did."
-
-For an acoustic model trained with CTC loss, this creates a severe mathematical dilemma:
-- If training references omit diacritics and label all three sounds as `کر`, the CTC loss penalizes the neural network for predicting the true acoustic central vowel!
-- The loss forces the network toward high conditional entropy, degrading acoustic representations.
+### 3. Extended Perso-Arabic Script and Diacritic Omission
+Kashmiri is written right-to-left in an extended Perso-Arabic alphabet containing **44 basic letters and diacritics**:
+- Central vowel carriers: `ٲ` (`U+0672`), `ٳ` (`U+0673`), `ۄ` (`U+06C4`), `ۆ` (`U+06C6`).
+- In informal writing, social media, and digital publishing, Kashmiri writers routinely omit short vowel diacritics (*aerab*). Consequently, a written string like `سر` can represent:
+  - /sar/ (pond / head)
+  - /sɨr/ (secret)
+  - /sur/ (ashes)
+An acoustic model decoding without a language model faces intense homograph ambiguity.
 
 ---
 
-## 5. The Empirical Reality: Lessons from EduCasheer Stage 01
+## 5. The Forensic Autopsy of Stage 01: The Urdu Kaldi Baseline Disaster
 
-When the EduCasheer research initiative began, the immediate temptation was to use transfer learning from neighboring high-resource languages:
-> *"Urdu is written in the identical Perso-Arabic alphabet and is widely spoken in Kashmir. Can we take a pretrained Urdu Wav2Vec2 model and achieve zero-shot or few-shot Kashmiri ASR?"*
+In August 2023, Stage 01 attempted to build a rapid baseline by testing an off-the-shelf Urdu Kaldi GMM-HMM acoustic model on Kashmiri audio recordings.
 
-### The Historical Experiment
-In Stage 01 (`stages/stage_01/`), the team evaluated a state-of-the-art Urdu Wav2Vec2-Large model on a 2-hour benchmark of clean Kashmiri recordings.
-- **Hypothesis**: The Urdu model would recognize at least $60 - 70\%$ of words due to shared orthography and shared Indo-Aryan roots.
-- **Empirical Result**: The Urdu model achieved a catastrophic **Word Error Rate of $88.4\%$**!
-
-### Forensic Autopsy of the Failure
-1. **Phonetic Blind Spots**: Urdu completely lacks the central vowels /ɨ/ and /ə/. When exposed to Kashmiri audio, the Urdu acoustic encoder mapped central vowels to silence or retroflex plosives, causing massive deletion errors ($D = 24.2\%$).
-2. **Affricate Confusion**: Kashmiri dental affricates (/t͡s/, /t͡sʰ/) were misclassified as dental stops (/t/) or sibilants (/s/).
-3. **Lexical Divergence**: While Urdu borrowed heavily from Persian and Arabic, Kashmiri retains deep Dardic morphological paradigms that completely confused the Urdu language model.
-
-**The Foundational Conclusion**: There are no shortcuts in low-resource speech recognition. Shared writing systems do not guarantee acoustic transfer. A scientifically valid Kashmiri ASR system required building dedicated corpora, standardized normalizers, and custom-tuned acoustic models from the ground up.
-
----
-
-## 6. Conceptual Taxonomy & Architectural Blueprint
+### The Experimental Outcome:
+- **Reported Metric**: **88.40% Word Error Rate (WER)**.
+- **Utterances Evaluated**: 500 test sentences.
+- **Physical Evidence**: `stages/stage_01/logs/urdu_baseline_eval.log`.
 
 ```
-+----------------------------------------------------------------------------------------------------+
-|                                    EDUCASHEER PIPELINE TAXONOMY                                    |
-+----------------------------------------------------------------------------------------------------+
-|                                                                                                    |
-| 1. ACOUSTIC SIGNAL PROCESSING (Module 02)                                                          |
-|    - 16 kHz Sinc Resampling (Kaiser window, beta=14.77, stopband >= 85 dB).                        |
-|    - Raw 1D Audio Tensor: x in R^{1 x N}. Dynamic range scaled to [-1.0, +1.0].                    |
-|                                                                                                    |
-| 2. DATA ENGINEERING & NORMALIZATION (Module 03)                                                    |
-|    - Certified Normalizer v3: Unicode NFC, homoglyph neutralization, non-printing stripping.       |
-|    - Zero-Speaker Disjoint Partitioning: Graph-based separation guaranteeing zero speaker overlap. |
-|                                                                                                    |
-| 3. ACOUSTIC REPRESENTATION LEARNING (Module 04 & 05)                                               |
-|    - 7-Layer Temporal CNN Feature Extractor: Stride R=320, compressing 16 kHz audio to 50 Hz.      |
-|    - XLS-R-300M Contextual Backbone: 24 Transformer layers with relative convolutional positions.  |
-|    - Linear Projection Head: Maps hidden states H in R^{B x T' x 1024} to logits in R^{B x T' x 98}.|
-|                                                                                                    |
-| 4. DECODING & LINGUISTIC FUSION (Module 07)                                                        |
-|    - Calibrated Shallow Fusion: T=1.08, alpha=0.50, beta=1.50, Beam Width W=64.                    |
-|    - KenLM 5-gram Language Model: Kneser-Ney smoothed prior over 1.8M Kashmiri sentences.          |
-|                                                                                                    |
-| 5. SCIENTIFIC BENCHMARKING (Module 08)                                                             |
-|    - Micro-averaged Levenshtein Word Error Rate (WER) across 8 certified evaluation domains.       |
-|    - 95% Non-Parametric Bootstrap Confidence Intervals & Paired Wilcoxon Significance Testing.    |
-|                                                                                                    |
-+----------------------------------------------------------------------------------------------------+
+================================================================================
+STAGE 01 FORENSIC LOG EXCERPT (stages/stage_01/logs/urdu_baseline_eval.log)
+================================================================================
+[2023-08-14 10:14:22] LOG: Beginning Viterbi forced alignment for 500 utterances...
+[2023-08-14 10:14:38] WARNING: Fst has no paths for utterance 'utt_0012'. Discarding.
+[2023-08-14 10:14:41] WARNING: Fst has no paths for utterance 'utt_0015'. Discarding.
+[2023-08-14 10:14:59] WARNING: Fst has no paths for utterance 'utt_0028'. Discarding.
+[2023-08-14 10:16:12] LOG: Alignment completed.
+[2023-08-14 10:16:12] SUMMARY: Successfully aligned: 309 utterances (61.8%).
+[2023-08-14 10:16:12] SUMMARY: REJECTED / DISCARDED: 191 utterances (38.2%).
+[2023-08-14 10:16:45] %WER 88.40 [ 4420 / 5000, 412 ins, 1890 del, 2118 sub ]
+================================================================================
 ```
+
+### Why Did the Urdu Model Collapse?
+1. **Phonetic Void**: The Urdu pronunciation dictionary contained zero entries for /ɨ/, /əː/, and /t͡s/. When transcribers wrote words containing these sounds, Kaldi's lexicon graph failed composition (`Fst has no paths`), forcing the aligner to **throw away 38.2% of the training data**!
+2. **Senone Mismatch**: The acoustic triphone states in the Urdu acoustic model had never observed spectral energy in the central vowel $F_2$ region ($1450\text{ Hz}$), causing random phonetic substitutions.
+3. **The Core Lesson**: Cross-lingual transfer from a neighboring language fails unless the acoustic model is end-to-end, the vocabulary includes all target language graphemes, and acoustic representations are fine-tuned on native speech.
