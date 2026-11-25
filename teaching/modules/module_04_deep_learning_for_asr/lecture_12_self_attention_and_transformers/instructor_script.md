@@ -15,7 +15,9 @@
 
 ### 00:20 - 00:45 | The 1/sqrt(dk) Proof
 - Write on the board:
-  $$z = \sum_{i=1}^{64} q_i k_i$$
+
+$$z = \sum_{i=1}^{64} q_i k_i$$
+
 - Ask the students:
   > "If $q$ and $k$ are standard normal vectors, what is the standard deviation of $z$?"
 - Wait for a student to say $\sqrt{64} = 8$.

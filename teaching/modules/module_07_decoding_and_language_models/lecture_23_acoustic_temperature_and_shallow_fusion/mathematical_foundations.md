@@ -18,6 +18,7 @@ Solved via 1D line search (Brent's method) or gradient descent over scalar $T$.
 In character-level decoding, a word of length $L$ characters requires $L$ emission transitions.
 Because each transition probability $P(c) < 1.0$, log-probabilities are negative ($\log P < 0$).
 Consequently, longer words accumulate larger negative penalties:
+
 $$\log P_{\text{AM}}(\text{long word}) \ll \log P_{\text{AM}}(\text{short word})$$
 
 Without compensation, the beam search systematically favors deleting words or choosing shorter erroneous synonyms.

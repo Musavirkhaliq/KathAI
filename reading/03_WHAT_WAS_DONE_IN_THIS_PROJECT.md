@@ -197,6 +197,7 @@ KathAI established two distinct normalization pipelines:
 ### 6.4 Trilingual Code-Switching Detection
 Conversational Kashmiri contains frequent code-switching with English (technical terms) and Urdu/Hindi.
 The KathAI module `detect_code_switching(text)` calculates the ratio of Perso-Arabic, Latin, and Devanagari characters:
+
 $$\text{Arabic Ratio} = \frac{N_{\text{Arabic}}}{N_{\text{Total}}}, \quad \text{Latin Ratio} = \frac{N_{\text{Latin}}}{N_{\text{Total}}}, \quad \text{Devanagari Ratio} = \frac{N_{\text{Deva}}}{N_{\text{Total}}}$$
 
 Utterances with > 5% Latin or Devanagari characters are automatically tagged as `code_switched` and routed to dedicated evaluation splits.

@@ -54,7 +54,7 @@ In Stage 04 of the EduCasheer project, a random train/test split yielded a repor
 
 ### Question 1:
 - **Correct Answer**: **C**
-- **Justification**: In AED models, the autoregressive decoder attends to its own previous emissions $y_{<u}$. When acoustic inputs lack distinct speech features (silence or noise), cross-attention fails to ground generation, causing the decoder to generate repetitive text loops based purely on internal language modeling. CTC enforces strict temporal monotonicity and emits blank tokens $\epsilon$ on non-speech segments, preventing hallucination loops.
+- **Justification**: In AED models, the autoregressive decoder attends to its own previous emissions $y_{\lt u}$. When acoustic inputs lack distinct speech features (silence or noise), cross-attention fails to ground generation, causing the decoder to generate repetitive text loops based purely on internal language modeling. CTC enforces strict temporal monotonicity and emits blank tokens $\epsilon$ on non-speech segments, preventing hallucination loops.
 - **Distractor Autopsy**:
   - *Option A*: Conv1d stride downsampling operates purely on input dimensions regardless of model paradigm.
   - *Option B*: AED models do not use a blank token $\epsilon$; that is a CTC-specific construct.
@@ -63,7 +63,9 @@ In Stage 04 of the EduCasheer project, a random train/test split yielded a repor
 ### Question 2:
 - **Correct Answer**: **B**
 - **Justification**: Using the valid length formula $T = \lfloor (N - 400) / 320 \rfloor + 1$:
-  $$T = \left\lfloor \frac{1680 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{1280}{320} \right\rfloor + 1 = 4 + 1 = 5 \text{ frames}$$
+
+$$T = \left\lfloor \frac{1680 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{1280}{320} \right\rfloor + 1 = 4 + 1 = 5 \text{ frames}$$
+
 - **Distractor Autopsy**:
   - *Option A*: Omits the $+1$ boundary frame term.
   - *Option C*: Inaccurately assumes a stride of 160 instead of 320.

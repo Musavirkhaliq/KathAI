@@ -4,7 +4,9 @@
 
 ## Solution to Exercise 1
 1. Expected word error:
-   $$\bar{\mathcal{W}} = (0.60 \times 2) + (0.30 \times 0) + (0.10 \times 5) = 1.20 + 0.0 + 0.50 = \mathbf{1.70 \text{ errors}}$$
+
+$$\bar{\mathcal{W}} = (0.60 \times 2) + (0.30 \times 0) + (0.10 \times 5) = 1.20 + 0.0 + 0.50 = \mathbf{1.70 \text{ errors}}$$
+
 2. Gradient factors $(\mathcal{W}_i - \bar{\mathcal{W}})$:
    - $H_1$: $2 - 1.70 = \mathbf{+0.30}$
    - $H_2$: $0 - 1.70 = \mathbf{-1.70}$

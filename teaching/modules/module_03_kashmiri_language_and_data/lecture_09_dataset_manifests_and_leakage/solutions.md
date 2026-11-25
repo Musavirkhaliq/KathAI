@@ -4,7 +4,9 @@
 
 ## Solution to Exercise 1
 1. Contamination rate:
-   $$C = \frac{32}{200} = 16.0\% \text{ of utterances (or speakers)}$$
+
+$$C = \frac{32}{200} = 16.0\% \text{ of utterances (or speakers)}$$
+
 2. The reported 18.2% WER is untrustworthy because the acoustic model has memorized the vocal tract characteristics of the leaked speakers. On a strictly disjoint split, WER will systematically increase (typically by 8–18% absolute) as the model encounters genuinely unseen vocal tracts.
 
 ---

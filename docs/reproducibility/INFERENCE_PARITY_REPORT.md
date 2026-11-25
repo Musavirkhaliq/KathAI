@@ -42,7 +42,9 @@ The benchmark evaluated eight representative real-world audio recordings on the 
 
 ### 3.1 Native 16 kHz Invariance
 For all native 16 kHz recordings (OpenSLR122, IndicVoices, Quranic Commentary, Noisy Challenging, and WAAZ), the maximum absolute error across all logit tensor elements was **identically $0.000000 \times 10^0$**:
+
 $$\max_{t, v} |\mathbf{L}_{\text{historical}}[t, v] - \mathbf{L}_{\text{modular}}[t, v]| = 0.000000$$
+
 This proves that [`src/decoding/ctc_slice.py`](file:///home/musa/Kashmiri%20Project/src/decoding/ctc_slice.py) and [`src/asr/transcribe.py`](file:///home/musa/Kashmiri%20Project/src/asr/transcribe.py) introduce zero representational drift, zero weight divergence, and zero precision loss on the model's native sampling rate.
 
 ### 3.2 Sinc Interpolation Rounding in 22.05 kHz Resampling

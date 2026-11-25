@@ -5,9 +5,11 @@
 ## 1. Mathematical Upper and Lower Bounds of Beam Search
 
 For any hypothesis list $\mathcal{H}_W$ generated with beam width $W$:
+
 $$\mathcal{W}(\mathbf{w}_{\text{oracle}}, \mathbf{y}^*) \le \mathcal{W}(\mathbf{w}_{\text{1-best}}, \mathbf{y}^*) \le \mathcal{W}(\mathbf{w}_{\text{worst}}, \mathbf{y}^*)$$
 
 As beam width $W \to \infty$:
+
 $$\lim_{W \to \infty} \text{WER}_{\text{oracle}}(W) = \text{WER}_{\text{lattice-oracle}}$$
 
 ---

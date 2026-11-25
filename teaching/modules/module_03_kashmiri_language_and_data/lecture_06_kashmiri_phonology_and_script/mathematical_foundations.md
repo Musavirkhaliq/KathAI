@@ -7,15 +7,21 @@
 Modeling the human vocal tract as a lossless acoustic tube of length $L \approx 17.5 \text{ cm}$, open at the lips ($x = L$) and closed at the glottis ($x = 0$):
 
 The pressure boundary conditions are:
+
 $$\frac{\partial p}{\partial x}\Bigg|_{x=0} = 0 \quad (\text{zero particle velocity at glottis}), \quad p(L, t) = 0 \quad (\text{ambient pressure at lips})$$
 
 The spatial pressure distribution satisfies:
+
 $$p(x) = A \cos\left( \frac{2\pi f}{c} x \right)$$
+
 Enforcing $p(L) = 0$ requires:
+
 $$\cos\left( \frac{2\pi f}{c} L \right) = 0 \implies \frac{2\pi f}{c} L = \frac{(2n - 1)\pi}{2}, \quad n \in \{1, 2, 3, \dots\}$$
 
 The resonant formant frequencies $F_n$ are:
+
 $$F_n = \frac{(2n - 1) c}{4 L}$$
+
 For $c = 34,300 \text{ cm/s}$ and $L = 17.5 \text{ cm}$:
 - $F_1 = \frac{34300}{4 \times 17.5} = 490 \text{ Hz}$ (Neutral central schwa /ə/)
 - $F_2 = 3 \times 490 = 1,470 \text{ Hz}$

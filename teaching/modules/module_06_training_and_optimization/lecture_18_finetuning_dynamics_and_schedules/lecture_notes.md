@@ -42,10 +42,12 @@ To prevent catastrophic gradient shocks during initial steps, the learning rate 
 
 ### Phase 1: Linear Warmup ($s \le S_{\text{warmup}}$):
 $$\eta(s) = \eta_{\max} \cdot \frac{s}{S_{\text{warmup}}}$$
+
 Typically, $S_{\text{warmup}} = 0.10 \times S$ (first 10% of training steps).
 
 ### Phase 2: Cosine Annealing ($S_{\text{warmup}} < s \le S$):
 $$\eta(s) = \eta_{\min} + \frac{1}{2} (\eta_{\max} - \eta_{\min}) \left( 1 + \cos\left( \pi \frac{s - S_{\text{warmup}}}{S - S_{\text{warmup}}} \right) \right)$$
+
 where $\eta_{\min} \approx 0.01 \times \eta_{\max}$.
 
 Cosine decay provides smooth deceleration without sharp step drops, allowing weights to settle gently into flat, generalizable minima.

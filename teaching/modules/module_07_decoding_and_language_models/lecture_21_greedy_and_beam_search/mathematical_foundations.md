@@ -16,10 +16,12 @@ For each symbol $c \in \Omega$:
 $$\ell^+ = \ell \circ c$$
 
 If $c = \text{end}(\ell)$:
+
 $$P_{nb}(\ell, t) \mathrel{+}= P_{nb}(\ell, t-1) \cdot y_c^t$$
 $$P_{nb}(\ell^+, t) \mathrel{+}= P_b(\ell, t-1) \cdot y_c^t$$
 
 If $c \neq \text{end}(\ell)$:
+
 $$P_{nb}(\ell^+, t) \mathrel{+}= \left( P_b(\ell, t-1) + P_{nb}(\ell, t-1) \right) y_c^t$$
 
 ---

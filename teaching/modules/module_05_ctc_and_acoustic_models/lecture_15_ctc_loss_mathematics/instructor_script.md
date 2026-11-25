@@ -17,13 +17,13 @@
 - Draw a 2D grid: Time frames $t=1 \dots T$ horizontally, Extended states $s=1 \dots 2U+1$ vertically.
 - Mark the states for `"كٲشُر"`:
   - $s=1: \epsilon$
-  - $s=2: \text{ك}$
+  - `s=2: "ك"`
   - $s=3: \epsilon$
-  - $s=4: \text{ٲ}$
+  - `s=4: "ٲ"`
   - $s=5: \epsilon$
-  - $s=6: \text{ش}$
+  - `s=6: "ش"`
   - $s=7: \epsilon$
-  - $s=8: \text{ر}$
+  - `s=8: "ر"`
   - $s=9: \epsilon$
 - Trace the three incoming arrows into state 4 (`ٲ`):
   1. Horizontal arrow: Stayed at `ٲ` ($\alpha_{t-1}(4)$).

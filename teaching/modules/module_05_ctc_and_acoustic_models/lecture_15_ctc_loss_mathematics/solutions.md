@@ -10,8 +10,12 @@
 ---
 
 ## Solution to Exercise 2
-1. Logit gradient:
-   $$\frac{\partial \mathcal{L}}{\partial z_ب^t} = y_ب^t - \gamma_t(ب) = 0.95 - 0.98 = \mathbf{-0.03}$$
+1. Logit gradient (for target character $k =$ "ب"):
+
+$$\frac{\partial \mathcal{L}}{\partial z_k^t} = y_k^t - \gamma_t(k) = 0.95 - 0.98 = \mathbf{-0.03}$$
+
 2. Gradient descent update rule:
-   $$z_{\text{new}} = z_{\text{old}} - \eta \frac{\partial \mathcal{L}}{\partial z} = z_{\text{old}} - \eta (-0.03) = z_{\text{old}} + 0.03 \eta$$
-   The logit will **increase**, pushing $y_ب^t$ closer to $1.0$.
+
+$$z_{\text{new}} = z_{\text{old}} - \eta \frac{\partial \mathcal{L}}{\partial z} = z_{\text{old}} - \eta (-0.03) = z_{\text{old}} + 0.03 \eta$$
+
+   The logit will **increase**, pushing `y_ب^t` closer to $1.0$.

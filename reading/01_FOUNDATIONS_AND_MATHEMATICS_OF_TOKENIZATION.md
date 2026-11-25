@@ -7,10 +7,13 @@
 At their mathematical core, deep neural networks (Transformers, Recurrent Networks, State-Space Models) cannot process raw strings of human language. A digital text stream is fundamentally a sequence of bytes represented in an encoding scheme such as ASCII or UTF-8. 
 
 A neural network operates via continuous linear algebraic operations (matrix multiplications, tensor contractions, non-linear activations):
+
 $$\mathbf{h}_{t} = \sigma(\mathbf{W} \mathbf{x}_t + \mathbf{b})$$
 
 To ingest text, discrete symbolic units must be mapped into continuous dense vector representations in $\mathbb{R}^{d_{\text{model}}}$ via an embedding lookup matrix:
+
 $$\mathbf{E} \in \mathbb{R}^{|V| \times d_{\text{model}}}$$
+
 where $|V|$ is the size of the discrete vocabulary and $d_{\text{model}}$ is the hidden dimension of the model.
 
 Furthermore, during autoregressive sequence generation, the model must output a probability distribution over the discrete vocabulary at each step $t$:
@@ -52,6 +55,7 @@ Compute: Quadratic Attention Bottleneck    Compute: Optimal Trade-off        Com
 
 ### 2.1 Word-Level Tokenization
 In classical NLP (Word2Vec, GloVe, early LSTMs), text was split on whitespace and punctuation into whole lexical words:
+
 $$\text{"The quick brown fox"} \longrightarrow [\text{"The"}, \text{"quick"}, \text{"brown"}, \text{"fox"}]$$
 
 **Fatal Pathologies of Word-Level Tokenization**:
@@ -91,16 +95,20 @@ Tokenization is fundamentally an exercise in **lossless data compression**.
 
 ### 3.1 Shannon Entropy and Code Length
 According to Shannon's Source Coding Theorem, the theoretical lower bound on the expected code length required to represent a symbol $x$ drawn from an alphabet $X$ with probability distribution $P(x)$ is given by the Shannon Entropy $H(X)$:
+
 $$H(X) = -\sum_{x \in X} P(x) \log_2 P(x)$$
 
 An optimal subword vocabulary allocates shorter code lengths (single tokens) to high-probability strings and longer code lengths (multiple subwords or bytes) to low-probability strings. This directly mirrors **Huffman Coding** applied at the substring level.
 
 ### 3.2 Sequence Length vs. Cross-Entropy Loss
 In language modeling, the cross-entropy loss per byte $\mathcal{L}_{\text{byte}}$ is related to the loss per token $\mathcal{L}_{\text{token}}$ by:
+
 $$\mathcal{L}_{\text{byte}} = \frac{\mathcal{L}_{\text{token}}}{\text{Bytes per Token}}$$
 
 When a tokenizer achieves a high compression ratio (high bytes per token / low fertility), the model processes more information per forward pass. However, if the vocabulary is made too large, the tokens become extremely rare, and their embedding vectors suffer from undertraining due to sparse gradient updates:
+
 $$\mathbb{E}[\text{Grad Updates for token } v] = N_{\text{total}} \times P(v)$$
+
 If $P(v) \ll 10^{-7}$, the embedding vector $\mathbf{e}_v$ remains near its initialization state, degrading model generalization.
 
 ---
@@ -139,7 +147,9 @@ Output: Final vocabulary V, Ordered list of Merge Rules M
 
 #### Mathematical Characterization
 Let $\Sigma$ be the base alphabet. A merge rule is a mapping:
+
 $$\mu: \Sigma^* \times \Sigma^* \longrightarrow \Sigma^*$$
+
 BPE constructs an ordered sequence of merges $\mathcal{M} = (\mu_1, \mu_2, \dots, \mu_{K - |\Sigma|})$.
 
 #### Inference (Segmentation)
@@ -162,11 +172,15 @@ WordPiece was developed by Schuster and Nakajima (2012) for Japanese and Korean 
 Like BPE, WordPiece is bottom-up. However, instead of merging based on raw pair frequency, WordPiece selects merges that **maximize the likelihood of an underlying Unigram Language Model** over the training corpus.
 
 Assuming a unigram language model where each subword token $t$ is generated independently:
+
 $$P(C) = \prod_{w \in C} \prod_{t \in w} P(t)$$
+
 The log-likelihood of the corpus is:
+
 $$\log P(C) = \sum_{w \in C} \sum_{t \in w} \log P(t)$$
 
 When considering merging two adjacent subwords $x$ and $y$ into $z = x \circ y$, the change in corpus log-likelihood is directly proportional to their **Pointwise Mutual Information (PMI)**:
+
 $$\text{Score}(x, y) = \frac{\text{count}(x \circ y)}{\text{count}(x) \times \text{count}(y)} \propto \frac{P(x \circ y)}{P(x) P(y)}$$
 
 ```
@@ -199,12 +213,15 @@ Introduced by Taku Kudo in 2018, the **Unigram Language Model Tokenizer** flips 
 Let $V$ be a vocabulary of subwords. For a given input sentence $X$, there exist multiple valid segmentations $\mathbf{x} = (x_1, x_2, \dots, x_m)$ such that the concatenation $x_1 \circ x_2 \circ \dots \circ x_m = X$.
 
 Let $\mathcal{S}(X)$ denote the set of all valid segmentations of $X$. Under the unigram assumption, the probability of a specific segmentation $\mathbf{x}$ is:
+
 $$P(\mathbf{x}) = \prod_{i=1}^m p(x_i) \quad \text{where} \quad \sum_{v \in V} p(v) = 1$$
 
 The marginal probability of generating the sentence $X$ across all segmentations is:
+
 $$P(X) = \sum_{\mathbf{x} \in \mathcal{S}(X)} P(\mathbf{x})$$
 
 The overall corpus log-likelihood across corpus $D = \{X_1, X_2, \dots, X_N\}$ is:
+
 $$\mathcal{L} = \sum_{k=1}^N \log P(X_k) = \sum_{k=1}^N \log \left( \sum_{\mathbf{x} \in \mathcal{S}(X_k)} \prod_{x \in \mathbf{x}} p(x) \right)$$
 
 #### The Training Algorithm (Expectation-Maximization + Pruning)
@@ -228,7 +245,9 @@ $$\mathcal{L} = \sum_{k=1}^N \log P(X_k) = \sum_{k=1}^N \log \left( \sum_{\mathb
 
 #### Inference (Viterbi Algorithm)
 To find the most likely segmentation $\mathbf{x}^*$ for a sentence $X$:
+
 $$\mathbf{x}^* = \arg\max_{\mathbf{x} \in \mathcal{S}(X)} P(\mathbf{x}) = \arg\max_{\mathbf{x} \in \mathcal{S}(X)} \sum_{i=1}^m \log p(x_i)$$
+
 This is computed in $O(|X| \times \max_{v \in V}|v|)$ time using dynamic programming via the **Viterbi Algorithm**.
 
 ---
@@ -277,6 +296,7 @@ UTF-8 encodes every Unicode character using between 1 and 4 bytes (8-bit integer
 
 #### The BBPE Innovation: Base Vocabulary of 256
 Instead of initializing $V_0$ with all known Unicode characters (which can exceed 150,000 glyphs), BBPE initializes the base alphabet with strictly **the 256 possible byte values**:
+
 $$V_0 = \{0\text{x}00, 0\text{x}01, \dots, 0\text{xFF}\}$$
 
 **Crucial Advantages**:
@@ -309,7 +329,9 @@ Deterministic tokenization has a subtle flaw: it creates an artificial 1-to-1 bi
 
 ### 5.1 Unigram Subword Sampling (Kudo, 2018)
 Because the Unigram model computes probabilistic scores for every segmentation, we can sample segmentations during training from the posterior distribution:
+
 $$P(\mathbf{x} \mid X) = \frac{P(\mathbf{x})^\alpha}{\sum_{\mathbf{x}' \in \mathcal{S}(X)} P(\mathbf{x}')^\alpha}$$
+
 where $\alpha \in [0, 1]$ is a sampling temperature:
 - $\alpha \to \infty$: Reverts to deterministic Viterbi decoding (1-best).
 - $\alpha = 1$: Samples from the true posterior distribution.
@@ -317,6 +339,7 @@ where $\alpha \in [0, 1]$ is a sampling temperature:
 
 ### 5.2 BPE-Dropout (Provilkov et al., 2020)
 In standard BPE, merge rules are applied with 100% certainty. In **BPE-Dropout**, at each step of segmentation during training, every merge rule in the merge table is stochastically dropped with probability $p \in [0, 1]$:
+
 $$\text{Merge}(s_a, s_b) = \begin{cases} s_{new} & \text{with probability } 1 - p \\ s_a, s_b & \text{with probability } p \end{cases}$$
 
 **Impact on Neural Training**:

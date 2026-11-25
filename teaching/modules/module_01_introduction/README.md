@@ -53,7 +53,7 @@ Module 01 consists of two comprehensive, multi-part lectures:
 | Lecture ID | Title | Core Concepts | Files |
 | :---: | :--- | :--- | :---: |
 | **Lecture 01** | [What is ASR? Speech Recognition Formulation](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_01_what_is_asr/README.md) | Epistemology of speech, acoustic wave physics, Bayes' decision rule, zero-one loss proof, MAP decoding, Bayesian evidence invariance, classical hybrid vs. modern E2E, Kashmiri phonology & script, Stage 01 Urdu baseline failure autopsy (88.4% WER). | 11 Documents |
-| **Lecture 02** | [Anatomy of Modern ASR Pipelines](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/README.md) | Architectural taxonomy (CTC vs. AED vs. RNN-T), 6-stage EduCasheer production stack, character vs. subword tokenization, 47-token vocabulary (`configs/vocab.json`), shallow fusion decoding triad ($\log P_{\text{CTC}} + \alpha \log P_{\text{LM}} + \beta |\mathbf{w}|$), acoustic temperature calibration, zero-leakage speaker splitting. | 11 Documents |
+| **Lecture 02** | [Anatomy of Modern ASR Pipelines](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/README.md) | Architectural taxonomy (CTC vs. AED vs. RNN-T), 6-stage EduCasheer production stack, character vs. subword tokenization, 47-token vocabulary (`configs/vocab.json`), shallow fusion decoding triad ($\log P_{\text{CTC}} + \alpha \log P_{\text{LM}} + \beta \|\mathbf{w}\|$), acoustic temperature calibration, zero-leakage speaker splitting. | 11 Documents |
 
 ---
 

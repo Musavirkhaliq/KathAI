@@ -48,9 +48,11 @@ class LogMelSpectrogramExtractor:
 ## 2. Inspecting Temporal Dimensions
 
 For an input audio of 3.0 seconds at 16,000 Hz:
+
 $$N_\text{samples} = 3.0 \times 16,000 = 48,000$$
 
 With $H = 160$ samples:
+
 $$T_\text{frames} = \left\lfloor \frac{48000}{160} \right\rfloor + 1 = 301$$
 
 The resulting feature tensor has shape `[batch, 80, 301]`.

@@ -6,9 +6,11 @@
 
 Let overlap region have duration $T_{\text{ov}}$ frames.
 For frame index $\tau \in \{0, \dots, T_{\text{ov}}-1\}$:
+
 $$w(\tau) = \frac{\tau}{T_{\text{ov}} - 1}$$
 
 The stitched logit for class $k$ is:
+
 $$z_k^{\text{stitched}}(\tau) = (1 - w(\tau)) z_k^{(1)}(\tau) + w(\tau) z_k^{(2)}(\tau)$$
 
 ---
@@ -16,7 +18,9 @@ $$z_k^{\text{stitched}}(\tau) = (1 - w(\tau)) z_k^{(1)}(\tau) + w(\tau) z_k^{(2)
 ## 2. Latency Budget Analysis
 
 End-to-end streaming latency $L_{\text{total}}$ consists of:
+
 $$L_{\text{total}} = T_{\text{chunk}} + T_{\text{network}} + T_{\text{inference}} + T_{\text{decode}}$$
+
 For Method C2:
 - $T_{\text{chunk}} = 1.0 \text{ s}$ (streaming buffer step)
 - $T_{\text{inference}} \approx 0.08 \text{ s}$

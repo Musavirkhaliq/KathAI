@@ -7,7 +7,9 @@ Let $\mathbf{X}$ be an observed acoustic tensor and $\mathbf{w} \in \mathcal{W}$
 1. Formally write the expression for the marginal likelihood $P(\mathbf{X})$.
 2. Show that $\frac{\partial P(\mathbf{X})}{\partial \mathbf{w}} = 0$.
 3. Prove that for any scalar function $g(\mathbf{X}) > 0$, the decision rule:
-   $$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} [g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X})]$$
+
+$$\hat{\mathbf{w}} = \arg\max_{\mathbf{w} \in \mathcal{W}} [g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X})]$$
+
    is strictly invariant to the choice of $g(\mathbf{X})$.
 
 ---
@@ -15,7 +17,7 @@ Let $\mathbf{X}$ be an observed acoustic tensor and $\mathbf{w} \in \mathcal{W}$
 ## Exercise 2: MBR vs. MAP Under Asymmetric Loss
 Consider an emergency voice dispatch system where failing to recognize the word `"خَطَر"` (*danger*) incurs a catastrophic penalty of $C = 100$, while normal word errors incur a penalty of $1$.
 1. Formulate the asymmetric loss function $L_{\text{emergency}}(\mathbf{w}, \hat{\mathbf{w}})$.
-2. Suppose posterior probabilities are $P(\text{"خَطَر"} \mid \mathbf{X}) = 0.05$ and $P(\text{"خَبَر"} \mid \mathbf{X}) = 0.95$.
+2. Suppose posterior probabilities are `P("خَطَر" \mid \mathbf{X}) = 0.05` and `P("خَبَر" \mid \mathbf{X}) = 0.95`.
    Which word does MAP decoding select?
 3. Calculate the conditional Bayes risk for both hypotheses and determine which word MBR decoding selects.
 

@@ -34,6 +34,7 @@ This course is built upon a **Dual-Narrative Pedagogy**:
 ```
 
 Every single concept taught in this course follows the **Theory-to-Reality Pipeline**:
+
 $$\text{Mathematical Derivation} \longrightarrow \text{PyTorch Implementation} \longrightarrow \text{Historical Empirical Failure/Success} \longrightarrow \text{Production Deployment}$$
 
 ---

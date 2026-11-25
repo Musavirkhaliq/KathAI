@@ -6,7 +6,8 @@
 
 ### A. 7-Layer Convolutional Feature Extractor:
 - Total Conv parameters:
-  $$P_{\text{conv}} = \sum_{i=1}^7 K_i \cdot C_{i-1} \cdot C_i \approx 4.1 \times 10^6 \text{ parameters}$$
+
+$$P_{\text{conv}} = \sum_{i=1}^7 K_i \cdot C_{i-1} \cdot C_i \approx 4.1 \times 10^6 \text{ parameters}$$
 
 ### B. 24-Layer Transformer Encoder:
 For each layer with $d_{\text{model}} = 1024, d_{\text{ff}} = 4096$:

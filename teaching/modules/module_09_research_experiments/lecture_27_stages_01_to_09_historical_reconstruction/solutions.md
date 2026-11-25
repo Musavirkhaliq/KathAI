@@ -6,7 +6,8 @@
 1. In Kaldi, an alignment WFST $H \circ C \circ L$ is composed from HMM states ($H$), context-dependency triphones ($C$), and the pronunciation lexicon ($L$). If a word in the transcription cannot be mapped to a valid sequence of acoustic phonemes in $L$, the composition graph yields an empty set (no valid paths from start to final state).
 2. The Urdu lexicon had no phonetic entries for Kashmiri central vowels (/ɨ/, /əː/) and palatalized consonants ($C^j$). When transcribers wrote words containing these vowels, the forced aligner found zero matching paths and discarded the entire utterance.
 3. Discarded percentage:
-   $$100\% - 61.8\% = \mathbf{38.2\% \text{ of utterances discarded!}}$$
+
+$$100\% - 61.8\% = \mathbf{38.2\% \text{ of utterances discarded!}}$$
 
 ---
 

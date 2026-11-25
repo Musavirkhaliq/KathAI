@@ -36,50 +36,50 @@ The encoder produces exactly **100 valid CTC frames**.
 
 ## Solution to Problem 2: CTC Alignment Combinatorics
 
-### Part 1: Alignments for $\mathbf{y} = (\text{ك}, \text{ٲ})$ at $T=4$
-We search for all sequences $(\pi_1, \pi_2, \pi_3, \pi_4) \in \{\text{ك}, \text{ٲ}, \epsilon\}^4$ such that $\mathcal{B}(\boldsymbol{\pi}) = (\text{ك}, \text{ٲ})$.
-Because $\text{ك} \neq \text{ٲ}$, intermediate blanks are optional. Valid alignments are:
+### Part 1: Alignments for `y = ("ك", "ٲ")` at $T=4$
+We search for all sequences `(\pi_1, \pi_2, \pi_3, \pi_4) \in \{"ك", "ٲ", ε\}^4` such that `\mathcal{B}(\boldsymbol{\pi}) = ("ك", "ٲ")`.
+Because `"ك" `\neq` "ٲ"`, intermediate blanks are optional. Valid alignments are:
 
-1. $(\text{ك}, \text{ٲ}, \epsilon, \epsilon)$
-2. $(\text{ك}, \epsilon, \text{ٲ}, \epsilon)$
-3. $(\text{ك}, \epsilon, \epsilon, \text{ٲ})$
-4. $(\epsilon, \text{ك}, \text{ٲ}, \epsilon)$
-5. $(\epsilon, \text{ك}, \epsilon, \text{ٲ})$
-6. $(\epsilon, \epsilon, \text{ك}, \text{ٲ})$
-7. $(\text{ك}, \text{ك}, \text{ٲ}, \epsilon)$
-8. $(\text{ك}, \text{ك}, \epsilon, \text{ٲ})$
-9. $(\text{ك}, \text{ك}, \text{ك}, \text{ٲ})$
-10. $(\text{ك}, \text{ٲ}, \text{ٲ}, \epsilon)$
-11. $(\text{ك}, \epsilon, \text{ٲ}, \text{ٲ})$
-12. $(\text{ك}, \text{ٲ}, \text{ٲ}, \text{ٲ})$
-13. $(\epsilon, \text{ك}, \text{ٲ}, \text{ٲ})$
-14. $(\epsilon, \text{ك}, \text{ك}, \text{ٲ})$
+1. `("ك", "ٲ", ε, ε)`
+2. `("ك", ε, "ٲ", ε)`
+3. `("ك", ε, ε, "ٲ")`
+4. `(ε, "ك", "ٲ", ε)`
+5. `(ε, "ك", ε, "ٲ")`
+6. `(ε, ε, "ك", "ٲ")`
+7. `("ك", "ك", "ٲ", ε)`
+8. `("ك", "ك", ε, "ٲ")`
+9. `("ك", "ك", "ك", "ٲ")`
+10. `("ك", "ٲ", "ٲ", ε)`
+11. `("ك", ε, "ٲ", "ٲ")`
+12. `("ك", "ٲ", "ٲ", "ٲ")`
+13. `(ε, "ك", "ٲ", "ٲ")`
+14. `(ε, "ك", "ك", "ٲ")`
 
-Total cardinality $|\mathcal{B}^{-1}((\text{ك}, \text{ٲ}))| = \mathbf{14}$ paths.
+Total cardinality `|\mathcal{B}^{-1}(("ك", "ٲ"))| = \mathbf{14}` paths.
 
-### Part 2: Alignments for $\mathbf{y}_{\text{dup}} = (\text{ك}, \text{ك})$ at $T=4$
-Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive $\text{ك}$ tokens collapse into a single character: $\mathcal{B}(\text{ك}, \text{ك}) = \text{ك}$.
+### Part 2: Alignments for `y_dup = ("ك", "ك")` at $T=4$
+Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive `"ك"` tokens collapse into a single character: `\mathcal{B}("ك", "ك") = "ك"`.
 
-The required pattern is $\text{ك} \to \dots \to \epsilon \to \dots \to \text{ك}$.
+The required pattern is `"ك" `\to$ \dots \to \epsilon \to \dots $\to` "ك"`.
 Enumerating all valid alignments of length $T=4$:
-1. $(\text{ك}, \epsilon, \text{ك}, \epsilon)$
-2. $(\text{ك}, \epsilon, \epsilon, \text{ك})$
-3. $(\epsilon, \text{ك}, \epsilon, \text{ك})$
-4. $(\text{ك}, \text{ك}, \epsilon, \text{ك})$ -> Invalid! $\mathcal{B}(\text{ك}, \text{ك}, \epsilon, \text{ك}) = (\text{ك}, \text{ك})$! Let's check: $\text{ك},\text{ك} \to \text{ك}$, then $\epsilon$, then $\text{ك} \to (\text{ك}, \text{ك})$. This is valid!
-5. $(\text{ك}, \epsilon, \text{ك}, \text{ك})$ -> Valid! $\text{ك} \to \epsilon \to \text{ك},\text{ك} \to (\text{ك}, \text{ك})$.
+1. `("ك", ε, "ك", ε)`
+2. `("ك", ε, ε, "ك")`
+3. `(ε, "ك", ε, "ك")`
+4. `("ك", "ك", ε, "ك")` -> Invalid! `\mathcal{B}("ك", "ك", ε, "ك") = ("ك", "ك")`! Let's check: `"ك","ك" `\to` "ك"`, then $\epsilon$, then `"ك" `\to` ("ك", "ك")`. This is valid!
+5. `("ك", ε, "ك", "ك")` -> Valid! `"ك" `\to$ \epsilon $\to` "ك","ك" `\to` ("ك", "ك")`.
 
 Valid alignments:
-1. $(\text{ك}, \epsilon, \text{ك}, \epsilon)$
-2. $(\text{ك}, \epsilon, \epsilon, \text{ك})$
-3. $(\epsilon, \text{ك}, \epsilon, \text{ك})$
-4. $(\text{ك}, \text{ك}, \epsilon, \text{ك})$
-5. $(\text{ك}, \epsilon, \text{ك}, \text{ك})$
+1. `("ك", ε, "ك", ε)`
+2. `("ك", ε, ε, "ك")`
+3. `(ε, "ك", ε, "ك")`
+4. `("ك", "ك", ε, "ك")`
+5. `("ك", ε, "ك", "ك")`
 
-Total cardinality $|\mathcal{B}^{-1}((\text{ك}, \text{ك}))| = \mathbf{5}$ paths.
+Total cardinality `|\mathcal{B}^{-1}(("ك", "ك"))| = \mathbf{5}` paths.
 
 ### Part 3: Combinatorial Comparison
-$|\mathcal{B}^{-1}((\text{ك}, \text{ٲ}))| = 14$ whereas $|\mathcal{B}^{-1}((\text{ك}, \text{ك}))| = 5$.
-Repeated identical characters eliminate all direct transition paths without blanks (such as $(\text{ك}, \text{ك}, \text{ك}, \text{ك})$, $(\text{ك}, \text{ك}, \text{ك}, \text{ٲ})$, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
+`|\mathcal{B}^{-1}(("ك", "ٲ"))| = 14` whereas `|\mathcal{B}^{-1}(("ك", "ك"))| = 5`.
+Repeated identical characters eliminate all direct transition paths without blanks (such as `("ك", "ك", "ك", "ك")`, `("ك", "ك", "ك", "ٲ")`, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
 
 ---
 
@@ -87,7 +87,9 @@ Repeated identical characters eliminate all direct transition paths without blan
 
 ### Part 1: Cause of Extreme Truncation
 When $\beta = 0$, the language model score for a candidate sequence $\mathbf{w}$ is:
-$$\alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{<k})$$
+
+$$\alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{\lt k})$$
+
 Because every $\log P_{\text{LM}} \le 0$, each emitted word reduces the total hypothesis score by an average of $\alpha \times \bar{H}_{\text{LM}} = 0.50 \times 4.2 = 2.1 \text{ nats}$. The decoder maximizes score by emitting as few words as possible, frequently truncating long utterances after 2 or 3 words.
 
 ### Part 2: Minimum Theoretical Value of $\beta$
@@ -99,7 +101,9 @@ Setting $\beta \ge 2.10$ provides sufficient positive reward per word to counter
 
 ### Part 3: Adjustment when $\alpha$ Doubles
 If $\alpha$ doubles from $0.50$ to $1.00$, the average language model penalty per word doubles:
+
 $$\text{Penalty} = 1.00 \times 4.2 = 4.20 \text{ nats}$$
+
 To maintain sequence length balance, $\beta$ must also double to:
 
 $$\beta_{\text{new}} = 1.00 \times 4.2 = \mathbf{4.20}$$
@@ -128,5 +132,7 @@ When speaker leakage occurs, the acoustic model tunes its convolutional filters 
 1. Construct a bipartite graph $G = (V_{\text{spk}}, V_{\text{audio}}, E)$ where edge $(s, a) \in E$ indicates that audio file $a$ was spoken by speaker $s$.
 2. Compute connected components $C_1, \dots, C_M$ of $G$.
 3. Partition the components: assign entire connected components to either $\mathcal{D}_{\text{train}}$ or $\mathcal{D}_{\text{test}}$, such that:
-   $$\left( \bigcup_{C \in \mathcal{D}_{\text{train}}} V_{\text{spk}}(C) \right) \cap \left( \bigcup_{C \in \mathcal{D}_{\text{test}}} V_{\text{spk}}(C) \right) = \emptyset$$
+
+$$\left( \bigcup_{C \in \mathcal{D}_{\text{train}}} V_{\text{spk}}(C) \right) \cap \left( \bigcup_{C \in \mathcal{D}_{\text{test}}} V_{\text{spk}}(C) \right) = \emptyset$$
+
 This guarantees strictly zero speaker overlap.

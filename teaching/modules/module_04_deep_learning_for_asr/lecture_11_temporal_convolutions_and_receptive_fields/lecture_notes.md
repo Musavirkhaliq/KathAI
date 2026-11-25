@@ -39,30 +39,48 @@ The feature encoder consists of 7 stacked 1D temporal convolutional blocks. Each
 
 ### Downsampling Factor ($D$):
 The cumulative temporal stride $D$ across the 7 layers is the product of individual strides:
+
 $$D = \prod_{i=1}^7 S_i = 5 \times 2 \times 2 \times 2 \times 2 \times 2 \times 2 = 5 \times 64 = 320$$
+
 At $f_s = 16,000 \text{ Hz}$, each output frame spans:
+
 $$\Delta t = \frac{320 \text{ samples}}{16,000 \text{ samples/sec}} = 0.020 \text{ seconds} = 20.0 \text{ ms}$$
 
 ### Receptive Field Derivation:
 The receptive field $R_l$ of an output neuron at layer $l$ measures the span of input audio samples that influence that neuron.
 The recurrence relation for receptive field across convolutional layers is:
+
 $$R_l = R_{l-1} + (K_l - 1) \cdot \prod_{i=1}^{l-1} S_i$$
+
 with base condition $R_0 = 1$ and cumulative stride $J_{l-1} = \prod_{i=1}^{l-1} S_i$:
 
 1. **Layer 1** ($K_1=10, S_1=5$):
-   $$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
+$$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
 2. **Layer 2** ($K_2=3, S_2=2$):
-   $$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
+$$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
 3. **Layer 3** ($K_3=3, S_3=2$):
-   $$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
+$$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
 4. **Layer 4** ($K_4=3, S_4=2$):
-   $$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
+$$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
 5. **Layer 5** ($K_5=3, S_5=2$):
-   $$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
+$$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
 6. **Layer 6** ($K_6=2, S_6=2$):
-   $$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
+$$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
 7. **Layer 7** ($K_7=2, S_7=2$):
-   $$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = \mathbf{400 \text{ samples}}$$
+
+$$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = \mathbf{400 \text{ samples}}$$
 
 ### Physical Acoustic Interpretation:
 $$R_{\text{total}} = 400 \text{ samples} = \frac{400}{16,000} \text{ s} = 0.025 \text{ s} = \mathbf{25.0 \text{ ms}}$$

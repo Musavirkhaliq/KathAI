@@ -20,7 +20,9 @@ To understand the severity of tokenizer failure, researchers utilize three core 
 
 ### 2.1 Token Fertility
 Token fertility measures the average number of subword tokens produced per natural word:
+
 $$\text{Fertility}(D, T) = \frac{\sum_{w \in D} |T(w)|}{|D|}$$
+
 where $D$ is a text corpus, $w$ are whitespace-delimited words, and $T(w)$ is the token sequence produced by tokenizer $T$.
 
 - **English Baseline**: Fertility sits between **1.10 and 1.25** tokens per word. Over 80% of English words are represented as a single, unified token.
@@ -46,6 +48,7 @@ where $D$ is a text corpus, $w$ are whitespace-delimited words, and $T(w)$ is th
 
 ### 2.2 Compression Efficiency (Characters per Token)
 $$\text{CharsPerToken}(D, T) = \frac{\text{Total Unicode Characters in } D}{\text{Total Tokens produced by } T}$$
+
 - In English: ~4.0 to 4.5 characters per token.
 - In Kashmiri under standard tokenizers: ~1.2 to 1.4 characters per token.
 
@@ -65,6 +68,7 @@ graph TD
 
 ### 3.1 The Financial Penalty (API Discrimination)
 Commercial frontier LLM APIs (OpenAI, Anthropic, Google, Cohere) bill developers strictly based on **tokens processed and generated**:
+
 $$\text{Cost} = N_{\text{tokens}} \times \text{PricePerToken}$$
 
 Because a Kashmiri or Urdu prompt consumes 3.5x to 5x more tokens than an English prompt expressing the identical semantic meaning:
@@ -86,6 +90,7 @@ Consider a 32,768-token context window:
 
 ### 3.3 Autoregressive Generation Latency & Throughput
 In generative language models, inference is autoregressive: generating $K$ tokens requires $K$ sequential forward passes through all transformer layers:
+
 $$\text{Latency} \propto K_{\text{tokens}} \times t_{\text{forward}}$$
 
 If generating a 200-word response in English requires 230 tokens, generation takes 4.6 seconds (at 50 tokens/sec). Generating the exact same 200-word response in Kashmiri requires **900 tokens**, taking **18.0 seconds** (**a 4x latency penalty**). For real-time applications such as conversational voice bots or live transcription, this latency is unacceptable.

@@ -24,7 +24,9 @@
 
 ### 00:15 - 00:40 | Rational Factor Resampling
 - Write the ratio on the board:
-  $$\frac{16000}{22050} = \frac{320}{441}$$
+
+$$\frac{16000}{22050} = \frac{320}{441}$$
+
 - Explain the three-step polyphase sequence:
   1. Upsample by $L = 320$ (insert 319 zeros between each sample).
   2. Apply an anti-imaging and anti-aliasing digital low-pass filter $h[n]$ with cutoff $\omega_c = \min\left(\frac{\pi}{L}, \frac{\pi}{M}\right) = \frac{\pi}{441}$.

@@ -13,7 +13,9 @@ However, real-world corpora contain heterogeneous sampling frequencies:
 - Legacy multimedia recordings (e.g., Bolbosh corpus): $22,050 \text{ Hz}$
 
 Resampling changes the sampling rate from $f_1$ to $f_2$ by a rational conversion factor:
+
 $$\frac{f_2}{f_1} = \frac{L}{M}$$
+
 where $L$ is the upsampling (interpolation) factor and $M$ is the downsampling (decimation) factor, with $\gcd(L, M) = 1$.
 
 ### The 22.05 kHz to 16 kHz Rational Factor:
@@ -27,21 +29,28 @@ This non-integer, large-factor ratio ($L=320, M=441$) makes naive implementation
 
 ### A. Linear Interpolation (Naive & Destructive)
 Computes intermediate points via simple straight-line estimation:
+
 $$x[t] = (1 - \alpha) x[n] + \alpha x[n+1], \quad \alpha = t - n$$
+
 - **Frequency Response**: Sinc-squared $H(f) = \text{sinc}^2(f / f_s)$.
 - **Flaws**: Produces severe high-frequency roll-off (spectral droop) in the passband and fails to attenuate image frequencies in the stopband, causing rampant aliasing.
 
 ### B. Ideal Bandlimited Sinc Interpolation (Whittaker-Shannon)
 Continuous reconstruction followed by resampling at $t_m = m T_2$:
+
 $$x(t_m) = \sum_{n=-\infty}^\infty x[n] \text{sinc}\left( \frac{t_m - n T_1}{T_1} \right)$$
+
 - Requires infinite support ($n \in [-\infty, +\infty]$), making it physically unrealizable.
 
 ### C. Windowed Sinc Interpolation (Kaiser Windowed Polyphase)
 Truncates the infinite sinc kernel using a parameterized window $w[n]$:
+
 $$h[n] = \text{sinc}\left(\frac{n}{L}\right) \cdot w[n]$$
 
 The **Kaiser window** is an optimal approximation to the prolate spheroidal wave functions, maximizing energy concentration in the main lobe:
+
 $$w[n] = \frac{I_0\left( \beta \sqrt{1 - \left(\frac{2n}{N-1} - 1\right)^2} \right)}{I_0(\beta)}$$
+
 where $I_0(\cdot)$ is the zeroth-order modified Bessel function of the first kind, and $\beta$ controls the stopband attenuation trade-off.
 
 ---

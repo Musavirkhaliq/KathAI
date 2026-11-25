@@ -10,6 +10,8 @@
 
 ## Solution to Exercise 2
 1. Under Bonferroni correction for $m = 8$ hypotheses:
-   $$\alpha^* = \frac{\alpha}{m} = \frac{0.05}{8} = \mathbf{0.00625}$$
+
+$$\alpha^* = \frac{\alpha}{m} = \frac{0.05}{8} = \mathbf{0.00625}$$
+
 2. For $p = 0.012$:
    Since $0.012 > 0.00625$, the result is **not statistically significant** after Bonferroni correction. It could readily arise as a false positive due to multiple hypothesis testing.

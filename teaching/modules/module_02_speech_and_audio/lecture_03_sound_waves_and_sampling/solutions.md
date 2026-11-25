@@ -5,7 +5,8 @@
 ## Solution to Exercise 1
 
 1. Fundamental period $T_0$:
-   $$T_0 = \frac{1}{F_0} = \frac{1}{220 \text{ Hz}} \approx 0.004545 \text{ s} = 4.55 \text{ ms}$$
+
+$$T_0 = \frac{1}{F_0} = \frac{1}{220 \text{ Hz}} \approx 0.004545 \text{ s} = 4.55 \text{ ms}$$
 
 2. Harmonics of glottal source:
    $h_n = n \times F_0$.
@@ -43,11 +44,14 @@ The apparent aliased frequency is given by $f_{\text{alias}} = |f - k f_s|$ such
 ## Solution to Exercise 3
 
 1. Dynamic range of the speech:
-   $$\text{DR} = 92 \text{ dB} - 38 \text{ dB} = 54 \text{ dB}$$
+
+$$\text{DR} = 92 \text{ dB} - 38 \text{ dB} = 54 \text{ dB}$$
 
 2. Required SQNR:
    We require the quantization noise floor to be $15 \text{ dB}$ below the room background noise floor.
    Total dynamic range needed = $54 \text{ dB} + 15 \text{ dB} = 69 \text{ dB}$.
    Using $\text{SQNR} \approx 6.02 B + 1.76 \text{ dB}$:
-   $$6.02 B + 1.76 \ge 69 \implies 6.02 B \ge 67.24 \implies B \ge 11.17$$
+
+$$6.02 B + 1.76 \ge 69 \implies 6.02 B \ge 67.24 \implies B \ge 11.17$$
+
    The minimum integer bit depth is **$B = 12$ bits**. (16 bits provides 98 dB, offering 29 dB of comfortable headroom).

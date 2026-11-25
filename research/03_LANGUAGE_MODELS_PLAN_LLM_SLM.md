@@ -29,7 +29,9 @@ graph TD
 
 ### 2.1 The Tokenizer Pathology
 Standard LLMs fragment Perso-Arabic Kashmiri into single bytes, yielding an unacceptable token fertility:
+
 $$\text{Fertility} = \frac{\text{Total Subword Tokens}}{\text{Total Whitespace Words}}$$
+
 - **Llama-3 / GPT-4**: Fertility **> 4.10** (a 100-word sentence explodes to 410+ tokens).
 - **KathAI Custom BPE-16k/32k**: Fertility **1.63** (the same 100-word sentence requires only 163 tokens).
 

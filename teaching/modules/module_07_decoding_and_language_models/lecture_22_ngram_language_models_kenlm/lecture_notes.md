@@ -10,10 +10,12 @@ While the acoustic model computes posterior emissions based purely on audio phys
 - **Grammatical Invariants**: Agreement between subject and verb in Kashmiri's strict verb-second (V2) syntax.
 
 The **Language Model (LM)** provides the statistical prior $P(\mathbf{w})$:
+
 $$P(w_1, w_2, \dots, w_U) = \prod_{u=1}^U P(w_u \mid w_1, \dots, w_{u-1})$$
 
 In an $n$-gram model, the Markov assumption restricts context history to the preceding $n-1$ words:
-$$P(w_u \mid w_{<u}) \approx P(w_u \mid w_{u-n+1}, \dots, w_{u-1})$$
+
+$$P(w_u \mid w_{\lt u}) \approx P(w_u \mid w_{u-n+1}, \dots, w_{u-1})$$
 
 ---
 
@@ -27,6 +29,7 @@ Instead of asking *"How often does word $w$ appear?"*, it asks:
 *"In how many distinct contexts does word $w$ appear as a novel continuation?"*
 
 The lower-order continuation probability is:
+
 $$P_{\text{continuation}}(w) = \frac{|\{ w' : C(w', w) > 0 \}|}{\sum_{w''} |\{ w' : C(w', w'') > 0 \}|}$$
 
 **Modified Kneser-Ney** applies **three distinct discount parameters** ($D_1, D_2, D_{3+}$) based on whether an $n$-gram count is 1, 2, or $\ge 3$:
@@ -34,12 +37,17 @@ $$P_{\text{continuation}}(w) = \frac{|\{ w' : C(w', w) > 0 \}|}{\sum_{w''} |\{ w
 $$P_{\text{MKN}}(w_i \mid w_{i-n+1}^{i-1}) = \frac{C(w_{i-n+1}^i) - D(C(w_{i-n+1}^i))}{C(w_{i-n+1}^{i-1})} + \gamma(w_{i-n+1}^{i-1}) P_{\text{MKN}}(w_i \mid w_{i-n+2}^{i-1})$$
 
 where:
+
 $$D(c) = \begin{cases} 
+
 0 & \text{if } c = 0 \\
 D_1 & \text{if } c = 1 \\
 D_2 & \text{if } c = 2 \\
 D_3 & \text{if } c \ge 3
-\end{cases}$$
+\end{cases}
+
+$$
+
 and $\gamma(\cdot)$ is the backoff normalization weight ensuring probabilities sum to $1.0$.
 
 ---

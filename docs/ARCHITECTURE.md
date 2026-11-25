@@ -83,6 +83,7 @@ flowchart TD
 
 #### 1. Greedy CTC Decoding:
 $$\hat{Y} = \mathcal{B}\left(\arg\max_{\pi} \prod_{t=1}^T P(\pi_t | X)\right)$$
+
 - Collapses consecutive duplicate characters and deletes blank symbols.
 - Execution time: $<2$ms per sample on GPU (Real-Time Factor $\approx 0.005$).
 
@@ -92,6 +93,7 @@ $$\hat{Y} = \mathcal{B}\left(\arg\max_{\pi} \prod_{t=1}^T P(\pi_t | X)\right)$$
 
 #### 3. KenLM 4-gram Shallow Fusion:
 $$\hat{Y} = \arg\max_{Y} \left[ \log P_{\text{CTC}}(Y|X) + \alpha \log P_{\text{LM}}(Y) + \beta |Y| \right]$$
+
 - **Language Model**: 4-gram ARPA language model trained on 1.2M Kashmiri sentences with Kneser-Ney smoothing (`stage7_ctc_lm_decoding/language_models/lm_word_4gram_domain_d.arpa`).
 - **Optimal Hyperparameters**: $\alpha = 0.25$ (LM weight), $\beta = 0.00$ (word insertion bonus).
 - Delivers an average **+2.60% absolute WER reduction** across all domains.

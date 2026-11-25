@@ -31,19 +31,32 @@ $$R_\ell = R_{\ell-1} + (K_\ell - 1) \cdot \prod_{j=1}^{\ell-1} S_j \quad \text{
 
 Evaluating step-by-step:
 1. Layer 1 ($K_1=10, S_1=5$):
-   $$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
+$$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
 2. Layer 2 ($K_2=3, S_2=2$):
-   $$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
+$$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
 3. Layer 3 ($K_3=3, S_3=2$):
-   $$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
+$$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
 4. Layer 4 ($K_4=3, S_4=2$):
-   $$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
+$$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
 5. Layer 5 ($K_5=3, S_5=2$):
-   $$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
+$$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
 6. Layer 6 ($K_6=2, S_6=2$):
-   $$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
+$$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
 7. Layer 7 ($K_7=2, S_7=2$):
-   $$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = 400 \text{ samples}$$
+
+$$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = 400 \text{ samples}$$
 
 $$\text{Total Receptive Field} = 400 \text{ samples} = \frac{400}{16,000} \text{ s} = 25 \text{ ms}$$
 
@@ -61,9 +74,12 @@ Let $\Omega$ be the alphabet of 46 non-blank characters, and define $\Omega' = \
 ### 2.1 Deterministic Collapse Definition
 The operator $\mathcal{B}$ executes two sequential transformations:
 1. **Consecutive Duplicate Deduplication**:
-   $$\mathcal{B}_{\text{dedup}}(\pi_1, \dots, \pi_T) = (\pi_{t_1}, \pi_{t_2}, \dots) \quad \text{where } \pi_{t_k} \neq \pi_{t_k-1}$$
+
+$$\mathcal{B}_{\text{dedup}}(\pi_1, \dots, \pi_T) = (\pi_{t_1}, \pi_{t_2}, \dots) \quad \text{where } \pi_{t_k} \neq \pi_{t_k-1}$$
+
 2. **Blank Removal**:
-   $$\mathcal{B}(\boldsymbol{\pi}) = [c \in \mathcal{B}_{\text{dedup}}(\boldsymbol{\pi}) \mid c \neq \epsilon]$$
+
+$$\mathcal{B}(\boldsymbol{\pi}) = [c \in \mathcal{B}_{\text{dedup}}(\boldsymbol{\pi}) \mid c \neq \epsilon]$$
 
 ### 2.2 Cardinality of the CTC Preimage $|\mathcal{B}^{-1}(\mathbf{y})|$
 Consider a target sequence $\mathbf{y} = (y_1, \dots, y_U)$ of length $U$ decoded across $T$ frames ($T \ge U$).
@@ -75,7 +91,9 @@ $$|\mathcal{B}^{-1}(\mathbf{y})| = \sum_{k=0}^{T-U} \binom{T}{k} \binom{T-k-1}{U
 
 #### Case B: Consecutive Identical Tokens ($y_u = y_{u+1}$)
 If $y_u = y_{u+1}$, the alignment **must** contain at least one blank token $\epsilon$ between them:
+
 $$\pi_{t_a} = y_u, \quad \pi_{t_b} = \epsilon, \quad \pi_{t_c} = y_{u+1} \quad (t_a < t_b < t_c)$$
+
 Without this intermediate blank, the collapse operator would merge the identical characters: $\mathcal{B}(a, a) = a \neq (a, a)$. This constraint strictly reduces the cardinality of $\mathcal{B}^{-1}(\mathbf{y})$.
 
 ---
@@ -112,19 +130,21 @@ where $\bar{z} = \mathbb{E}_{y}[z]$ is the expected logit value under the curren
 
 The decoding search objective finds the word sequence $\hat{\mathbf{w}}$ maximizing:
 
-$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{<k}) + \beta K$$
+$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{\lt k}) + \beta K$$
 
 ### 4.1 Proof of Brevity Bias
 Let $\mathbf{w}_A$ be a hypothesis of length $K_A$ and $\mathbf{w}_B$ be an extended hypothesis of length $K_B = K_A + M$ ($M \ge 1$).
 
 Assume the acoustic model provides neutral evidence across the extension:
+
 $$\log P_{\text{CTC}}(\mathbf{w}_B \mid \mathbf{X}) \approx \log P_{\text{CTC}}(\mathbf{w}_A \mid \mathbf{X})$$
 
 Evaluating the score difference without length compensation ($\beta = 0$):
 
-$$\Delta \mathcal{S} = \mathcal{S}(\mathbf{w}_B) - \mathcal{S}(\mathbf{w}_A) = \alpha \sum_{j=1}^M \log P_{\text{LM}}(w_{K_A + j} \mid w_{<K_A + j})$$
+$$\Delta \mathcal{S} = \mathcal{S}(\mathbf{w}_B) - \mathcal{S}(\mathbf{w}_A) = \alpha \sum_{j=1}^M \log P_{\text{LM}}(w_{K_A + j} \mid w_{\lt K_A + j})$$
 
 Because $0 < P_{\text{LM}}(\cdot) \le 1$, every log-probability term is non-positive:
+
 $$\log P_{\text{LM}}(w \mid \cdot) \le 0 \implies \Delta \mathcal{S} \le 0$$
 
 Without a compensatory term $\beta > 0$, **any hypothesis that emits more words is strictly penalized by the language model**, causing beam search to systematically truncate sentences. Setting:

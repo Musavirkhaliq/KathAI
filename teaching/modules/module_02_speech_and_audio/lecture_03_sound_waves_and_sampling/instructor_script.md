@@ -25,9 +25,13 @@
 
 ### 00:20 - 00:45 | Mathematical Derivation of Sampling
 - **Board Action**: Write the Fourier transform of the Dirac comb.
-  $$\mathcal{F}\left\{\sum_{n} \delta(t - n T_s)\right\} = \frac{1}{T_s} \sum_k \delta\left(f - \frac{k}{T_s}\right)$$
+
+$$\mathcal{F}\left\{\sum_{n} \delta(t - n T_s)\right\} = \frac{1}{T_s} \sum_k \delta\left(f - \frac{k}{T_s}\right)$$
+
 - Show that multiplication in time is convolution in frequency:
-  $$X_s(f) = X(f) * P(f) = f_s \sum_k X(f - k f_s)$$
+
+$$X_s(f) = X(f) * P(f) = f_s \sum_k X(f - k f_s)$$
+
 - Draw the baseband spectrum $X(f)$ centered at 0.
 - Draw the spectral copies at $\pm f_s, \pm 2f_s$.
 - Move $f_s$ closer to 0 until the copies overlap.
@@ -36,7 +40,9 @@
 ### 00:45 - 01:10 | Aliasing in ASR
 - Ask students: *"If a Kashmiri speaker produces a voiceless dental sibilant /s/ at 9,000 Hz, and our ADC operates at 16,000 Hz, what does the model hear?"*
 - Walk through the calculation:
-  $$f_{\text{alias}} = |9000 - 16000| = 7000 \text{ Hz}$$
+
+$$f_{\text{alias}} = |9000 - 16000| = 7000 \text{ Hz}$$
+
 - The 9 kHz /s/ folds down into 7 kHz, directly over the /ʃ/ (sh) acoustic region!
 
 ### 01:10 - 01:30 | Quantization and Wrap-up

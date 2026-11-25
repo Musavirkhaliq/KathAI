@@ -10,6 +10,6 @@ For the Kashmiri target word `"سَر"` (Reh, Zain, etc. - 2 characters: $c_1, c
 ---
 
 ## Exercise 2: Peaky Gradient Verification
-Suppose at frame $t$, the model's Softmax output for letter 'ب' is $y_ب^t = 0.95$, while the CTC posterior $\gamma_t(ب) = 0.98$.
-1. Calculate the logit gradient $\frac{\partial \mathcal{L}}{\partial z_ب^t}$.
-2. In which direction will the logit $z_ب^t$ move after gradient descent?
+Suppose at frame $t$, the model's Softmax output for letter 'ب' is `y_ب^t = 0.95`, while the CTC posterior `\gamma_t(ب) = 0.98`.
+1. Calculate the logit gradient `\frac{\partial \mathcal{L}}{\partial z_ب^t}`.
+2. In which direction will the logit `z_ب^t` move after gradient descent?

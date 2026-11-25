@@ -60,7 +60,7 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
 - **Speaking Script**:
   > "In modern deep learning, we have three major End-to-End paradigms.
   > Let's look at the center panel: **Attention-based Encoder-Decoder**, made famous by models like OpenAI's Whisper. Why didn't we just deploy Whisper for Kashmiri?
-  > In AED models, the decoder is autoregressive: $P(y_u \mid y_{<u}, \mathbf{X})$. The decoder generates text by looking at its own past predictions.
+  > In AED models, the decoder is autoregressive: $P(y_u \mid y_{\lt u}, \mathbf{X})$. The decoder generates text by looking at its own past predictions.
   > What happens when a speaker pauses for 3 seconds? Or when there is loud static on a radio broadcast?
   > The cross-attention mechanism searches for acoustic cues, finds none, and falls back entirely on its language model. It begins attending to its own previous words, entering an unrecoverable **hallucination loop**: *'and he said, and he said, and he said...'* repeating until the maximum sequence length is reached!
   > Furthermore, Whisper uses byte-level BPE. In Kashmiri Perso-Arabic, BPE shreds morphological inflections into disjoint byte fragments.
@@ -112,12 +112,14 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
 ### 01:15 - 01:25 | Segment 5: The Decoding Triad & Brevity Penalty
 
 - **Instructor Action**: Write the shallow fusion decoding equation on the blackboard:
-  $$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
+$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
 - **Speaking Script**:
   > "Look at this equation. This is the **Shallow Fusion Triad**.
   > There are three parameters here: $\alpha$, $\beta$, and temperature $T$.
   > Why do we need $\beta$, the word insertion bonus?
-  > Think about what $\log P_{\text{LM}}(\mathbf{w})$ is doing. Because $P(w_k \mid w_{<k}) \le 1$, its logarithm is **always negative**.
+  > Think about what $\log P_{\text{LM}}(\mathbf{w})$ is doing. Because $P(w_k \mid w_{\lt k}) \le 1$, its logarithm is **always negative**.
   > If a candidate sentence has 10 words, you are adding 10 negative numbers. If a candidate has 2 words, you are only adding 2 negative numbers!
   > Left to itself, the decoder has a catastrophic **brevity bias**: it prefers deleting words to avoid accumulating negative language model penalties!
   > The parameter $\beta$ rewards the hypothesis with a positive constant for every word emitted. It acts as an acoustic fuel injection that balances sentence length."

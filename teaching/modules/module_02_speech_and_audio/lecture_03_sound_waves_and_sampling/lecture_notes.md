@@ -7,10 +7,13 @@
 Sound is a mechanical disturbance propagating through an elastic medium (such as air) as a longitudinal pressure wave. When a human speaks, vocal fold vibration and turbulent airflow create localized fluctuations in ambient atmospheric pressure $P_0 \approx 101.325 \text{ kPa}$.
 
 The instantaneous acoustic sound pressure $p(t)$ is defined as the deviation from ambient pressure:
+
 $$p_{\text{total}}(t) = P_0 + p(t)$$
 
 The physical wave equation governing acoustic propagation in three-dimensional lossless air is:
+
 $$\nabla^2 p - \frac{1}{c^2} \frac{\partial^2 p}{\partial t^2} = 0$$
+
 where $c \approx 343 \text{ m/s}$ is the speed of sound in dry air at $20^\circ\text{C}$.
 
 ---
@@ -52,6 +55,7 @@ $$p_\delta(t) = \sum_{n=-\infty}^\infty \delta(t - n T_s)$$
 where $T_s$ is the sampling interval, and $f_s = \frac{1}{T_s}$ is the sampling frequency.
 
 The sampled continuous signal is:
+
 $$x_s(t) = x(t) \cdot p_\delta(t) = \sum_{n=-\infty}^\infty x(n T_s) \delta(t - n T_s)$$
 
 Taking the Continuous-Time Fourier Transform (CTFT) of $x_s(t)$ reveals the frequency-domain consequence of sampling:
@@ -85,15 +89,19 @@ In speech recognition, high-frequency fricative energy (e.g., Kashmiri /s/, /ʃ/
 Continuous voltage is mapped to a discrete set of $2^B$ levels for a $B$-bit linear Pulse Code Modulation (PCM) representation.
 
 The quantization step size $\Delta$ for full-scale voltage range $[-V_{\max}, +V_{\max}]$ is:
+
 $$\Delta = \frac{2 V_{\max}}{2^B}$$
 
 Under the standard assumption of uniformly distributed quantization noise $e[n] \sim \mathcal{U}\left(-\frac{\Delta}{2}, \frac{\Delta}{2}\right)$:
+
 $$\sigma_e^2 = \mathbb{E}[e^2] = \frac{1}{\Delta} \int_{-\Delta/2}^{\Delta/2} e^2 de = \frac{\Delta^2}{12}$$
 
 For a full-scale sinusoidal signal with amplitude $V_{\max}$, signal power is:
+
 $$\sigma_x^2 = \frac{V_{\max}^2}{2} = \frac{(2^{B-1} \Delta)^2}{2} = \frac{2^{2B-2} \Delta^2}{2} = 2^{2B-3} \Delta^2$$
 
 The theoretical **Signal-to-Quantization-Noise Ratio (SQNR)** is:
+
 $$\text{SQNR} = 10 \log_{10} \left( \frac{\sigma_x^2}{\sigma_e^2} \right) = 10 \log_{10} \left( \frac{2^{2B-3} \Delta^2}{\Delta^2 / 12} \right) = 10 \log_{10} \left( \frac{12 \cdot 2^{2B}}{8} \right)$$
 $$\text{SQNR} \approx 6.02 B + 1.76 \text{ dB}$$
 

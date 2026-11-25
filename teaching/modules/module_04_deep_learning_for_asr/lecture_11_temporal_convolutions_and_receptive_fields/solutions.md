@@ -4,7 +4,9 @@
 
 ## Solution to Exercise 1
 1. Cumulative downsampling factor $D$:
-   $$D = \prod_{i=1}^5 S_i = 4 \times 2 \times 2 \times 2 \times 1 = \mathbf{32}$$
+
+$$D = \prod_{i=1}^5 S_i = 4 \times 2 \times 2 \times 2 \times 1 = \mathbf{32}$$
+
 2. Receptive Field $R_l = R_{l-1} + (K_l - 1) J_{l-1}$:
    - $R_1 = 1 + (7 - 1) \times 1 = 7$
    - $R_2 = 7 + (5 - 1) \times 4 = 7 + 16 = 23$
@@ -19,6 +21,9 @@
 
 ## Solution to Exercise 2
 1. Using layer-by-layer truncation without padding:
-   $$T_\text{samples} = 4.35 \times 16000 = 69,600 \text{ samples}$$
+
+$$T_\text{samples} = 4.35 \times 16000 = 69,600 \text{ samples}$$
+
 2. Approximate:
-   $$T_\text{frames} \approx \left\lfloor \frac{69600 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{69200}{320} \right\rfloor + 1 = 216 + 1 = \mathbf{217 \text{ frames}}$$
+
+$$T_\text{frames} \approx \left\lfloor \frac{69600 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{69200}{320} \right\rfloor + 1 = 216 + 1 = \mathbf{217 \text{ frames}}$$

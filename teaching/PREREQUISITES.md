@@ -19,7 +19,8 @@ This course is designed to be self-contained, deriving core speech processing an
 
 ### 1.3 Probability & Statistics
 - **Discrete & Continuous Random Variables**: Probability Density Functions (PDFs), Cumulative Distribution Functions (CDFs).
-- **Conditional Probability & Bayes' Theorem**: $P(Y|X) = rac{P(X|Y)P(Y)}{P(X)}$.
+- **Conditional Probability & Bayes' Theorem**: $P(Y|X) = 
+rac{P(X|Y)P(Y)}{P(X)}$.
 - **Maximum Likelihood Estimation (MLE)**: Log-likelihood maximization, cross-entropy, negative log-likelihood loss.
 - **Statistical Significance**: Hypothesis testing, $p$-values, confidence intervals, paired bootstrap resampling, Wilcoxon signed-rank test.
 

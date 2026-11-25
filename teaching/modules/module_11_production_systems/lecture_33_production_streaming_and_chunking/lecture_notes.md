@@ -36,7 +36,9 @@ Naive chunking without overlap truncates words spoken across the boundary, causi
 Method C2 applies **logit cross-fading and prefix stitching**:
 1. Adjacent chunks overlap by 1.0 second.
 2. In the overlap zone, frame-level CTC logits are blended with a linear cross-fade window:
-   $$\mathbf{z}_{\text{blended}}(t) = (1 - w(t)) \mathbf{z}_{\text{chunk } k}(t) + w(t) \mathbf{z}_{\text{chunk } k+1}(t)$$
+
+$$\mathbf{z}_{\text{blended}}(t) = (1 - w(t)) \mathbf{z}_{\text{chunk } k}(t) + w(t) \mathbf{z}_{\text{chunk } k+1}(t)$$
+
 3. The stitched logit tensor is decoded in a single continuous beam search pass, completely eliminating boundary artifacts.
 
 ---
@@ -49,5 +51,7 @@ $$\text{RTF} = \frac{\text{Wall-Clock Processing Time (seconds)}}{\text{Audio Du
 
 - An $\text{RTF} < 1.0$ is required for real-time streaming.
 - On a single NVIDIA RTX 3090 GPU with FP16 Tensor Cores, EduCasheer Method C2 achieves:
-  $$\text{RTF} \approx \mathbf{0.082}$$
+
+$$\text{RTF} \approx \mathbf{0.082}$$
+
   Processing 10 seconds of audio takes only **0.82 seconds**, enabling real-time streaming with comfortable latency headroom.

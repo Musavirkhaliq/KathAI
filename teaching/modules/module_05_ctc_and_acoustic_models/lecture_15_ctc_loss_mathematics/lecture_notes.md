@@ -25,6 +25,7 @@ $$\alpha_t(s) = \sum_{\substack{\boldsymbol{\pi}_{1:t} \in (\Omega')^t \\ \mathc
 
 ### Base Case ($t = 1$):
 At the first time frame, an alignment can only start on the first blank or the first label:
+
 $$\alpha_1(1) = y_\epsilon^1$$
 $$\alpha_1(2) = y_{l_1}^1$$
 $$\alpha_1(s) = 0 \quad \forall s > 2$$
@@ -34,10 +35,12 @@ At time step $t$, the transition to state $s$ depends on whether state $s$ is a 
 
 **Case 1: State $s$ is blank ($\mathbf{l}'_s = \epsilon$) or identical to the previous label ($\mathbf{l}'_s = \mathbf{l}'_{s-2}$)**:
 The alignment could have stayed at state $s$ or transitioned from state $s-1$:
+
 $$\alpha_t(s) = \left( \alpha_{t-1}(s) + \alpha_{t-1}(s-1) \right) y_{\mathbf{l}'_s}^t$$
 
 **Case 2: State $s$ is a distinct label ($\mathbf{l}'_s \neq \epsilon$ and $\mathbf{l}'_s \neq \mathbf{l}'_{s-2}$)**:
 The alignment could have stayed at state $s$, moved from the immediately preceding blank $s-1$, or **skipped the blank entirely** from state $s-2$:
+
 $$\alpha_t(s) = \left( \alpha_{t-1}(s) + \alpha_{t-1}(s-1) + \alpha_{t-1}(s-2) \right) y_{\mathbf{l}'_s}^t$$
 
 ---
@@ -49,6 +52,7 @@ At the final frame $T$, a valid alignment must end either on the final label ($s
 $$P(\mathbf{l} \mid \mathbf{X}) = \alpha_T(2U) + \alpha_T(2U + 1)$$
 
 The **CTC Loss** is defined as the negative log-likelihood of the ground-truth sequence:
+
 $$\mathcal{L}_{\text{CTC}} = -\log P(\mathbf{l} \mid \mathbf{X}) = -\log \left( \alpha_T(2U) + \alpha_T(2U + 1) \right)$$
 
 ---
@@ -64,7 +68,9 @@ where $\text{lab}(\mathbf{l}', k) = \{s \mid \mathbf{l}'_s = k\}$, and $\beta_t(
 
 ### The Peaky Behavior Phenomenon:
 Notice the elegant structure of the gradient:
+
 $$\frac{\partial \mathcal{L}_{\text{CTC}}}{\partial z_k^t} = y_k^t - \gamma_t(k)$$
+
 where $\gamma_t(k)$ is the posterior probability that symbol $k$ was emitted at frame $t$.
 - When the acoustic evidence is ambiguous, the model prefers emitting the blank token $\epsilon$ because the blank is valid across multiple paths in the lattice.
 - When an acoustic transition is sharp, the model concentrates all probability mass into a **single, sharp 1-frame spike (peak)**, surrounded by long stretches of blank emissions.

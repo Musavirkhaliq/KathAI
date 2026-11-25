@@ -12,7 +12,9 @@ For input sequence of $T$ frames and hidden dimension $D$:
 5. **Output Projection FLOPs**: $T \times D \times D = T D^2$.
 
 Total computational complexity is:
+
 $$\mathcal{O}(T^2 D + T D^2)$$
+
 For long speech audio ($T > D$), the quadratic time dependency $T^2$ dominates computation and GPU memory.
 
 ---
@@ -22,5 +24,7 @@ For long speech audio ($T > D$), the quadratic time dependency $T^2$ dominates c
 Standard Transformers use sinusoidal or learned absolute position embeddings. However, speech features have translational symmetry (a vowel shifted by 200 ms is still the same vowel).
 
 XLS-R replaces absolute position embeddings with a **Group Convolutional Relative Positional Encoder**:
+
 $$\mathbf{P} = \text{GELU}(\text{Conv1D}(\mathbf{X}, \text{kernel}=128, \text{groups}=16))$$
+
 This allows the Transformer to encode relative temporal order over a local 128-frame window ($\approx 2.56 \text{ seconds}$) without imposing artificial absolute coordinate constraints.

@@ -4,11 +4,16 @@
 
 ## Solution to Exercise 1
 1. 1-Best:
-   $$\text{Sentence 1: } E=2, \quad \text{Sentence 2: } E=1 \implies \text{WER}_{\text{1-best}} = \frac{2 + 1}{4 + 6} = \frac{3}{10} = \mathbf{30.0\%}$$
+
+$$\text{Sentence 1: } E=2, \quad \text{Sentence 2: } E=1 \implies \text{WER}_{\text{1-best}} = \frac{2 + 1}{4 + 6} = \frac{3}{10} = \mathbf{30.0\%}$$
+
 2. Oracle:
-   $$\text{Sentence 1 min: } E=1, \quad \text{Sentence 2 min: } E=0 \implies \text{WER}_{\text{oracle}} = \frac{1 + 0}{10} = \frac{1}{10} = \mathbf{10.0\%}$$
+
+$$\text{Sentence 1 min: } E=1, \quad \text{Sentence 2 min: } E=0 \implies \text{WER}_{\text{oracle}} = \frac{1 + 0}{10} = \frac{1}{10} = \mathbf{10.0\%}$$
+
 3. Potential gain:
-   $$30.0\% - 10.0\% = \mathbf{20.0\% \text{ absolute gain!}}$$
+
+$$30.0\% - 10.0\% = \mathbf{20.0\% \text{ absolute gain!}}$$
 
 ---
 

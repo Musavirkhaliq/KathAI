@@ -17,5 +17,7 @@ where $\mathcal{K}$ is the set of parameter keys in the state dict, and $\bigopl
 ## 2. Numerical Equivalence Bound
 
 Two model checkpoints $\theta_A$ and $\theta_B$ are deemed **computationally equivalent** if:
+
 $$\max_{k \in \mathcal{K}} \|\mathbf{W}_k^{(A)} - \mathbf{W}_k^{(B)}\|_\infty < \epsilon$$
+
 where $\epsilon = 10^{-7}$ for FP32 weights.

@@ -11,6 +11,7 @@ The **Continuous-Time Fourier Transform (CTFT)** decomposes a continuous time-do
 $$X(f) = \int_{-\infty}^\infty x(t) e^{-j 2\pi f t} dt$$
 
 The inverse transform reconstructs the time-domain waveform:
+
 $$x(t) = \int_{-\infty}^\infty X(f) e^{j 2\pi f t} df$$
 
 ### The Discrete Fourier Transform (DFT)
@@ -19,7 +20,9 @@ For a discrete sequence of $N$ samples $x[n] = (x[0], x[1], \dots, x[N-1])$:
 $$X[k] = \sum_{n=0}^{N-1} x[n] e^{-j \frac{2\pi}{N} k n}, \quad k = 0, 1, \dots, N-1$$
 
 The frequency corresponding to bin index $k$ is:
+
 $$f_k = \frac{k f_s}{N}$$
+
 The **Fast Fourier Transform (FFT)**, discovered by Cooley and Tukey, evaluates this summation in $\mathcal{O}(N \log N)$ operations rather than $\mathcal{O}(N^2)$.
 
 ---
@@ -51,16 +54,22 @@ $$\Delta t \cdot \Delta f \ge \frac{1}{4\pi}$$
 ## 3. Window Functions and Spectral Leakage
 
 Rectangular windowing truncates the signal abruptly, equivalent to convolving the true spectrum with a sinc function:
+
 $$W_{\text{rect}}(f) = \frac{\sin(\pi f N)}{\pi f}$$
+
 The high sidelobes ($-13 \text{ dB}$) cause **spectral leakage**, where intense low-frequency energy (e.g., $F_0$) contaminates weak high-frequency formants.
 
 ### The Hann and Hamming Windows
 To suppress sidelobes, tapered cosine windows are applied:
 - **Hann Window**:
-  $$w_{\text{Hann}}[n] = 0.5 - 0.5 \cos\left( \frac{2\pi n}{N-1} \right)$$
+
+$$w_{\text{Hann}}[n] = 0.5 - 0.5 \cos\left( \frac{2\pi n}{N-1} \right)$$
+
   First sidelobe attenuation: $-31.5 \text{ dB}$; roll-off: $-18 \text{ dB/octave}$.
 - **Hamming Window**:
-  $$w_{\text{Hamming}}[n] = 0.54 - 0.46 \cos\left( \frac{2\pi n}{N-1} \right)$$
+
+$$w_{\text{Hamming}}[n] = 0.54 - 0.46 \cos\left( \frac{2\pi n}{N-1} \right)$$
+
   First sidelobe attenuation: $-42.7 \text{ dB}$; roll-off: $-6 \text{ dB/octave}$.
 
 ---
@@ -70,20 +79,26 @@ To suppress sidelobes, tapered cosine windows are applied:
 Human pitch perception is non-linear: our ears have exquisite frequency resolution below 1 kHz, but logarithmic resolution above 1 kHz.
 
 The **Mel Scale** maps physical frequency $f$ (Hz) to perceived pitch $m$ (mels):
+
 $$m = 2595 \log_{10}\left( 1 + \frac{f}{700} \right) = 1127 \ln\left( 1 + \frac{f}{700} \right)$$
 
 To construct an 80-channel Mel filterbank:
 1. Define 82 points equally spaced on the mel scale between $0 \text{ Hz}$ and $f_s / 2 = 8000 \text{ Hz}$.
 2. Convert mel points back to linear frequencies $f_m$.
 3. Construct triangular overlapping bandpass filters $H_m[k]$:
-   $$H_m[k] = \begin{cases} 
+
+$$H_m[k] = \begin{cases}
+
    0 & \text{if } k < f_{m-1} \\
    \frac{k - f_{m-1}}{f_m - f_{m-1}} & \text{if } f_{m-1} \le k \le f_m \\
    \frac{f_{m+1} - k}{f_{m+1} - f_m} & \text{if } f_m \le k \le f_{m+1} \\
    0 & \text{if } k > f_{m+1}
-   \end{cases}$$
+   \end{cases}
+
+$$
 
 The **Log-Mel Filterbank Energy** $S[m]$ is computed by integrating the power spectrum and taking the logarithm:
+
 $$S[m] = \ln \left( \sum_{k=0}^{N/2} |X[k]|^2 H_m[k] \right)$$
 
 ---

@@ -63,6 +63,7 @@ Subword tokenization is the discrete optimization method that identifies the Par
 From an information-theoretic perspective, tokenization is **lossless text compression**.
 
 By Shannon's Source Coding Theorem, the minimum expected number of bits required to encode a symbol drawn from a distribution $P(X)$ is bounded by the Shannon Entropy:
+
 $$H(X) = -\sum_{x \in X} P(x) \log_2 P(x)$$
 
 An optimal subword vocabulary minimizes the expected code length of a corpus by assigning high-frequency character n-grams to individual tokens, while relegating rare strings to combinations of shorter subwords or base characters.
@@ -326,6 +327,7 @@ graph TD
 When resizing $\mathbf{W}_{\text{embed}}$ from $|V_{\text{old}}|$ to $|V_{\text{old}}| + |V_{\text{new}}|$, newly added rows must not be initialized randomly. Random initialization causes massive gradient instability, destroying the model's pretrained reasoning abilities.
 
 We compute the initial embedding of each newly added Kashmiri token as the average of its constituent subwords or bytes under the base model's original tokenizer:
+
 $$\mathbf{w}_{\text{new}} = \frac{1}{|C|} \sum_{c \in \text{Decompose}(w_{\text{new}}, T_{\text{base}})} \mathbf{e}_c$$
 
 ### 8.2 Two-Stage Continued Pretraining (CPT)

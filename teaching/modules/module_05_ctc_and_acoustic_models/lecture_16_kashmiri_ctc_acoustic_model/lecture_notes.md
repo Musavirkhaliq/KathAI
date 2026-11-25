@@ -33,7 +33,9 @@ The EduCasheer acoustic model couples a massive self-supervised multilingual bac
 ## 2. Linear Head Design and Output Bias Initialization
 
 The classification head is an affine transformation:
+
 $$\mathbf{z}_t = \mathbf{W}_{\text{head}} \mathbf{h}_t + \mathbf{b}_{\text{head}}$$
+
 where $\mathbf{W}_{\text{head}} \in \mathbb{R}^{47 \times 1024}$ and $\mathbf{b}_{\text{head}} \in \mathbb{R}^{47}$.
 
 ### Output Bias Initialization Strategy:

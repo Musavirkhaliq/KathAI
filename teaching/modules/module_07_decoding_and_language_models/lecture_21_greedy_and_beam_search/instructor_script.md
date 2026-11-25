@@ -15,8 +15,8 @@
 
 ### 00:20 - 00:50 | The Board Counterexample
 - Write the probabilities on the board:
-  - Frame 1: $P(\text{ك}) = 0.40, P(\text{ت}) = 0.35, P(\epsilon) = 0.25$
-  - Frame 2: $P(\text{ٲ}) = 0.40, P(\text{ت}) = 0.35, P(\epsilon) = 0.25$
+  - Frame 1: `P("ك") = 0.40, P("ت") = 0.35, P(ε) = 0.25`
+  - Frame 2: `P("ٲ") = 0.40, P("ت") = 0.35, P(ε) = 0.25`
 - Look at the class:
   > "What does greedy search pick?
   > Frame 1: 'ك' (40%). Frame 2: 'ٲ' (40%).

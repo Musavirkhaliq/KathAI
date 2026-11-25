@@ -15,7 +15,9 @@
 
 ### 00:20 - 00:45 | Gradient Flow on the Board
 - Write the product on the Center Board:
-  $$\prod_{l=1}^{24} \mathbf{W}^{(l) T}$$
+
+$$\prod_{l=1}^{24} \mathbf{W}^{(l) T}$$
+
 - Look at the students:
   > "XLS-R has 24 Transformer layers. If each layer scales your gradient by just 1.1, then 1.1 to the power of 24 is 9.85.
   > If each layer scales your gradient by 0.9, then 0.9 to the power of 24 is 0.079.

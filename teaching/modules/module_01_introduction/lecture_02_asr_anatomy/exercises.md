@@ -14,11 +14,11 @@ Consider an acoustic model feature extractor consisting of the 7 temporal Conv1d
 ---
 
 ## Problem 2: CTC Alignment Combinatorics
-Let $\Omega = \{\text{ك}, \text{ٲ}, \text{ش}\}$ and $\Omega' = \Omega \cup \{\epsilon\}$.
+Let `\Omega = \{"ك", "ٲ", "ش"\}` and $\Omega' = \Omega \cup \{\epsilon\}$.
 Consider an acoustic sequence of duration $T=4$ frames.
 
-1. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in the preimage $\mathcal{B}^{-1}(\mathbf{y})$ for the target sequence $\mathbf{y} = (\text{ك}, \text{ٲ})$.
-2. Now consider the target sequence $\mathbf{y}_{\text{dup}} = (\text{ك}, \text{ك})$ with two consecutive identical tokens. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in $\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})$.
+1. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in the preimage $\mathcal{B}^{-1}(\mathbf{y})$ for the target sequence `y = ("ك", "ٲ")`.
+2. Now consider the target sequence `y_dup = ("ك", "ك")` with two consecutive identical tokens. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in $\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})$.
 3. Compare the cardinality $|\mathcal{B}^{-1}(\mathbf{y})|$ versus $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})|$. Explain mathematically why repeated tokens restrict alignment paths.
 
 ---

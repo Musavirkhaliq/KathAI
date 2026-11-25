@@ -22,7 +22,9 @@ Let $G = (V_S \cup V_U, E)$ be a bipartite graph where:
 ### Partition Constraints:
 We partition utterances into three sets: $\text{Train} (U_{\text{tr}})$, $\text{Validation} (U_{\text{val}})$, and $\text{Test} (U_{\text{te}})$ such that:
 1. **Strict Speaker Disjointness**:
-   $$S(U_{\text{tr}}) \cap S(U_{\text{val}}) = \emptyset, \quad S(U_{\text{tr}}) \cap S(U_{\text{te}}) = \emptyset, \quad S(U_{\text{val}}) \cap S(U_{\text{te}}) = \emptyset$$
+
+$$S(U_{\text{tr}}) \cap S(U_{\text{val}}) = \emptyset, \quad S(U_{\text{tr}}) \cap S(U_{\text{te}}) = \emptyset, \quad S(U_{\text{val}}) \cap S(U_{\text{te}}) = \emptyset$$
+
 2. **Acoustic Diversity Balance**:
    Each partition must maintain proportional representation of gender, dialect regions, and recording acoustic types (studio vs. field).
 3. **Temporal Target Ratios**:

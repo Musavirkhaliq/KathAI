@@ -42,7 +42,9 @@ Given test corpus of $M$ utterances and two competing models $A$ and $B$:
    - Evaluate micro-averaged WER for both models on sample $\mathcal{S}^{(b)}$: $\text{WER}_A^{(b)}$ and $\text{WER}_B^{(b)}$.
    - Calculate the delta: $\Delta^{(b)} = \text{WER}_B^{(b)} - \text{WER}_A^{(b)}$.
 2. Compute the **empirical two-tailed $p$-value**:
-   $$p = 2 \cdot \min\left( \frac{1}{B} \sum_{b=1}^B \mathbb{I}(\Delta^{(b)} \le 0), \frac{1}{B} \sum_{b=1}^B \mathbb{I}(\Delta^{(b)} \ge 0) \right)$$
+
+$$p = 2 \cdot \min\left( \frac{1}{B} \sum_{b=1}^B \mathbb{I}(\Delta^{(b)} \le 0), \frac{1}{B} \sum_{b=1}^B \mathbb{I}(\Delta^{(b)} \ge 0) \right)$$
+
 3. If $p < 0.05$, the difference is statistically significant at the $95\%$ confidence level.
 
 ---
@@ -51,9 +53,13 @@ Given test corpus of $M$ utterances and two competing models $A$ and $B$:
 
 To construct a $95\%$ confidence interval for Model A's true error rate:
 1. Sort the $B$ bootstrap estimates in ascending order:
-   $$\text{WER}_{(1)} \le \text{WER}_{(2)} \le \dots \le \text{WER}_{(B)}$$
+
+$$\text{WER}_{(1)} \le \text{WER}_{(2)} \le \dots \le \text{WER}_{(B)}$$
+
 2. The $95\%$ confidence interval is given by the $2.5\text{th}$ and $97.5\text{th}$ percentiles:
-   $$\text{CI}_{95\%} = \left[ \text{WER}_{(\lfloor 0.025 B \rfloor)}, \text{WER}_{(\lfloor 0.975 B \rfloor)} \right]$$
+
+$$\text{CI}_{95\%} = \left[ \text{WER}_{(\lfloor 0.025 B \rfloor)}, \text{WER}_{(\lfloor 0.975 B \rfloor)} \right]$$
 
 For the certified EduCasheer model `E22-01`:
+
 $$\text{WER}_{\text{composite}} = 24.12\% \quad (\text{95\% CI: } [23.45\%, 24.81\%])$$

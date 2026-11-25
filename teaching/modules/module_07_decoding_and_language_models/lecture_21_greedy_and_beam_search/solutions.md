@@ -4,14 +4,14 @@
 
 ## Solution to Exercise 1
 Total prior probability: $P_{\text{total}} = P_b + P_{nb} = 0.30 + 0.20 = 0.50$.
-1. For prefix $\text{"ک"}$:
-   - Blank extension: $P_b(\text{"ک"}) = P_{\text{total}} \times y_\epsilon = 0.50 \times 0.40 = \mathbf{0.20}$.
+1. For prefix `"ک"`:
+   - Blank extension: `P_b("ک") = P_{\text{total}} \times y_ε = 0.50 \times 0.40 = \mathbf{0.20}`.
    - Non-blank identical character extension:
-     $$P_{nb}(\text{"ک"}) = P_{nb}(\text{"ک"}) \times y_{\text{ک}} = 0.20 \times 0.30 = \mathbf{0.06}$$
-2. For new prefix $\text{"کک"}$ (identical character following blank):
-   $$P_{nb}(\text{"کک"}) = P_b(\text{"ک"}) \times y_{\text{ک}} = 0.30 \times 0.30 = \mathbf{0.09}$$
-3. For new prefix $\text{"کٲ"}$ (distinct character):
-   $$P_{nb}(\text{"کٲ"}) = P_{\text{total}} \times y_{\text{ٲ}} = 0.50 \times 0.20 = \mathbf{0.10}$$
+> P_{nb}(**"ک"**) = P_{nb}(**"ک"**) \times y_{**"ک"**} = 0.20 \times 0.30 = \mathbf{0.06}
+2. For new prefix `"کک"` (identical character following blank):
+> P_{nb}(**"کک"**) = P_b(**"ک"**) \times y_{**"ک"**} = 0.30 \times 0.30 = \mathbf{0.09}
+3. For new prefix `"ک"ٲ""` (distinct character):
+> P_{nb}(**"کٲ"**) = P_{\text{total}} \times y_{**"ٲ"**} = 0.50 \times 0.20 = \mathbf{0.10}
 
 ---
 

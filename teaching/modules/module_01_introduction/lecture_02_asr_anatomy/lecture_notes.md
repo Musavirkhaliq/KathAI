@@ -33,10 +33,12 @@ PARADIGM 3: CONNECTIONIST TEMPORAL CLASSIFICATION (CTC + Pretrained Encoder)
 In classical hybrid systems (such as Kaldi), the speech recognition problem is decomposed into strictly decoupled probabilistic models:
 1. **Acoustic Model (AM)**: Models $P(\mathbf{X} \mid s)$, representing the probability of acoustic feature vectors $\mathbf{X} = (\mathbf{x}_1, \dots, \mathbf{x}_T)$ (typically 39-dimensional Mel-Frequency Cepstral Coefficients with $\Delta$ and $\Delta\Delta$) given a sequence of hidden HMM states $s \in \mathcal{S}$.
 2. **Pronunciation Lexicon ($L$)**: A deterministic or probabilistic bipartite mapping from words to sequences of phonetic phone symbols:
-   $$L: \mathcal{W} \to \mathcal{P}^+ \quad \text{e.g.,} \quad \text{"كٲشُر"} \mapsto \text{/k/ /əː/ /ʃ/ /u/ /r/}$$
+> L: \mathcal{W} \to \mathcal{P}^+   \text{e.g.,}   **"كٲشُر"** \mapsto \text{/k/ /əː/ /ʃ/ /u/ /r/}
 3. **Language Model ($G$)**: An $n$-gram or recurrent neural network modeling prior word sequence probability $P(\mathbf{W})$.
 4. **Weighted Finite-State Transducer (WFST) Composition**: The individual components are compiled into finite-state transducers and statically composed:
-   $$\mathcal{H} \circ \mathcal{C} \circ \mathcal{L} \circ \mathcal{G}$$
+
+$$\mathcal{H} \circ \mathcal{C} \circ \mathcal{L} \circ \mathcal{G}$$
+
    where $\mathcal{H}$ represents HMM state topology, $\mathcal{C}$ maps context-dependent triphones to monophones, $\mathcal{L}$ maps phones to words, and $\mathcal{G}$ represents the grammar automaton.
 
 #### Why the Hybrid Model Failed Catastrophically for Kashmiri:
@@ -50,14 +52,14 @@ In classical hybrid systems (such as Kaldi), the speech recognition problem is d
 
 Attention-based Encoder-Decoder models (such as Listen, Attend and Spell [LAS] and OpenAI's Whisper) eliminate the pronunciation lexicon by learning an autoregressive mapping directly from acoustic frames $\mathbf{X}$ to output subword tokens $\mathbf{y} = (y_1, \dots, y_U)$:
 
-$$P(\mathbf{y} \mid \mathbf{X}) = \prod_{u=1}^U P(y_u \mid y_{<u}, \mathbf{X}) = \prod_{u=1}^U \text{Softmax}\left( \text{Decoder}(y_{<u}, \text{CrossAttention}(\mathbf{H}, \mathbf{Z}_{\text{dec}})) \right)$$
+$$P(\mathbf{y} \mid \mathbf{X}) = \prod_{u=1}^U P(y_u \mid y_{\lt u}, \mathbf{X}) = \prod_{u=1}^U \text{Softmax}\left( \text{Decoder}(y_{\lt u}, \text{CrossAttention}(\mathbf{H}, \mathbf{Z}_{\text{dec}})) \right)$$
 
 #### Advantages:
-- Completely removes the conditional independence assumption; each token $y_u$ is conditioned on the entire history of previously generated tokens $y_{<u}$.
+- Completely removes the conditional independence assumption; each token $y_u$ is conditioned on the entire history of previously generated tokens $y_{\lt u}$.
 - Jointly integrates acoustic and language modeling within a single unified neural network.
 
 #### Severe Failure Modes on Low-Resource Kashmiri:
-1. **Catastrophic Hallucination Loops**: In autoregressive cross-attention, there is no structural guarantee of temporal monotonicity. When encountering non-speech segments, ambient background noise, coughing, or prolonged pauses (frequent in field recordings like Kashmiri WAAZ sermons or Bolbosh radio broadcasts), Whisper's decoder attends to its own previous outputs $y_{<u}$, entering self-reinforcing repetition loops (e.g., repeating a single phrase 50 times until reaching the maximum sequence length).
+1. **Catastrophic Hallucination Loops**: In autoregressive cross-attention, there is no structural guarantee of temporal monotonicity. When encountering non-speech segments, ambient background noise, coughing, or prolonged pauses (frequent in field recordings like Kashmiri WAAZ sermons or Bolbosh radio broadcasts), Whisper's decoder attends to its own previous outputs $y_{\lt u}$, entering self-reinforcing repetition loops (e.g., repeating a single phrase 50 times until reaching the maximum sequence length).
 2. **Subword Fragmentation in Perso-Arabic**: Whisper utilizes byte-level Byte-Pair Encoding (BPE). In Kashmiri Perso-Arabic, BPE frequently merges consonants with diacritics in common words, but splits identical stems into arbitrary single-byte tokens in rare words, causing extreme insertion errors and high Out-Of-Vocabulary (OOV) distortion.
 3. **Quadratic Attention Latency**: Full self-attention across long audio sequences scales as $\mathcal{O}(T^2)$, making streaming and real-time edge deployment computationally prohibitive.
 
@@ -241,7 +243,9 @@ The EduCasheer project standardized on a character-level vocabulary of $|V|=47$ 
    - `ں` (Noon Ghunna / Nasalization marker, U+06BA): Word-final and medial vowel nasalization.
 
 By constraining $|V|=47$, the linear CTC projection layer requires only:
+
 $$\text{Parameters} = 1024 \times 47 + 47 = 48,175 \text{ weights}$$
+
 This minimal parameter overhead avoids overfitting on scarce Kashmiri speech data and ensures fast logit computation.
 
 ---
@@ -259,7 +263,9 @@ $$\mathcal{S}(\mathbf{w} \mid \mathbf{X}) = \log P_{\text{CTC}}(\mathbf{w} \mid 
 Where:
 - $\log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X})$: The acoustic sequence log-likelihood obtained by summing over all valid CTC alignments in $\mathcal{B}^{-1}(\mathbf{w})$.
 - $\log P_{\text{LM}}(\mathbf{w})$: The linguistic log-probability assigned by an external 5-gram KenLM language model trained on validated Kashmiri text corpora:
-  $$\log P_{\text{LM}}(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{k-4}, \dots, w_{k-1})$$
+
+$$\log P_{\text{LM}}(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{k-4}, \dots, w_{k-1})$$
+
 - $|\mathbf{w}|$: The number of words in the candidate transcription.
 - $\alpha \ge 0$: **Language Model Weight**, balancing acoustic evidence against linguistic prior.
 - $\beta \ge 0$: **Word Insertion Bonus** (Brevity Penalty Compensation), preventing the decoder from favoring abnormally short sentences.
@@ -281,9 +287,9 @@ the distribution is smoothly softened. This increases the entropy of the acousti
 
 Because language models compute probabilities via the chain rule:
 
-$$P(\mathbf{w}) = \prod_{k=1}^K P(w_k \mid w_{<k}) \implies \log P(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{<k})$$
+$$P(\mathbf{w}) = \prod_{k=1}^K P(w_k \mid w_{\lt k}) \implies \log P(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{\lt k})$$
 
-and each conditional probability is strictly bounded by $P(w_k \mid w_{<k}) \le 1$ (meaning $\log P(w_k \mid w_{<k}) \le 0$), **every additional word adds a negative quantity to the sequence score**. Consequently, an unweighted beam search exhibits an inherent mathematical bias toward generating fewer words (brevity bias), frequently dropping suffixes, postpositions, and monosyllabic auxiliary verbs.
+and each conditional probability is strictly bounded by $P(w_k \mid w_{\lt k}) \le 1$ (meaning $\log P(w_k \mid w_{\lt k}) \le 0$), **every additional word adds a negative quantity to the sequence score**. Consequently, an unweighted beam search exhibits an inherent mathematical bias toward generating fewer words (brevity bias), frequently dropping suffixes, postpositions, and monosyllabic auxiliary verbs.
 
 The word insertion bonus $\beta |\mathbf{w}|$ adds a constant positive reward $+\beta$ for every completed word token, counteracting the negative log-probability penalty and preventing catastrophic sentence truncation.
 

@@ -12,13 +12,17 @@ At the physical level, speech begins in the human body as an aerodynamic and aco
 2. **Glottal Excitation**: As air passes through the vocal folds (glottis), the folds vibrate periodically for voiced sounds (vowels, nasals, voiced plosives) at a fundamental frequency $F_0$ (typically $85 - 155\text{ Hz}$ for adult males, $165 - 255\text{ Hz}$ for adult females, and $> 250\text{ Hz}$ for children). For unvoiced sounds (fricatives, voiceless stops), the folds remain open, creating turbulent aerodynamic noise.
 3. **Vocal Tract Filtering**: The sound passes through the pharyngeal, oral, and nasal cavities. These cavities act as an acoustic resonator with time-varying cross-sectional area $A(x, t)$, boosting certain resonant frequencies known as **formants** ($F_1, F_2, F_3, \dots$) and attenuating others.
 4. **Atmospheric Propagation**: Radiated sound propagates through air as longitudinal compressional waves at speed:
-   $$c \approx 331.3 \sqrt{1 + \frac{\theta}{273.15}} \text{ m/s} \approx 343\text{ m/s at } 20^\circ\text{C}$$
+
+$$c \approx 331.3 \sqrt{1 + \frac{\theta}{273.15}} \text{ m/s} \approx 343\text{ m/s at } 20^\circ\text{C}$$
+
    producing localized fluctuations in atmospheric pressure $p(t) \in \mathbb{R}$ around ambient barometric pressure $P_0 \approx 101.325\text{ kPa}$.
 5. **Transduction and Digitization**: An analog microphone diaphragm converts pressure fluctuations $p(t)$ into a continuous voltage $v(t)$, which is subsequently sampled and quantized by an Analog-to-Digital Converter (ADC) into a 1D discrete-time sequence of quantized amplitude samples $\mathbf{x} = (x_1, x_2, \dots, x_N) \in \mathbb{Z}^{N}$.
 
 ### The Linguistic Target
 At the linguistic level, speech is perceived by humans as a structured, discrete sequence of semantic symbols:
+
 $$\mathbf{w} = (w_1, w_2, \dots, w_U)$$
+
 where each $w_u$ belongs to a finite vocabulary $\mathcal{V}$ (words, morphemes, subwords, or characters).
 
 ### The Three Trilemmas of Speech Inversion
@@ -39,20 +43,25 @@ Let $\mathcal{W}$ denote the space of all permissible word sequences constructib
 
 ### Bayes' Decision Rule and the Zero-One Loss
 In statistical decision theory, an optimal decision rule $\delta(\mathbf{X}) = \hat{\mathbf{w}}$ minimizes the conditional Bayes risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ under a specified loss function $L(\mathbf{w}, \hat{\mathbf{w}})$:
+
 $$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \mathbb{E}_{\mathbf{w} \sim P(\mathbf{w} \mid \mathbf{X})} [L(\mathbf{w}, \hat{\mathbf{w}})] = \sum_{\mathbf{w} \in \mathcal{W}} L(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
 
 If we define the loss as the **Zero-One Sentence Error Loss**, which penalizes any incorrect sentence equally regardless of how many words were wrong:
+
 $$L_{0-1}(\mathbf{w}, \hat{\mathbf{w}}) = \mathbb{I}(\mathbf{w} \ne \hat{\mathbf{w}}) = \begin{cases} 0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\ 1 & \text{if } \mathbf{w} \ne \hat{\mathbf{w}} \end{cases}$$
 
 The conditional risk simplifies to:
+
 $$R(\hat{\mathbf{w}} \mid \mathbf{X}) = \sum_{\mathbf{w} \ne \hat{\mathbf{w}}} P(\mathbf{w} \mid \mathbf{X}) = \left( \sum_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X}) \right) - P(\hat{\mathbf{w}} \mid \mathbf{X}) = 1 - P(\hat{\mathbf{w}} \mid \mathbf{X})$$
 
 Minimizing risk $R(\hat{\mathbf{w}} \mid \mathbf{X})$ is strictly mathematically equivalent to maximizing the posterior probability $P(\hat{\mathbf{w}} \mid \mathbf{X})$.
 This yields the celebrated **Maximum A Posteriori (MAP)** decision rule:
+
 $$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$$
 
 ### The Bayesian Generative Decomposition
 Applying Bayes' Theorem to the posterior probability:
+
 $$P(\mathbf{w} \mid \mathbf{X}) = \frac{P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w})}{P(\mathbf{X})}$$
 
 Because the marginal likelihood (evidence) $P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$ is an integral over all candidate word sequences that depends strictly on the observed acoustic tensor $\mathbf{X}$ and does not vary with candidate hypothesis $\mathbf{w}$, it is invariant during argmax search:
@@ -60,6 +69,7 @@ Because the marginal likelihood (evidence) $P(\mathbf{X}) = \sum_{\mathbf{w}' \i
 $$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ P(\mathbf{X} \mid \mathbf{w}) P(\mathbf{w}) \right]$$
 
 Applying a monotonic logarithmic transformation:
+
 $$\hat{\mathbf{w}}_{\text{MAP}} = \arg\max_{\mathbf{w} \in \mathcal{W}} \left[ \log P(\mathbf{X} \mid \mathbf{w}) + \log P(\mathbf{w}) \right]$$
 
 This is the **Fundamental Equation of Statistical Speech Recognition**:
@@ -86,6 +96,7 @@ This is the **Fundamental Equation of Statistical Speech Recognition**:
 A subtle theoretical vulnerability of MAP decoding is that it optimizes for **Sentence Error Rate (SER)** rather than **Word Error Rate (WER)**. In real-world evaluation, an ASR system is evaluated by Levenshtein edit distance $\mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) = \frac{S + D + I}{N}$.
 
 Under the Levenshtein loss function, the optimal decision rule is **Minimum Bayes Risk (MBR)**:
+
 $$\hat{\mathbf{w}}_{\text{MBR}} = \arg\min_{\hat{\mathbf{w}} \in \mathcal{W}} \sum_{\mathbf{w} \in \mathcal{W}} \mathcal{W}(\mathbf{w}, \hat{\mathbf{w}}) P(\mathbf{w} \mid \mathbf{X})$$
 
 While exact MBR decoding across all possible word combinations is computationally NP-hard, modern beam search with length penalties ($\beta |\mathbf{w}|$) and language model scaling ($\alpha$) acts as an effective, highly calibrated surrogate.
@@ -99,11 +110,13 @@ To understand why the EduCasheer project chose its specific architecture, one mu
 ### The Classical Hybrid Architecture (HMM-GMM / HMM-DNN, 1980–2015)
 In classical hybrid systems (e.g. Kaldi, HTK, Sphinx):
 1. **Pronunciation Lexicon ($L$)**: Hand-crafted mapping from orthographic words to phonetic sequences:
-   $$\text{"كٲشُر"} \longrightarrow /k/ \; /əː/ \; /ʃ/ \; /u/ \; /r/$$
+> **"كٲشُر"** $\longrightarrow$ /k/   /əː/   /ʃ/   /u/   /r/
 2. **Hidden Markov Models (HMMs)**: Every phoneme was modeled as a 3-state left-to-right HMM modeling temporal progression.
 3. **Senones (Context-Dependent Tied States)**: Because of coarticulation, triphones (e.g., `/k-əː+ʃ/`) were clustered using decision trees into thousands of tied states (*senones*).
 4. **Weighted Finite-State Transducers (WFSTs)**: Decoding composed four distinct graphs into a massive search lattice:
-   $$H \circ C \circ L \circ G$$
+
+$$H \circ C \circ L \circ G$$
+
    where $H$ represents HMM topologies, $C$ represents context-dependency triphones, $L$ represents the pronunciation lexicon, and $G$ represents the grammar / language model.
 
 ### Why Classical Hybrid Broke Down for Kashmiri:
@@ -157,7 +170,7 @@ These vowels occupy the acoustic center of the vowel trapezoid ($F_2 \approx 140
 ### 2. Phonemic Secondary Articulation: Palatalization ($C^j$)
 In Kashmiri, consonant palatalization ($C^j$) is phonemic and carries inflectional morphology (marking grammatical gender, number, and tense).
 - Palatalization is marked orthographically by the small Kashmiri Yeh (`ؠ`, `U+0620`):
-  $$\text{"دَب"} \; (/dab/, \text{a fall}) \quad \text{vs.} \quad \text{"دَبؠ"} \; (/dab^j/, \text{falls / plural})$$
+> **"دَب"**   (/dab/, \text{a fall})   \text{vs.}   **"دَبؠ"**   (/dab^j/, \text{falls / plural})
 If an ASR vocabulary omits `ؠ`, the entire morphological agreement system of the language collapses.
 
 ### 3. Extended Perso-Arabic Script and Diacritic Omission

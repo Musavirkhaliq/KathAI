@@ -23,10 +23,14 @@ Standard FP32 floating point uses 32 bits (1 sign, 8 exponent, 23 mantissa). FP1
 
 ### The Solution: Dynamic Gradient Scaling
 `torch.cuda.amp.GradScaler` multiplies the loss by a large scale factor $S$ (e.g., $S = 2^{15} = 32,768$) before backpropagation:
+
 $$\mathbf{g}_{\text{scaled}} = \nabla_{\mathbf{W}} (S \cdot \mathcal{L})$$
+
 This shifts small gradients into the representable range of FP16.
 Before the optimizer updates the weights, the scaler unscales the gradients:
+
 $$\mathbf{g} = \frac{\mathbf{g}_{\text{scaled}}}{S}$$
+
 If infs or NaNs are detected, the optimizer step is skipped, and the scale factor $S$ is halved.
 
 ---
@@ -36,5 +40,7 @@ If infs or NaNs are detected, the optimizer step is skipped, and the scale facto
 CTC loss is notoriously noisy on small batch sizes ($B=4$ or $B=8$). Stable convergence requires an **effective batch size of 64 or 128 utterances**.
 When GPU VRAM limits physical batch size to $B_{\text{phys}} = 8$:
 - The loop accumulates gradients over $K = 8$ micro-steps:
-  $$\mathbf{g}_{\text{accum}} = \frac{1}{K} \sum_{k=1}^K \nabla_{\mathbf{W}} \mathcal{L}_k$$
+
+$$\mathbf{g}_{\text{accum}} = \frac{1}{K} \sum_{k=1}^K \nabla_{\mathbf{W}} \mathcal{L}_k$$
+
 - The optimizer step and gradient zeroing are triggered only every $K$ steps.

@@ -6,18 +6,24 @@
 
 ### Part 1:
 The marginal likelihood (evidence) is:
+
 $$P(\mathbf{X}) = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X}, \mathbf{w}') = \sum_{\mathbf{w}' \in \mathcal{W}} P(\mathbf{X} \mid \mathbf{w}') P(\mathbf{w}')$$
 
 ### Part 2:
 In the summation above, $\mathbf{w}'$ is a bound dummy summation variable integrating over all candidate sequences in the vocabulary space $\mathcal{W}$. The expression evaluates to a scalar dependent solely on $\mathbf{X}$. It has no functional dependence on any specific candidate sequence $\mathbf{w}$. Hence:
+
 $$\frac{\partial P(\mathbf{X})}{\partial \mathbf{w}} = 0$$
 
 ### Part 3:
 Let $\hat{\mathbf{w}}^* = \arg\max_{\mathbf{w} \in \mathcal{W}} [g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X})]$.
 By definition of argmax:
+
 $$g(\mathbf{X}) P(\hat{\mathbf{w}}^* \mid \mathbf{X}) \ge g(\mathbf{X}) P(\mathbf{w} \mid \mathbf{X}) \quad \forall \mathbf{w} \in \mathcal{W}$$
+
 Since $g(\mathbf{X}) > 0$, we can divide both sides by $g(\mathbf{X})$ without altering the direction of the inequality:
+
 $$P(\hat{\mathbf{w}}^* \mid \mathbf{X}) \ge P(\mathbf{w} \mid \mathbf{X}) \quad \forall \mathbf{w} \in \mathcal{W}$$
+
 This is the exact definition of $\hat{\mathbf{w}}^* = \arg\max_{\mathbf{w} \in \mathcal{W}} P(\mathbf{w} \mid \mathbf{X})$. $\blacksquare$
 
 ---
@@ -26,21 +32,24 @@ This is the exact definition of $\hat{\mathbf{w}}^* = \arg\max_{\mathbf{w} \in \
 
 ### Part 1:
 $$L_{\text{emergency}}(\mathbf{w}, \hat{\mathbf{w}}) = \begin{cases}
+
 0 & \text{if } \mathbf{w} = \hat{\mathbf{w}} \\
 100 & \text{if } \mathbf{w} = \text{"خَطَر"} \land \hat{\mathbf{w}} \neq \text{"خَطَر"} \\
 1 & \text{otherwise}
-\end{cases}$$
+\end{cases}
+
+$$
 
 ### Part 2:
 MAP decoding selects the hypothesis with highest posterior probability:
-$$P(\text{"خَبَر"} \mid \mathbf{X}) = 0.95 > P(\text{"خَطَر"} \mid \mathbf{X}) = 0.05 \implies \hat{\mathbf{w}}_{\text{MAP}} = \mathbf{\text{"خَبَر"}}$$
+> P(**"خَبَر"** \mid \mathbf{X}) = 0.95 > P(**"خَطَر"** \mid \mathbf{X}) = 0.05 \implies \hat{\mathbf{w}}_{\text{MAP}} = \mathbf{**"خَبَر"**}
 
 ### Part 3:
 Calculate conditional Bayes risk:
-1. If predicting $\hat{\mathbf{w}} = \text{"خَبَر"}$:
-   $$R(\text{"خَبَر"} \mid \mathbf{X}) = L(\text{"خَطَر"}, \text{"خَبَر"}) P(\text{"خَطَر"}) + L(\text{"خَبَر"}, \text{"خَبَر"}) P(\text{"خَبَر"}) = 100 \times 0.05 + 0 \times 0.95 = \mathbf{5.0}$$
-2. If predicting $\hat{\mathbf{w}} = \text{"خَطَر"}$:
-   $$R(\text{"خَطَر"} \mid \mathbf{X}) = L(\text{"خَطَر"}, \text{"خَطَر"}) P(\text{"خَطَر"}) + L(\text{"خَبَر"}, \text{"خَطَر"}) P(\text{"خَبَر"}) = 0 \times 0.05 + 1 \times 0.95 = \mathbf{0.95}$$
+1. If predicting `\hat{\mathbf{w}} = "خَبَر"`:
+> R(**"خَبَر"** \mid \mathbf{X}) = L(**"خَطَر"**, **"خَبَر"**) P(**"خَطَر"**) + L(**"خَبَر"**, **"خَبَر"**) P(**"خَبَر"**) = 100 \times 0.05 + 0 \times 0.95 = \mathbf{5.0}
+2. If predicting `\hat{\mathbf{w}} = "خَطَر"`:
+> R(**"خَطَر"** \mid \mathbf{X}) = L(**"خَطَر"**, **"خَطَر"**) P(**"خَطَر"**) + L(**"خَبَر"**, **"خَطَر"**) P(**"خَبَر"**) = 0 \times 0.05 + 1 \times 0.95 = \mathbf{0.95}
 Since $0.95 < 5.0$, MBR decoding selects **`"خَطَر"`**! Even with only 5% probability, the asymmetric penalty for missing a danger alert dictates the optimal decision.
 
 ---
@@ -64,10 +73,12 @@ Urdu lacks phonemic central unrounded vowels. Its acoustic vowel space has an em
 
 ### Part 1:
 Rejection rate:
+
 $$\frac{191}{500} \times 100 = \mathbf{38.2\% \text{ of utterances rejected}}$$
 
 ### Part 2:
 Levenshtein WER formula:
+
 $$\text{WER} = \frac{S + D + I}{N} \times 100 = \frac{2118 + 1890 + 412}{5000} \times 100 = \frac{4420}{5000} \times 100 = \mathbf{88.40\%}$$
 
 ### Part 3:

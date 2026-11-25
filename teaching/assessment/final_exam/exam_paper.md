@@ -7,7 +7,9 @@
 ## Section A: Advanced Decoding & Language Modeling (30 Marks)
 1. **(15 Marks)** Deconstruct CTC Prefix Beam Search. Explain mathematically why tracking separate blank $P_b$ and non-blank $P_{nb}$ probabilities is mandatory when extending candidate prefixes by identical characters.
 2. **(15 Marks)** Formulate the Calibrated Shallow Fusion objective:
-   $$\mathcal{S}(\mathbf{w}) = \log P_\text{CTC}(\mathbf{y} \mid \mathbf{X}; T) + \alpha \log_{10} P_\text{LM}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
+$$\mathcal{S}(\mathbf{w}) = \log P_\text{CTC}(\mathbf{y} \mid \mathbf{X}; T) + \alpha \log_{10} P_\text{LM}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
    Explain the physical role of acoustic temperature $T=1.08$, language weight $\alpha$, and word bonus $\beta$.
 
 ---

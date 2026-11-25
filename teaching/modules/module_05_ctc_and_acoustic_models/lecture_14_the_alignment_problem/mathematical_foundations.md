@@ -12,5 +12,7 @@ A warping path $W = (w_1, w_2, \dots, w_K)$ with $w_k = (i_k, j_k)$ must satisfy
 3. **Step Size Invariant**: $w_{k+1} - w_k \in \{(1, 0), (0, 1), (1, 1)\}$.
 
 The optimal path minimizes cumulative cost:
+
 $$\text{DTW}(\mathbf{X}, \mathbf{Y}) = \min_{W} \sum_{k=1}^K d(w_k)$$
+
 Solved via dynamic programming in $\mathcal{O}(NM)$ operations.

@@ -63,7 +63,9 @@ Building on the 2-epoch pilot (Loss 14.21 $\to$ 3.42) and the rigorous pilot dec
 
 ### 2.3 KenLM 5-Gram Shallow Fusion Decoding
 Pure CTC character predictions suffer from phonetic ambiguity between visually distinct but phonetically similar characters (e.g. Heh Goal vs Heh Doachashmee). We resolve this via shallow fusion decoding:
+
 $$\hat{Y} = \arg\max_Y \left( \log P_{\text{CTC}}(Y \mid X) + \alpha \log P_{\text{KenLM}}(Y) + \beta \text{WordCount}(Y) \right)$$
+
 - $\alpha \in [0.4, 0.8]$ (LM weight).
 - $\beta \in [1.0, 2.5]$ (word insertion bonus to counteract CTC length deletion bias).
 - KenLM trained on our 3.4 GB text corpus via `kenlm` with modified Kneser-Ney discounting.
@@ -112,6 +114,7 @@ Cascaded systems (ASR → Machine Translation) suffer from compounding errors: i
 - **Direct Model**: Fine-tune Whisper-Medium directly on parallel speech alignments:
 
 $$\text{Audio}_{\text{Kashmiri}} \xrightarrow{\text{Direct Encoder-Decoder}} \text{Text}_{\text{English}}$$
+
 - **Data**: Speech master manifest aligned with English parallel translations (`smuqamar_kashmiri-english-parallel-corpus`).
 - **Target**: SacreBLEU > **24.0** on conversational test sets.
 

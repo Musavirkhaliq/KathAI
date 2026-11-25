@@ -23,7 +23,9 @@ EduCasheer introduced **Golden Logit Parity Testing** (`tests/test_inference_par
 3. **Logit Array Comparison**:
    - Shape assertion: Both emit exact shape `[249, 47]`.
    - Max absolute difference:
-     $$\Delta_{\max} = \max_{t, k} |z_{\text{ref}}(t, k) - z_{\text{new}}(t, k)| < 10^{-5}$$
+
+$$\Delta_{\max} = \max_{t, k} |z_{\text{ref}}(t, k) - z_{\text{new}}(t, k)| < 10^{-5}$$
+
    - Cryptographic logit hash: The SHA-256 hash of the output float32 bytes must match the golden hash.
 
 If $\Delta_{\max} > 10^{-5}$, the CI pipeline fails immediately, blocking non-deterministic code from entering production.

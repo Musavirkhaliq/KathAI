@@ -20,7 +20,8 @@ A comprehensive, file-by-file forensic recalculation of all manifests and audio 
      * `SRC_RAW_OPENSLR122` (1,508 samples) — held out exclusively in evaluation sets (`val.jsonl` / `test.jsonl`), strictly excluded from training.
      * `SRC_WAAZ_COMMUNITY` (1,200 samples) — ingested in Stage 22 expansion experiments (`dev_b_waaz_val.jsonl` and `train_waaz_tier_a.jsonl`).
    - Notice the exact mathematical identity:
-     $$\text{Training Total (106,487)} + \text{Evaluation Sources (2,733 + 1,508 + 1,200 = 5,441)} = \mathbf{111,928\ \text{samples}}$$
+
+$$\text{Training Total (106,487)} + \text{Evaluation Sources (2,733 + 1,508 + 1,200 = 5,441)} = \mathbf{111,928\ \text{samples}}$$
 
 2. **Nominal Duration vs Verified Duration Discrepancy**:
    - The individual table rows in earlier documentation displayed **preliminary nominal hours** from external repository descriptions (e.g., Bolbosh estimated at 58.40h, IndicVoices-R at 41.87h, total 174.55h).

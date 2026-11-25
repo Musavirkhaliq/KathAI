@@ -43,7 +43,9 @@ To eliminate trailing frame token hallucination and memory crashes on long recor
 
 ### 3.1 Exact Receptive Field Frame Calculation
 For `facebook/wav2vec2-xls-r-300m` (7 Conv1d layers with kernels `[10, 3, 3, 3, 3, 2, 2]` and strides `[5, 2, 2, 2, 2, 2, 2]`):
+
 $$L_{\text{out}}^{(i)} = \left\lfloor \frac{L_{\text{in}}^{(i)} - k_i}{s_i} \right\rfloor + 1$$
+
 Implemented in [`src/decoding/ctc_slice.py`](file:///home/musa/Kashmiri%20Project/src/decoding/ctc_slice.py):
 ```python
 from src.decoding.ctc_slice import slice_exact_logits
