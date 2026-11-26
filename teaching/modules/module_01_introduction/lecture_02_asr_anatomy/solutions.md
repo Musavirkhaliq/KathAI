@@ -36,50 +36,45 @@ The encoder produces exactly **100 valid CTC frames**.
 
 ## Solution to Problem 2: CTC Alignment Combinatorics
 
-### Part 1: Alignments for `y = ("ك", "ٲ")` at $T=4$
-We search for all sequences `(\pi_1, \pi_2, \pi_3, \pi_4) \in \{"ك", "ٲ", ε\}^4` such that `\mathcal{B}(\boldsymbol{\pi}) = ("ك", "ٲ")`.
-Because `"ك" `\neq` "ٲ"`, intermediate blanks are optional. Valid alignments are:
+### Part 1: Alignments for $\mathbf{y} = (c_1, c_2)$ at $T=4$
+Let $c_1$ represent character "ك" and $c_2$ represent character "ٲ".
+We search for all sequences $(\pi_1, \pi_2, \pi_3, \pi_4) \in (\Omega')^4$ such that $\mathcal{B}(\boldsymbol{\pi}) = (c_1, c_2)$.
+Because $c_1 \neq c_2$, intermediate blanks are optional. Valid alignments are:
 
-1. `("ك", "ٲ", ε, ε)`
-2. `("ك", ε, "ٲ", ε)`
-3. `("ك", ε, ε, "ٲ")`
-4. `(ε, "ك", "ٲ", ε)`
-5. `(ε, "ك", ε, "ٲ")`
-6. `(ε, ε, "ك", "ٲ")`
-7. `("ك", "ك", "ٲ", ε)`
-8. `("ك", "ك", ε, "ٲ")`
-9. `("ك", "ك", "ك", "ٲ")`
-10. `("ك", "ٲ", "ٲ", ε)`
-11. `("ك", ε, "ٲ", "ٲ")`
-12. `("ك", "ٲ", "ٲ", "ٲ")`
-13. `(ε, "ك", "ٲ", "ٲ")`
-14. `(ε, "ك", "ك", "ٲ")`
+1. $(c_1, c_2, \epsilon, \epsilon)$
+2. $(c_1, \epsilon, c_2, \epsilon)$
+3. $(c_1, \epsilon, \epsilon, c_2)$
+4. $(\epsilon, c_1, c_2, \epsilon)$
+5. $(\epsilon, c_1, \epsilon, c_2)$
+6. $(\epsilon, \epsilon, c_1, c_2)$
+7. $(c_1, c_1, c_2, \epsilon)$
+8. $(c_1, c_1, \epsilon, c_2)$
+9. $(c_1, c_1, c_1, c_2)$
+10. $(c_1, c_2, c_2, \epsilon)$
+11. $(c_1, \epsilon, c_2, c_2)$
+12. $(c_1, c_2, c_2, c_2)$
+13. $(\epsilon, c_1, c_2, c_2)$
+14. $(\epsilon, c_1, c_1, c_2)$
 
-Total cardinality `|\mathcal{B}^{-1}(("ك", "ٲ"))| = \mathbf{14}` paths.
+Total cardinality $|\mathcal{B}^{-1}(\mathbf{y})| = \mathbf{14}$ paths.
 
-### Part 2: Alignments for `y_dup = ("ك", "ك")` at $T=4$
-Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive `"ك"` tokens collapse into a single character: `\mathcal{B}("ك", "ك") = "ك"`.
+### Part 2: Alignments for $\mathbf{y}_{\text{dup}} = (c_1, c_1)$ at $T=4$
+Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive $c_1$ tokens collapse into a single character: $\mathcal{B}(c_1, c_1) = c_1$.
 
-The required pattern is `"ك" `\to$ \dots \to \epsilon \to \dots $\to` "ك"`.
+The required pattern is $c_1 \to \dots \to \epsilon \to \dots \to c_1$.
 Enumerating all valid alignments of length $T=4$:
-1. `("ك", ε, "ك", ε)`
-2. `("ك", ε, ε, "ك")`
-3. `(ε, "ك", ε, "ك")`
-4. `("ك", "ك", ε, "ك")` -> Invalid! `\mathcal{B}("ك", "ك", ε, "ك") = ("ك", "ك")`! Let's check: `"ك","ك" `\to` "ك"`, then $\epsilon$, then `"ك" `\to` ("ك", "ك")`. This is valid!
-5. `("ك", ε, "ك", "ك")` -> Valid! `"ك" `\to$ \epsilon $\to` "ك","ك" `\to` ("ك", "ك")`.
 
-Valid alignments:
-1. `("ك", ε, "ك", ε)`
-2. `("ك", ε, ε, "ك")`
-3. `(ε, "ك", ε, "ك")`
-4. `("ك", "ك", ε, "ك")`
-5. `("ك", ε, "ك", "ك")`
+1. $(c_1, \epsilon, c_1, \epsilon)$
+2. $(c_1, \epsilon, \epsilon, c_1)$
+3. $(\epsilon, c_1, \epsilon, c_1)$
+4. $(c_1, c_1, \epsilon, c_1)$
+5. $(c_1, \epsilon, c_1, c_1)$
 
-Total cardinality `|\mathcal{B}^{-1}(("ك", "ك"))| = \mathbf{5}` paths.
+Total cardinality $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})| = \mathbf{5}$ paths.
 
 ### Part 3: Combinatorial Comparison
-`|\mathcal{B}^{-1}(("ك", "ٲ"))| = 14` whereas `|\mathcal{B}^{-1}(("ك", "ك"))| = 5`.
-Repeated identical characters eliminate all direct transition paths without blanks (such as `("ك", "ك", "ك", "ك")`, `("ك", "ك", "ك", "ٲ")`, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
+$|\mathcal{B}^{-1}(\mathbf{y})| = 14$ whereas $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})| = 5$.
+Repeated identical characters eliminate all direct transition paths without blanks (such as $(c_1, c_1, c_1, c_1)$, $(c_1, c_1, c_1, c_2)$, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
 
 ---
 

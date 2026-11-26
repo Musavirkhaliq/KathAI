@@ -59,7 +59,7 @@ The architectural principles taught in Lecture 02 are directly derived from the 
 Checkpoint `E22-01` (`kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model/`) represents the certified state-of-the-art model resulting from this pipeline architecture.
 
 ### Benchmark Evaluation Across Decoding Configurations:
-| Evaluation Manifest | Greedy CTC WER | KenLM Uncalibrated ($T=1.00, \alpha=0.3, \beta=1.0$) | KenLM Calibrated ($T=1.08, \alpha=0.5, \beta=1.5$) |
+| Evaluation Manifest | Greedy CTC WER | KenLM Uncalibrated (T=1.00, α=0.3, β=1.0) | KenLM Calibrated (T=1.08, α=0.5, β=1.5) |
 | :--- | :---: | :---: | :---: |
 | **Clean Kashmiri Disjoint** | 29.80% | 25.82% | **24.12%** |
 | **Bolbosh Radio (22.05 kHz)** | 34.20% | 29.15% | **27.40%** |

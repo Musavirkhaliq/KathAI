@@ -81,7 +81,7 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
   > Let's do the arithmetic together. 16,000 samples per second divided by 320 samples per frame equals... **50 frames per second**! Each frame represents a 20 ms stride. The receptive field is 400 samples, or 25 ms.
   > These 50 Hz frames pass through 24 Transformer encoder layers with 1024-dimensional hidden representations.
   > **Stage 3**: A linear projection head maps 1024 dimensions down to 47 vocabulary logits.
-  > **Stage 4**: Notice this critical detail—**Temperature Calibration & Logit Slicing**. If the audio was padded in a batch, we calculate the exact valid mathematical frame count $T = \lfloor (N - 400) / 320 \rfloor + 1$ and slice off the padding. Then we divide logits by an acoustic temperature $T = 1.08$. We'll see why in a few minutes.
+  > **Stage 4**: Notice this critical detail—**Temperature Calibration & Logit Slicing**. If the audio was padded in a batch, we calculate the exact valid mathematical frame count $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$ and slice off the padding. Then we divide logits by an acoustic temperature $T = 1.08$. We'll see why in a few minutes.
   > **Stage 5**: We feed these scaled logits into a prefix beam search decoder shallow-fused with a 5-gram KenLM language model.
   > **Stage 6**: Finally, the raw decoded string passes through **Certified Normalizer v3**, which unifies Perso-Arabic homoglyphs, cleans up diacritics, and handles Zero-Width Non-Joiners."
 
@@ -96,12 +96,14 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
   ```
 - **Speaking Script**:
   > "Look at lines 12–16 of `ctc_slice.py`:
-  > ```python
-  > WAV2VEC2_CONV_KERNEL = [10, 3, 3, 3, 3, 2, 2]
-  > WAV2VEC2_CONV_STRIDE = [5, 2, 2, 2, 2, 2, 2]
-  > WAV2VEC2_RECEPTIVE_FIELD = 400
-  > WAV2VEC2_TOTAL_STRIDE = 320
-  > ```
+
+```python
+WAV2VEC2_CONV_KERNEL = [10, 3, 3, 3, 3, 2, 2]
+WAV2VEC2_CONV_STRIDE = [5, 2, 2, 2, 2, 2, 2]
+WAV2VEC2_RECEPTIVE_FIELD = 400
+WAV2VEC2_TOTAL_STRIDE = 320
+```
+
   > This is not an approximation. This is the exact physical geometry of the convolutional frontend.
   > Now let's look at `configs/vocab.json`. Why do we have only 47 tokens?
   > If we used subword BPE with 4,000 merge rules, what happens when a speaker says 'کٲشُر' with a slightly prolonged central vowel? BPE splits the word into arbitrary byte tokens, creating out-of-vocabulary artifacts.

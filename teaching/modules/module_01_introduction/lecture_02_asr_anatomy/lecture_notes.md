@@ -33,13 +33,17 @@ PARADIGM 3: CONNECTIONIST TEMPORAL CLASSIFICATION (CTC + Pretrained Encoder)
 In classical hybrid systems (such as Kaldi), the speech recognition problem is decomposed into strictly decoupled probabilistic models:
 1. **Acoustic Model (AM)**: Models $P(\mathbf{X} \mid s)$, representing the probability of acoustic feature vectors $\mathbf{X} = (\mathbf{x}_1, \dots, \mathbf{x}_T)$ (typically 39-dimensional Mel-Frequency Cepstral Coefficients with $\Delta$ and $\Delta\Delta$) given a sequence of hidden HMM states $s \in \mathcal{S}$.
 2. **Pronunciation Lexicon ($L$)**: A deterministic or probabilistic bipartite mapping from words to sequences of phonetic phone symbols:
-> L: \mathcal{W} \to \mathcal{P}^+   \text{e.g.,}   **"كٲشُر"** \mapsto \text{/k/ /əː/ /ʃ/ /u/ /r/}
+
+$$L: \mathcal{W} \to \mathcal{P}^+$$
+
+   For example, the Kashmiri word **"كٲشُر"** maps to the phone sequence `/k/ /əː/ /ʃ/ /u/ /r/`.
+
 3. **Language Model ($G$)**: An $n$-gram or recurrent neural network modeling prior word sequence probability $P(\mathbf{W})$.
 4. **Weighted Finite-State Transducer (WFST) Composition**: The individual components are compiled into finite-state transducers and statically composed:
 
 $$\mathcal{H} \circ \mathcal{C} \circ \mathcal{L} \circ \mathcal{G}$$
 
-   where $\mathcal{H}$ represents HMM state topology, $\mathcal{C}$ maps context-dependent triphones to monophones, $\mathcal{L}$ maps phones to words, and $\mathcal{G}$ represents the grammar automaton.
+where $\mathcal{H}$ represents HMM state topology, $\mathcal{C}$ maps context-dependent triphones to monophones, $\mathcal{L}$ maps phones to words, and $\mathcal{G}$ represents the grammar automaton.
 
 #### Why the Hybrid Model Failed Catastrophically for Kashmiri:
 - **The Lexicon Bottleneck**: Building $\mathcal{L}$ requires thousands of person-hours of expert phonetician labor. For English, the CMU Pronouncing Dictionary contains over 134,000 words. For Kashmiri, no standardized, machine-readable phonetic pronunciation lexicon existed.
@@ -333,7 +337,7 @@ To eliminate speaker and source leakage, EduCasheer established a strict disjoin
 
 1. **Acoustic Front-End**: Always resample using polyphase Kaiser sinc interpolation to 16,000 Hz, enforce mono mixing, and normalize peak amplitude to $[-1.0, 1.0]$.
 2. **Backbone & CTC**: Leverage self-supervised pretraining (XLS-R 300M) to overcome the conditional independence assumption of CTC. Maintain alignment monotonicity to eliminate hallucination loops.
-3. **Receptive Field Math**: Cumulative stride is $320$ samples ($20$ ms / $50$ Hz); total receptive field is $400$ samples ($25$ ms); valid frame count is $T = \lfloor (N - 400) / 320 \rfloor + 1$.
+3. **Receptive Field Math**: Cumulative stride is $320$ samples ($20$ ms / $50$ Hz); total receptive field is $400$ samples ($25$ ms); valid frame count is $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$.
 4. **Vocabulary Discipline**: Use character-level tokens ($|V|=47$) to avoid subword BPE morphological fragmentation in Perso-Arabic cursive script.
 5. **Shallow Fusion Triad**: Calibrate acoustic temperature ($T = 1.08$), language model weight ($\alpha = 0.50$), and word insertion bonus ($\beta = 1.50$) to counteract brevity bias and soften overconfident posteriors.
 6. **Evaluation Rigor**: Enforce strict zero-speaker-overlap disjoint evaluation to measure authentic generalized acoustic competence rather than speaker memorization.

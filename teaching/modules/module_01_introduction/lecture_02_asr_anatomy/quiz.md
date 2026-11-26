@@ -62,7 +62,7 @@ In Stage 04 of the EduCasheer project, a random train/test split yielded a repor
 
 ### Question 2:
 - **Correct Answer**: **B**
-- **Justification**: Using the valid length formula $T = \lfloor (N - 400) / 320 \rfloor + 1$:
+- **Justification**: Using the valid length formula $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$:
 
 $$T = \left\lfloor \frac{1680 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{1280}{320} \right\rfloor + 1 = 4 + 1 = 5 \text{ frames}$$
 

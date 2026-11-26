@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-Enhancement Script for Module 01, Lecture 02:
+Pristine LaTeX Enhancement Script for Module 01, Lecture 02:
 "The Anatomy of Modern ASR Pipelines"
 
-This script populates all 11 core files in:
-teaching/modules/module_01_introduction/lecture_02_asr_anatomy/
-with exhaustive, textbook-grade content, rigorous mathematical derivations,
-concrete code walkthroughs from src/, runnable practical labs, and detailed solutions.
+Fixes all GitHub Flavored Markdown (GFM) / KaTeX math rendering issues:
+- Eliminates non-Latin Perso-Arabic text from math mode delimiters.
+- Eliminates inline backtick-math collisions.
+- Replaces floor brackets with dynamic \left\lfloor ... \right\rfloor.
+- Replaces raw LaTeX commands outside math mode with proper delimiters.
+- Unindents all $$ display math to column 0 with surrounding blank lines.
+- Uses Unicode in Markdown table headers.
 """
 
 from pathlib import Path
@@ -37,7 +40,7 @@ Special emphasis is placed on why CTC over a self-supervised acoustic backbone (
 By the conclusion of this lecture, students will be able to:
 1. **Contrast Architectural Paradigms**: Articulate why classical Kaldi-style hybrid HMM-GMM/DNN pipelines failed for Kashmiri due to the absence of a comprehensive phonetic lexicon ($L$), and explain why CTC guarantees alignment monotonicity whereas autoregressive AED models suffer from hallucination loops on silence and noise.
 2. **Trace the 6-Stage EduCasheer Production Stack**: Walk step-by-step through the real-world inference architecture implemented in [`src/asr/transcribe.py`](file:///home/musa/Kashmiri%20Project/src/asr/transcribe.py), from raw 16 kHz audio loading through Kaiser sinc resampling, temporal Conv1d feature extraction, 24-layer Transformer encoding, temperature-calibrated logit slicing, KenLM prefix beam search, and Certified Normalizer v3.
-3. **Derive Receptive Field and CTC Frame Slicing**: Calculate the exact receptive field ($400$ samples / $25$ ms) and cumulative downsampling stride ($320$ samples / $20$ ms / $50$ Hz frame rate) of the 7-layer temporal convolutional feature extractor, proving why $T = \lfloor \frac{N - 400}{320} \rfloor + 1$.
+3. **Derive Receptive Field and CTC Frame Slicing**: Calculate the exact receptive field ($400$ samples / $25$ ms) and cumulative downsampling stride ($320$ samples / $20$ ms / $50$ Hz frame rate) of the 7-layer temporal convolutional feature extractor, proving why $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$.
 4. **Evaluate Vocabulary Design Trade-offs**: Contrast subword Byte-Pair Encoding (BPE) against character-level modeling ($|V|=47$) for Perso-Arabic scripts, explaining why BPE fragments Kashmiri morphological inflections and induces out-of-vocabulary catastrophes.
 5. **Formulate the Shallow Fusion Decoding Objective**: Analyze the log-linear scoring function $\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$, proving the necessity of the word insertion penalty $\beta$ to counteract character-level brevity bias.
 6. **Enforce Disjoint Evaluation Discipline**: Explain why random data splitting in speech recognition causes severe speaker leakage (artificially deflating WER by 10–18% absolute), and how bipartite graph partitioning guarantees zero-speaker-overlap evaluation integrity.
@@ -48,7 +51,7 @@ By the conclusion of this lecture, students will be able to:
 
 | File | Pedagogical Purpose |
 | :--- | :--- |
-| [`lecture_notes.md`](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/lecture_notes.md) | Comprehensive 500+ line textbook chapter covering the complete anatomy of modern ASR, paradigm trade-offs, pipeline stages, vocabulary design, and decoding mechanics. |
+| [`lecture_notes.md`](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/lecture_notes.md) | Comprehensive 340+ line textbook chapter covering the complete anatomy of modern ASR, paradigm trade-offs, pipeline stages, vocabulary design, and decoding mechanics. |
 | [`instructor_script.md`](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/instructor_script.md) | Turn-by-turn 90-minute lecture delivery guide with minute-by-minute cues, spoken dialogue, 3-panel blackboard diagrams, and student misconception interventions. |
 | [`mathematical_foundations.md`](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/mathematical_foundations.md) | Rigorous mathematical derivations: Conv1d receptive field recursion, CTC collapse operator $\mathcal{B}$ preimage bounds, temperature scaling derivatives, and brevity bias proofs. |
 | [`code_walkthrough.md`](file:///home/musa/Kashmiri%20Project/teaching/modules/module_01_introduction/lecture_02_asr_anatomy/code_walkthrough.md) | Exhaustive code inspection tracing [`src/asr/transcribe.py`](file:///home/musa/Kashmiri%20Project/src/asr/transcribe.py), [`src/decoding/ctc_slice.py`](file:///home/musa/Kashmiri%20Project/src/decoding/ctc_slice.py), [`src/decoding/kenlm_decoder.py`](file:///home/musa/Kashmiri%20Project/src/decoding/kenlm_decoder.py), and [`src/normalization/normalizer.py`](file:///home/musa/Kashmiri%20Project/src/normalization/normalizer.py). |
@@ -98,11 +101,17 @@ PARADIGM 3: CONNECTIONIST TEMPORAL CLASSIFICATION (CTC + Pretrained Encoder)
 In classical hybrid systems (such as Kaldi), the speech recognition problem is decomposed into strictly decoupled probabilistic models:
 1. **Acoustic Model (AM)**: Models $P(\mathbf{X} \mid s)$, representing the probability of acoustic feature vectors $\mathbf{X} = (\mathbf{x}_1, \dots, \mathbf{x}_T)$ (typically 39-dimensional Mel-Frequency Cepstral Coefficients with $\Delta$ and $\Delta\Delta$) given a sequence of hidden HMM states $s \in \mathcal{S}$.
 2. **Pronunciation Lexicon ($L$)**: A deterministic or probabilistic bipartite mapping from words to sequences of phonetic phone symbols:
-   $$L: \mathcal{W} \to \mathcal{P}^+ \quad \text{e.g.,} \quad \text{"كٲشُر"} \mapsto \text{/k/ /əː/ /ʃ/ /u/ /r/}$$
+
+$$L: \mathcal{W} \to \mathcal{P}^+$$
+
+   For example, the Kashmiri word **"كٲشُر"** maps to the phone sequence `/k/ /əː/ /ʃ/ /u/ /r/`.
+
 3. **Language Model ($G$)**: An $n$-gram or recurrent neural network modeling prior word sequence probability $P(\mathbf{W})$.
 4. **Weighted Finite-State Transducer (WFST) Composition**: The individual components are compiled into finite-state transducers and statically composed:
-   $$\mathcal{H} \circ \mathcal{C} \circ \mathcal{L} \circ \mathcal{G}$$
-   where $\mathcal{H}$ represents HMM state topology, $\mathcal{C}$ maps context-dependent triphones to monophones, $\mathcal{L}$ maps phones to words, and $\mathcal{G}$ represents the grammar automaton.
+
+$$\mathcal{H} \circ \mathcal{C} \circ \mathcal{L} \circ \mathcal{G}$$
+
+where $\mathcal{H}$ represents HMM state topology, $\mathcal{C}$ maps context-dependent triphones to monophones, $\mathcal{L}$ maps phones to words, and $\mathcal{G}$ represents the grammar automaton.
 
 #### Why the Hybrid Model Failed Catastrophically for Kashmiri:
 - **The Lexicon Bottleneck**: Building $\mathcal{L}$ requires thousands of person-hours of expert phonetician labor. For English, the CMU Pronouncing Dictionary contains over 134,000 words. For Kashmiri, no standardized, machine-readable phonetic pronunciation lexicon existed.
@@ -115,14 +124,14 @@ In classical hybrid systems (such as Kaldi), the speech recognition problem is d
 
 Attention-based Encoder-Decoder models (such as Listen, Attend and Spell [LAS] and OpenAI's Whisper) eliminate the pronunciation lexicon by learning an autoregressive mapping directly from acoustic frames $\mathbf{X}$ to output subword tokens $\mathbf{y} = (y_1, \dots, y_U)$:
 
-$$P(\mathbf{y} \mid \mathbf{X}) = \prod_{u=1}^U P(y_u \mid y_{<u}, \mathbf{X}) = \prod_{u=1}^U \text{Softmax}\left( \text{Decoder}(y_{<u}, \text{CrossAttention}(\mathbf{H}, \mathbf{Z}_{\text{dec}})) \right)$$
+$$P(\mathbf{y} \mid \mathbf{X}) = \prod_{u=1}^U P(y_u \mid y_{\lt u}, \mathbf{X}) = \prod_{u=1}^U \text{Softmax}\left( \text{Decoder}(y_{\lt u}, \text{CrossAttention}(\mathbf{H}, \mathbf{Z}_{\text{dec}})) \right)$$
 
 #### Advantages:
-- Completely removes the conditional independence assumption; each token $y_u$ is conditioned on the entire history of previously generated tokens $y_{<u}$.
+- Completely removes the conditional independence assumption; each token $y_u$ is conditioned on the entire history of previously generated tokens $y_{\lt u}$.
 - Jointly integrates acoustic and language modeling within a single unified neural network.
 
 #### Severe Failure Modes on Low-Resource Kashmiri:
-1. **Catastrophic Hallucination Loops**: In autoregressive cross-attention, there is no structural guarantee of temporal monotonicity. When encountering non-speech segments, ambient background noise, coughing, or prolonged pauses (frequent in field recordings like Kashmiri WAAZ sermons or Bolbosh radio broadcasts), Whisper's decoder attends to its own previous outputs $y_{<u}$, entering self-reinforcing repetition loops (e.g., repeating a single phrase 50 times until reaching the maximum sequence length).
+1. **Catastrophic Hallucination Loops**: In autoregressive cross-attention, there is no structural guarantee of temporal monotonicity. When encountering non-speech segments, ambient background noise, coughing, or prolonged pauses (frequent in field recordings like Kashmiri WAAZ sermons or Bolbosh radio broadcasts), Whisper's decoder attends to its own previous outputs $y_{\lt u}$, entering self-reinforcing repetition loops (e.g., repeating a single phrase 50 times until reaching the maximum sequence length).
 2. **Subword Fragmentation in Perso-Arabic**: Whisper utilizes byte-level Byte-Pair Encoding (BPE). In Kashmiri Perso-Arabic, BPE frequently merges consonants with diacritics in common words, but splits identical stems into arbitrary single-byte tokens in rare words, causing extreme insertion errors and high Out-Of-Vocabulary (OOV) distortion.
 3. **Quadratic Attention Latency**: Full self-attention across long audio sequences scales as $\mathcal{O}(T^2)$, making streaming and real-time edge deployment computationally prohibitive.
 
@@ -306,7 +315,9 @@ The EduCasheer project standardized on a character-level vocabulary of $|V|=47$ 
    - `ں` (Noon Ghunna / Nasalization marker, U+06BA): Word-final and medial vowel nasalization.
 
 By constraining $|V|=47$, the linear CTC projection layer requires only:
+
 $$\text{Parameters} = 1024 \times 47 + 47 = 48,175 \text{ weights}$$
+
 This minimal parameter overhead avoids overfitting on scarce Kashmiri speech data and ensures fast logit computation.
 
 ---
@@ -324,7 +335,9 @@ $$\mathcal{S}(\mathbf{w} \mid \mathbf{X}) = \log P_{\text{CTC}}(\mathbf{w} \mid 
 Where:
 - $\log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X})$: The acoustic sequence log-likelihood obtained by summing over all valid CTC alignments in $\mathcal{B}^{-1}(\mathbf{w})$.
 - $\log P_{\text{LM}}(\mathbf{w})$: The linguistic log-probability assigned by an external 5-gram KenLM language model trained on validated Kashmiri text corpora:
-  $$\log P_{\text{LM}}(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{k-4}, \dots, w_{k-1})$$
+
+$$\log P_{\text{LM}}(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{k-4}, \dots, w_{k-1})$$
+
 - $|\mathbf{w}|$: The number of words in the candidate transcription.
 - $\alpha \ge 0$: **Language Model Weight**, balancing acoustic evidence against linguistic prior.
 - $\beta \ge 0$: **Word Insertion Bonus** (Brevity Penalty Compensation), preventing the decoder from favoring abnormally short sentences.
@@ -346,9 +359,9 @@ the distribution is smoothly softened. This increases the entropy of the acousti
 
 Because language models compute probabilities via the chain rule:
 
-$$P(\mathbf{w}) = \prod_{k=1}^K P(w_k \mid w_{<k}) \implies \log P(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{<k})$$
+$$P(\mathbf{w}) = \prod_{k=1}^K P(w_k \mid w_{\lt k}) \implies \log P(\mathbf{w}) = \sum_{k=1}^K \log P(w_k \mid w_{\lt k})$$
 
-and each conditional probability is strictly bounded by $P(w_k \mid w_{<k}) \le 1$ (meaning $\log P(w_k \mid w_{<k}) \le 0$), **every additional word adds a negative quantity to the sequence score**. Consequently, an unweighted beam search exhibits an inherent mathematical bias toward generating fewer words (brevity bias), frequently dropping suffixes, postpositions, and monosyllabic auxiliary verbs.
+and each conditional probability is strictly bounded by $P(w_k \mid w_{\lt k}) \le 1$ (meaning $\log P(w_k \mid w_{\lt k}) \le 0$), **every additional word adds a negative quantity to the sequence score**. Consequently, an unweighted beam search exhibits an inherent mathematical bias toward generating fewer words (brevity bias), frequently dropping suffixes, postpositions, and monosyllabic auxiliary verbs.
 
 The word insertion bonus $\beta |\mathbf{w}|$ adds a constant positive reward $+\beta$ for every completed word token, counteracting the negative log-probability penalty and preventing catastrophic sentence truncation.
 
@@ -392,7 +405,7 @@ To eliminate speaker and source leakage, EduCasheer established a strict disjoin
 
 1. **Acoustic Front-End**: Always resample using polyphase Kaiser sinc interpolation to 16,000 Hz, enforce mono mixing, and normalize peak amplitude to $[-1.0, 1.0]$.
 2. **Backbone & CTC**: Leverage self-supervised pretraining (XLS-R 300M) to overcome the conditional independence assumption of CTC. Maintain alignment monotonicity to eliminate hallucination loops.
-3. **Receptive Field Math**: Cumulative stride is $320$ samples ($20$ ms / $50$ Hz); total receptive field is $400$ samples ($25$ ms); valid frame count is $T = \lfloor (N - 400) / 320 \rfloor + 1$.
+3. **Receptive Field Math**: Cumulative stride is $320$ samples ($20$ ms / $50$ Hz); total receptive field is $400$ samples ($25$ ms); valid frame count is $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$.
 4. **Vocabulary Discipline**: Use character-level tokens ($|V|=47$) to avoid subword BPE morphological fragmentation in Perso-Arabic cursive script.
 5. **Shallow Fusion Triad**: Calibrate acoustic temperature ($T = 1.08$), language model weight ($\alpha = 0.50$), and word insertion bonus ($\beta = 1.50$) to counteract brevity bias and soften overconfident posteriors.
 6. **Evaluation Rigor**: Enforce strict zero-speaker-overlap disjoint evaluation to measure authentic generalized acoustic competence rather than speaker memorization.
@@ -463,7 +476,7 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
 - **Speaking Script**:
   > "In modern deep learning, we have three major End-to-End paradigms.
   > Let's look at the center panel: **Attention-based Encoder-Decoder**, made famous by models like OpenAI's Whisper. Why didn't we just deploy Whisper for Kashmiri?
-  > In AED models, the decoder is autoregressive: $P(y_u \mid y_{<u}, \mathbf{X})$. The decoder generates text by looking at its own past predictions.
+  > In AED models, the decoder is autoregressive: $P(y_u \mid y_{\lt u}, \mathbf{X})$. The decoder generates text by looking at its own past predictions.
   > What happens when a speaker pauses for 3 seconds? Or when there is loud static on a radio broadcast?
   > The cross-attention mechanism searches for acoustic cues, finds none, and falls back entirely on its language model. It begins attending to its own previous words, entering an unrecoverable **hallucination loop**: *'and he said, and he said, and he said...'* repeating until the maximum sequence length is reached!
   > Furthermore, Whisper uses byte-level BPE. In Kashmiri Perso-Arabic, BPE shreds morphological inflections into disjoint byte fragments.
@@ -484,7 +497,7 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
   > Let's do the arithmetic together. 16,000 samples per second divided by 320 samples per frame equals... **50 frames per second**! Each frame represents a 20 ms stride. The receptive field is 400 samples, or 25 ms.
   > These 50 Hz frames pass through 24 Transformer encoder layers with 1024-dimensional hidden representations.
   > **Stage 3**: A linear projection head maps 1024 dimensions down to 47 vocabulary logits.
-  > **Stage 4**: Notice this critical detail—**Temperature Calibration & Logit Slicing**. If the audio was padded in a batch, we calculate the exact valid mathematical frame count $T = \lfloor (N - 400) / 320 \rfloor + 1$ and slice off the padding. Then we divide logits by an acoustic temperature $T = 1.08$. We'll see why in a few minutes.
+  > **Stage 4**: Notice this critical detail—**Temperature Calibration & Logit Slicing**. If the audio was padded in a batch, we calculate the exact valid mathematical frame count $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$ and slice off the padding. Then we divide logits by an acoustic temperature $T = 1.08$. We'll see why in a few minutes.
   > **Stage 5**: We feed these scaled logits into a prefix beam search decoder shallow-fused with a 5-gram KenLM language model.
   > **Stage 6**: Finally, the raw decoded string passes through **Certified Normalizer v3**, which unifies Perso-Arabic homoglyphs, cleans up diacritics, and handles Zero-Width Non-Joiners."
 
@@ -499,12 +512,14 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
   ```
 - **Speaking Script**:
   > "Look at lines 12–16 of `ctc_slice.py`:
-  > ```python
-  > WAV2VEC2_CONV_KERNEL = [10, 3, 3, 3, 3, 2, 2]
-  > WAV2VEC2_CONV_STRIDE = [5, 2, 2, 2, 2, 2, 2]
-  > WAV2VEC2_RECEPTIVE_FIELD = 400
-  > WAV2VEC2_TOTAL_STRIDE = 320
-  > ```
+
+```python
+WAV2VEC2_CONV_KERNEL = [10, 3, 3, 3, 3, 2, 2]
+WAV2VEC2_CONV_STRIDE = [5, 2, 2, 2, 2, 2, 2]
+WAV2VEC2_RECEPTIVE_FIELD = 400
+WAV2VEC2_TOTAL_STRIDE = 320
+```
+
   > This is not an approximation. This is the exact physical geometry of the convolutional frontend.
   > Now let's look at `configs/vocab.json`. Why do we have only 47 tokens?
   > If we used subword BPE with 4,000 merge rules, what happens when a speaker says 'کٲشُر' with a slightly prolonged central vowel? BPE splits the word into arbitrary byte tokens, creating out-of-vocabulary artifacts.
@@ -515,12 +530,14 @@ The lecture is structured across **90 minutes**, balancing conceptual paradigm t
 ### 01:15 - 01:25 | Segment 5: The Decoding Triad & Brevity Penalty
 
 - **Instructor Action**: Write the shallow fusion decoding equation on the blackboard:
-  $$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
+$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \log P_{\text{LM}}(\mathbf{w}) + \beta |\mathbf{w}|$$
+
 - **Speaking Script**:
   > "Look at this equation. This is the **Shallow Fusion Triad**.
   > There are three parameters here: $\alpha$, $\beta$, and temperature $T$.
   > Why do we need $\beta$, the word insertion bonus?
-  > Think about what $\log P_{\text{LM}}(\mathbf{w})$ is doing. Because $P(w_k \mid w_{<k}) \le 1$, its logarithm is **always negative**.
+  > Think about what $\log P_{\text{LM}}(\mathbf{w})$ is doing. Because $P(w_k \mid w_{\lt k}) \le 1$, its logarithm is **always negative**.
   > If a candidate sentence has 10 words, you are adding 10 negative numbers. If a candidate has 2 words, you are only adding 2 negative numbers!
   > Left to itself, the decoder has a catastrophic **brevity bias**: it prefers deleting words to avoid accumulating negative language model penalties!
   > The parameter $\beta$ rewards the hypothesis with a positive constant for every word emitted. It acts as an acoustic fuel injection that balances sentence length."
@@ -575,19 +592,32 @@ $$R_\ell = R_{\ell-1} + (K_\ell - 1) \cdot \prod_{j=1}^{\ell-1} S_j \quad \text{
 
 Evaluating step-by-step:
 1. Layer 1 ($K_1=10, S_1=5$):
-   $$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
+$$R_1 = 1 + (10 - 1) \times 1 = 10 \text{ samples}$$
+
 2. Layer 2 ($K_2=3, S_2=2$):
-   $$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
+$$R_2 = 10 + (3 - 1) \times 5 = 10 + 10 = 20 \text{ samples}$$
+
 3. Layer 3 ($K_3=3, S_3=2$):
-   $$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
+$$R_3 = 20 + (3 - 1) \times 10 = 20 + 20 = 40 \text{ samples}$$
+
 4. Layer 4 ($K_4=3, S_4=2$):
-   $$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
+$$R_4 = 40 + (3 - 1) \times 20 = 40 + 40 = 80 \text{ samples}$$
+
 5. Layer 5 ($K_5=3, S_5=2$):
-   $$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
+$$R_5 = 80 + (3 - 1) \times 40 = 80 + 80 = 160 \text{ samples}$$
+
 6. Layer 6 ($K_6=2, S_6=2$):
-   $$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
+$$R_6 = 160 + (2 - 1) \times 80 = 160 + 80 = 240 \text{ samples}$$
+
 7. Layer 7 ($K_7=2, S_7=2$):
-   $$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = 400 \text{ samples}$$
+
+$$R_7 = 240 + (2 - 1) \times 160 = 240 + 160 = 400 \text{ samples}$$
 
 $$\text{Total Receptive Field} = 400 \text{ samples} = \frac{400}{16,000} \text{ s} = 25 \text{ ms}$$
 
@@ -605,9 +635,12 @@ Let $\Omega$ be the alphabet of 46 non-blank characters, and define $\Omega' = \
 ### 2.1 Deterministic Collapse Definition
 The operator $\mathcal{B}$ executes two sequential transformations:
 1. **Consecutive Duplicate Deduplication**:
-   $$\mathcal{B}_{\text{dedup}}(\pi_1, \dots, \pi_T) = (\pi_{t_1}, \pi_{t_2}, \dots) \quad \text{where } \pi_{t_k} \neq \pi_{t_k-1}$$
+
+$$\mathcal{B}_{\text{dedup}}(\pi_1, \dots, \pi_T) = (\pi_{t_1}, \pi_{t_2}, \dots) \quad \text{where } \pi_{t_k} \neq \pi_{t_k-1}$$
+
 2. **Blank Removal**:
-   $$\mathcal{B}(\boldsymbol{\pi}) = [c \in \mathcal{B}_{\text{dedup}}(\boldsymbol{\pi}) \mid c \neq \epsilon]$$
+
+$$\mathcal{B}(\boldsymbol{\pi}) = [c \in \mathcal{B}_{\text{dedup}}(\boldsymbol{\pi}) \mid c \neq \epsilon]$$
 
 ### 2.2 Cardinality of the CTC Preimage $|\mathcal{B}^{-1}(\mathbf{y})|$
 Consider a target sequence $\mathbf{y} = (y_1, \dots, y_U)$ of length $U$ decoded across $T$ frames ($T \ge U$).
@@ -619,7 +652,9 @@ $$|\mathcal{B}^{-1}(\mathbf{y})| = \sum_{k=0}^{T-U} \binom{T}{k} \binom{T-k-1}{U
 
 #### Case B: Consecutive Identical Tokens ($y_u = y_{u+1}$)
 If $y_u = y_{u+1}$, the alignment **must** contain at least one blank token $\epsilon$ between them:
+
 $$\pi_{t_a} = y_u, \quad \pi_{t_b} = \epsilon, \quad \pi_{t_c} = y_{u+1} \quad (t_a < t_b < t_c)$$
+
 Without this intermediate blank, the collapse operator would merge the identical characters: $\mathcal{B}(a, a) = a \neq (a, a)$. This constraint strictly reduces the cardinality of $\mathcal{B}^{-1}(\mathbf{y})$.
 
 ---
@@ -656,19 +691,21 @@ where $\bar{z} = \mathbb{E}_{y}[z]$ is the expected logit value under the curren
 
 The decoding search objective finds the word sequence $\hat{\mathbf{w}}$ maximizing:
 
-$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{<k}) + \beta K$$
+$$\mathcal{S}(\mathbf{w}) = \log P_{\text{CTC}}(\mathbf{w} \mid \mathbf{X}) + \alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{\lt k}) + \beta K$$
 
 ### 4.1 Proof of Brevity Bias
 Let $\mathbf{w}_A$ be a hypothesis of length $K_A$ and $\mathbf{w}_B$ be an extended hypothesis of length $K_B = K_A + M$ ($M \ge 1$).
 
 Assume the acoustic model provides neutral evidence across the extension:
+
 $$\log P_{\text{CTC}}(\mathbf{w}_B \mid \mathbf{X}) \approx \log P_{\text{CTC}}(\mathbf{w}_A \mid \mathbf{X})$$
 
 Evaluating the score difference without length compensation ($\beta = 0$):
 
-$$\Delta \mathcal{S} = \mathcal{S}(\mathbf{w}_B) - \mathcal{S}(\mathbf{w}_A) = \alpha \sum_{j=1}^M \log P_{\text{LM}}(w_{K_A + j} \mid w_{<K_A + j})$$
+$$\Delta \mathcal{S} = \mathcal{S}(\mathbf{w}_B) - \mathcal{S}(\mathbf{w}_A) = \alpha \sum_{j=1}^M \log P_{\text{LM}}(w_{K_A + j} \mid w_{\lt K_A + j})$$
 
 Because $0 < P_{\text{LM}}(\cdot) \le 1$, every log-probability term is non-positive:
+
 $$\log P_{\text{LM}}(w \mid \cdot) \le 0 \implies \Delta \mathcal{S} \le 0$$
 
 Without a compensatory term $\beta > 0$, **any hypothesis that emits more words is strictly penalized by the language model**, causing beam search to systematically truncate sentences. Setting:
@@ -1008,11 +1045,11 @@ Consider an acoustic model feature extractor consisting of the 7 temporal Conv1d
 ---
 
 ## Problem 2: CTC Alignment Combinatorics
-Let $\Omega = \{\text{ك}, \text{ٲ}, \text{ش}\}$ and $\Omega' = \Omega \cup \{\epsilon\}$.
+Let the target character alphabet be $\Omega = \{c_1, c_2, c_3\}$ (corresponding to Kashmiri characters "ك", "ٲ", "ش") and define the extended alphabet $\Omega' = \Omega \cup \{\epsilon\}$, where $\epsilon$ is the non-emitting blank symbol.
 Consider an acoustic sequence of duration $T=4$ frames.
 
-1. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in the preimage $\mathcal{B}^{-1}(\mathbf{y})$ for the target sequence $\mathbf{y} = (\text{ك}, \text{ٲ})$.
-2. Now consider the target sequence $\mathbf{y}_{\text{dup}} = (\text{ك}, \text{ك})$ with two consecutive identical tokens. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in $\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})$.
+1. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in the preimage $\mathcal{B}^{-1}(\mathbf{y})$ for the target sequence $\mathbf{y} = (c_1, c_2)$ (corresponding to "ك", "ٲ").
+2. Now consider the target sequence $\mathbf{y}_{\text{dup}} = (c_1, c_1)$ (corresponding to "ك", "ك") with two consecutive identical tokens. List all valid alignments $\boldsymbol{\pi} \in (\Omega')^4$ in $\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})$.
 3. Compare the cardinality $|\mathcal{B}^{-1}(\mathbf{y})|$ versus $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})|$. Explain mathematically why repeated tokens restrict alignment paths.
 
 ---
@@ -1077,50 +1114,45 @@ The encoder produces exactly **100 valid CTC frames**.
 
 ## Solution to Problem 2: CTC Alignment Combinatorics
 
-### Part 1: Alignments for $\mathbf{y} = (\text{ك}, \text{ٲ})$ at $T=4$
-We search for all sequences $(\pi_1, \pi_2, \pi_3, \pi_4) \in \{\text{ك}, \text{ٲ}, \epsilon\}^4$ such that $\mathcal{B}(\boldsymbol{\pi}) = (\text{ك}, \text{ٲ})$.
-Because $\text{ك} \neq \text{ٲ}$, intermediate blanks are optional. Valid alignments are:
+### Part 1: Alignments for $\mathbf{y} = (c_1, c_2)$ at $T=4$
+Let $c_1$ represent character "ك" and $c_2$ represent character "ٲ".
+We search for all sequences $(\pi_1, \pi_2, \pi_3, \pi_4) \in (\Omega')^4$ such that $\mathcal{B}(\boldsymbol{\pi}) = (c_1, c_2)$.
+Because $c_1 \neq c_2$, intermediate blanks are optional. Valid alignments are:
 
-1. $(\text{ك}, \text{ٲ}, \epsilon, \epsilon)$
-2. $(\text{ك}, \epsilon, \text{ٲ}, \epsilon)$
-3. $(\text{ك}, \epsilon, \epsilon, \text{ٲ})$
-4. $(\epsilon, \text{ك}, \text{ٲ}, \epsilon)$
-5. $(\epsilon, \text{ك}, \epsilon, \text{ٲ})$
-6. $(\epsilon, \epsilon, \text{ك}, \text{ٲ})$
-7. $(\text{ك}, \text{ك}, \text{ٲ}, \epsilon)$
-8. $(\text{ك}, \text{ك}, \epsilon, \text{ٲ})$
-9. $(\text{ك}, \text{ك}, \text{ك}, \text{ٲ})$
-10. $(\text{ك}, \text{ٲ}, \text{ٲ}, \epsilon)$
-11. $(\text{ك}, \epsilon, \text{ٲ}, \text{ٲ})$
-12. $(\text{ك}, \text{ٲ}, \text{ٲ}, \text{ٲ})$
-13. $(\epsilon, \text{ك}, \text{ٲ}, \text{ٲ})$
-14. $(\epsilon, \text{ك}, \text{ك}, \text{ٲ})$
+1. $(c_1, c_2, \epsilon, \epsilon)$
+2. $(c_1, \epsilon, c_2, \epsilon)$
+3. $(c_1, \epsilon, \epsilon, c_2)$
+4. $(\epsilon, c_1, c_2, \epsilon)$
+5. $(\epsilon, c_1, \epsilon, c_2)$
+6. $(\epsilon, \epsilon, c_1, c_2)$
+7. $(c_1, c_1, c_2, \epsilon)$
+8. $(c_1, c_1, \epsilon, c_2)$
+9. $(c_1, c_1, c_1, c_2)$
+10. $(c_1, c_2, c_2, \epsilon)$
+11. $(c_1, \epsilon, c_2, c_2)$
+12. $(c_1, c_2, c_2, c_2)$
+13. $(\epsilon, c_1, c_2, c_2)$
+14. $(\epsilon, c_1, c_1, c_2)$
 
-Total cardinality $|\mathcal{B}^{-1}((\text{ك}, \text{ٲ}))| = \mathbf{14}$ paths.
+Total cardinality $|\mathcal{B}^{-1}(\mathbf{y})| = \mathbf{14}$ paths.
 
-### Part 2: Alignments for $\mathbf{y}_{\text{dup}} = (\text{ك}, \text{ك})$ at $T=4$
-Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive $\text{ك}$ tokens collapse into a single character: $\mathcal{B}(\text{ك}, \text{ك}) = \text{ك}$.
+### Part 2: Alignments for $\mathbf{y}_{\text{dup}} = (c_1, c_1)$ at $T=4$
+Because both tokens are identical, they **must be separated by at least one blank token $\epsilon$**. If no blank intervenes, consecutive $c_1$ tokens collapse into a single character: $\mathcal{B}(c_1, c_1) = c_1$.
 
-The required pattern is $\text{ك} \to \dots \to \epsilon \to \dots \to \text{ك}$.
+The required pattern is $c_1 \to \dots \to \epsilon \to \dots \to c_1$.
 Enumerating all valid alignments of length $T=4$:
-1. $(\text{ك}, \epsilon, \text{ك}, \epsilon)$
-2. $(\text{ك}, \epsilon, \epsilon, \text{ك})$
-3. $(\epsilon, \text{ك}, \epsilon, \text{ك})$
-4. $(\text{ك}, \text{ك}, \epsilon, \text{ك})$ -> Invalid! $\mathcal{B}(\text{ك}, \text{ك}, \epsilon, \text{ك}) = (\text{ك}, \text{ك})$! Let's check: $\text{ك},\text{ك} \to \text{ك}$, then $\epsilon$, then $\text{ك} \to (\text{ك}, \text{ك})$. This is valid!
-5. $(\text{ك}, \epsilon, \text{ك}, \text{ك})$ -> Valid! $\text{ك} \to \epsilon \to \text{ك},\text{ك} \to (\text{ك}, \text{ك})$.
 
-Valid alignments:
-1. $(\text{ك}, \epsilon, \text{ك}, \epsilon)$
-2. $(\text{ك}, \epsilon, \epsilon, \text{ك})$
-3. $(\epsilon, \text{ك}, \epsilon, \text{ك})$
-4. $(\text{ك}, \text{ك}, \epsilon, \text{ك})$
-5. $(\text{ك}, \epsilon, \text{ك}, \text{ك})$
+1. $(c_1, \epsilon, c_1, \epsilon)$
+2. $(c_1, \epsilon, \epsilon, c_1)$
+3. $(\epsilon, c_1, \epsilon, c_1)$
+4. $(c_1, c_1, \epsilon, c_1)$
+5. $(c_1, \epsilon, c_1, c_1)$
 
-Total cardinality $|\mathcal{B}^{-1}((\text{ك}, \text{ك}))| = \mathbf{5}$ paths.
+Total cardinality $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})| = \mathbf{5}$ paths.
 
 ### Part 3: Combinatorial Comparison
-$|\mathcal{B}^{-1}((\text{ك}, \text{ٲ}))| = 14$ whereas $|\mathcal{B}^{-1}((\text{ك}, \text{ك}))| = 5$.
-Repeated identical characters eliminate all direct transition paths without blanks (such as $(\text{ك}, \text{ك}, \text{ك}, \text{ك})$, $(\text{ك}, \text{ك}, \text{ك}, \text{ٲ})$, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
+$|\mathcal{B}^{-1}(\mathbf{y})| = 14$ whereas $|\mathcal{B}^{-1}(\mathbf{y}_{\text{dup}})| = 5$.
+Repeated identical characters eliminate all direct transition paths without blanks (such as $(c_1, c_1, c_1, c_1)$, $(c_1, c_1, c_1, c_2)$, etc.). The mandatory insertion of at least one $\epsilon$ at $t_{\text{split}}$ reduces the degrees of freedom for frame allocation from $\binom{T}{U}$ to $\binom{T}{U+1}$.
 
 ---
 
@@ -1128,7 +1160,9 @@ Repeated identical characters eliminate all direct transition paths without blan
 
 ### Part 1: Cause of Extreme Truncation
 When $\beta = 0$, the language model score for a candidate sequence $\mathbf{w}$ is:
-$$\alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{<k})$$
+
+$$\alpha \sum_{k=1}^K \log P_{\text{LM}}(w_k \mid w_{\lt k})$$
+
 Because every $\log P_{\text{LM}} \le 0$, each emitted word reduces the total hypothesis score by an average of $\alpha \times \bar{H}_{\text{LM}} = 0.50 \times 4.2 = 2.1 \text{ nats}$. The decoder maximizes score by emitting as few words as possible, frequently truncating long utterances after 2 or 3 words.
 
 ### Part 2: Minimum Theoretical Value of $\beta$
@@ -1140,7 +1174,9 @@ Setting $\beta \ge 2.10$ provides sufficient positive reward per word to counter
 
 ### Part 3: Adjustment when $\alpha$ Doubles
 If $\alpha$ doubles from $0.50$ to $1.00$, the average language model penalty per word doubles:
+
 $$\text{Penalty} = 1.00 \times 4.2 = 4.20 \text{ nats}$$
+
 To maintain sequence length balance, $\beta$ must also double to:
 
 $$\beta_{\text{new}} = 1.00 \times 4.2 = \mathbf{4.20}$$
@@ -1169,7 +1205,9 @@ When speaker leakage occurs, the acoustic model tunes its convolutional filters 
 1. Construct a bipartite graph $G = (V_{\text{spk}}, V_{\text{audio}}, E)$ where edge $(s, a) \in E$ indicates that audio file $a$ was spoken by speaker $s$.
 2. Compute connected components $C_1, \dots, C_M$ of $G$.
 3. Partition the components: assign entire connected components to either $\mathcal{D}_{\text{train}}$ or $\mathcal{D}_{\text{test}}$, such that:
-   $$\left( \bigcup_{C \in \mathcal{D}_{\text{train}}} V_{\text{spk}}(C) \right) \cap \left( \bigcup_{C \in \mathcal{D}_{\text{test}}} V_{\text{spk}}(C) \right) = \emptyset$$
+
+$$\left( \bigcup_{C \in \mathcal{D}_{\text{train}}} V_{\text{spk}}(C) \right) \cap \left( \bigcup_{C \in \mathcal{D}_{\text{test}}} V_{\text{spk}}(C) \right) = \emptyset$$
+
 This guarantees strictly zero speaker overlap.
 """
 
@@ -1232,7 +1270,7 @@ In Stage 04 of the EduCasheer project, a random train/test split yielded a repor
 
 ### Question 1:
 - **Correct Answer**: **C**
-- **Justification**: In AED models, the autoregressive decoder attends to its own previous emissions $y_{<u}$. When acoustic inputs lack distinct speech features (silence or noise), cross-attention fails to ground generation, causing the decoder to generate repetitive text loops based purely on internal language modeling. CTC enforces strict temporal monotonicity and emits blank tokens $\epsilon$ on non-speech segments, preventing hallucination loops.
+- **Justification**: In AED models, the autoregressive decoder attends to its own previous emissions $y_{\lt u}$. When acoustic inputs lack distinct speech features (silence or noise), cross-attention fails to ground generation, causing the decoder to generate repetitive text loops based purely on internal language modeling. CTC enforces strict temporal monotonicity and emits blank tokens $\epsilon$ on non-speech segments, preventing hallucination loops.
 - **Distractor Autopsy**:
   - *Option A*: Conv1d stride downsampling operates purely on input dimensions regardless of model paradigm.
   - *Option B*: AED models do not use a blank token $\epsilon$; that is a CTC-specific construct.
@@ -1240,8 +1278,10 @@ In Stage 04 of the EduCasheer project, a random train/test split yielded a repor
 
 ### Question 2:
 - **Correct Answer**: **B**
-- **Justification**: Using the valid length formula $T = \lfloor (N - 400) / 320 \rfloor + 1$:
-  $$T = \left\lfloor \frac{1680 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{1280}{320} \right\rfloor + 1 = 4 + 1 = 5 \text{ frames}$$
+- **Justification**: Using the valid length formula $T = \left\lfloor \frac{N - 400}{320} \right\rfloor + 1$:
+
+$$T = \left\lfloor \frac{1680 - 400}{320} \right\rfloor + 1 = \left\lfloor \frac{1280}{320} \right\rfloor + 1 = 4 + 1 = 5 \text{ frames}$$
+
 - **Distractor Autopsy**:
   - *Option A*: Omits the $+1$ boundary frame term.
   - *Option C*: Inaccurately assumes a stride of 160 instead of 320.
@@ -1336,7 +1376,7 @@ The architectural principles taught in Lecture 02 are directly derived from the 
 Checkpoint `E22-01` (`kashmiri_dataset/experiments/stage22_data_expanded_training/checkpoints/E22-01/best_model/`) represents the certified state-of-the-art model resulting from this pipeline architecture.
 
 ### Benchmark Evaluation Across Decoding Configurations:
-| Evaluation Manifest | Greedy CTC WER | KenLM Uncalibrated ($T=1.00, \alpha=0.3, \beta=1.0$) | KenLM Calibrated ($T=1.08, \alpha=0.5, \beta=1.5$) |
+| Evaluation Manifest | Greedy CTC WER | KenLM Uncalibrated (T=1.00, α=0.3, β=1.0) | KenLM Calibrated (T=1.08, α=0.5, β=1.5) |
 | :--- | :---: | :---: | :---: |
 | **Clean Kashmiri Disjoint** | 29.80% | 25.82% | **24.12%** |
 | **Bolbosh Radio (22.05 kHz)** | 34.20% | 29.15% | **27.40%** |
@@ -1402,7 +1442,7 @@ FILES = {
 }
 
 def main():
-    print(f"Enhancing Module 01, Lecture 02 in: {LECTURE_DIR}")
+    print(f"Applying pristine LaTeX updates to Module 01, Lecture 02 in: {LECTURE_DIR}")
     LECTURE_DIR.mkdir(parents=True, exist_ok=True)
     
     total_lines = 0
@@ -1414,7 +1454,7 @@ def main():
         total_lines += line_count
         print(f"  [+] Wrote {filename:28s} ({line_count:4d} lines)")
         
-    print(f"\nSuccessfully enhanced all 11 files in Lecture 02! Total lines: {total_lines}")
+    print(f"\nSuccessfully updated all 11 files in Lecture 02! Total lines: {total_lines}")
 
 if __name__ == "__main__":
     main()
